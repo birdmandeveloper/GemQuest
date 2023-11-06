@@ -60,18 +60,19 @@ public class GamePanel extends JPanel implements Runnable {
     private final UI ui = new UI(this);
     private final EventHandler eventHandler = new EventHandler(this);
     private final Config config = new Config(this);
-    public final int titleState = 0;
-    public final int playState = 1;
-    public final int pauseState = 2;
-    public  final int dialogueState = 3;
-    public final int characterState = 4;
-    public final int optionState = 5;
-    public final int gameOverState = 6;
 
-    public final int transitionState = 7;
-    // GAME STATE
+    // Game State (no shit)
     public int gameState;
-    public final int tradeState = 8;
+    public final int TITLE_STATE = 0;
+    public final int PLAY_STATE = 1;
+    public final int PAUSE_STATE = 2;
+    public  final int DIALOGUE_STATE = 3;
+    public final int CHARACTER_STATE = 4;
+    public final int OPTION_STATE = 5;
+    public final int GAME_OVER_STATE = 6;
+    public final int TRANSITION_STATE = 7;
+    public final int TRADE_STATE = 8;
+    public final int BATTLE_STATE = 9;
 
     // ENTITIES & OBJECTS
     private final List<Asset> assets = new ArrayList<>();
@@ -102,7 +103,7 @@ public class GamePanel extends JPanel implements Runnable {
         assetManager.setNPCs();
         assetManager.setMonsters();
         assetManager.setInteractiveTiles();
-        gameState = titleState;
+        gameState = TITLE_STATE;
 
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
         graphics2D = (Graphics2D) tempScreen.getGraphics();
@@ -135,7 +136,7 @@ public class GamePanel extends JPanel implements Runnable {
         player.restoreLifeAndMana();
         assetManager.setNPCs();
         assetManager.setMonsters();
-        gameState = playState;
+        gameState = PLAY_STATE;
     }
 
     public void restart() {
@@ -145,13 +146,13 @@ public class GamePanel extends JPanel implements Runnable {
         assetManager.setNPCs();
         assetManager.setMonsters();
         assetManager.setInteractiveTiles();
-        gameState = titleState;
+        gameState = TITLE_STATE;
         stopMusic();
     }
 
     @Override
     public void run() {
-        double drawInterval = 1_000_000_000 / FPS;
+        double drawInterval = 1_000_000_000 / FPS; // 60 FPS
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
@@ -171,7 +172,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        if (gameState == playState) {
+        if (gameState == PLAY_STATE) {
             player.update();
             updateNPCs();
             updateMonsters();
@@ -180,7 +181,7 @@ public class GamePanel extends JPanel implements Runnable {
             updateInteractiveTiles();
         }
 
-        if (gameState == pauseState) {
+        if (gameState == PAUSE_STATE) {
             // later update
         }
     }
@@ -264,7 +265,7 @@ public class GamePanel extends JPanel implements Runnable {
             drawStart = System.nanoTime();
         }
 
-        if (gameState == titleState) {
+        if (gameState == TITLE_STATE) {
             ui.draw(graphics2D);
         } else {
 
@@ -495,31 +496,31 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public int getTitleState() {
-        return titleState;
+        return TITLE_STATE;
     }
 
     public int getPlayState() {
-        return playState;
+        return PLAY_STATE;
     }
 
     public int getPauseState() {
-        return pauseState;
+        return PAUSE_STATE;
     }
 
     public int getDialogueState() {
-        return dialogueState;
+        return DIALOGUE_STATE;
     }
 
     public int getCharacterState() {
-        return characterState;
+        return CHARACTER_STATE;
     }
 
     public int getOptionState() {
-        return optionState;
+        return OPTION_STATE;
     }
 
     public int getGameOverState() {
-        return gameOverState;
+        return GAME_OVER_STATE;
     }
 
     public List<Asset> getProjectiles() {
@@ -556,10 +557,14 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public int getTransitionState() {
-        return transitionState;
+        return TRANSITION_STATE;
     }
 
     public int getTradeState() {
-        return tradeState;
+        return TRADE_STATE;
+    }
+
+    public int getBattleState() {
+        return BATTLE_STATE;
     }
 }
