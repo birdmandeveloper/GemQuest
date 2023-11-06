@@ -62,4 +62,9 @@ public class OBJ_Rock extends Projectile {
     public int getParticleMaxLife() {
         return 20; // How long it will last
     }
+
+    @Override
+    public void resetDefaultSpeed() {
+
+    }
 }

@@ -9,17 +9,17 @@ import tech.fallqvist.asset.object.usable.pickuponly.OBJ_ManaCrystal;
 import java.awt.*;
 import java.util.Random;
 
-public class MON_GreenSlime extends Monster {
+public class MON_RedSlime extends Monster {
 
-    public MON_GreenSlime(GamePanel gamePanel) {
+    public MON_RedSlime(GamePanel gamePanel) {
         super(gamePanel);
 
-        setName("Green Slime");
+        setName("Red Slime");
         setDirection("down");
         setSpeed(1);
         setMaxLife(4);
         setCurrentLife(getMaxLife());
-        setAttackPower(5);
+        setAttackPower(2);
         setDefensePower(0);
         setExp(2);
 
@@ -27,7 +27,7 @@ public class MON_GreenSlime extends Monster {
         setMaxAmmo(5);
         setCurrentAmmo(getMaxAmmo());
 
-        setCollisionArea(new Rectangle(3, 18, 42, 30));
+        setCollisionArea(new Rectangle(3, 12, 42, 36));
         setCollisionDefaultX(getCollisionArea().x);
         setCollisionDefaultY(getCollisionArea().y);
 
@@ -35,20 +35,20 @@ public class MON_GreenSlime extends Monster {
     }
 
     public void getAnimationImages() {
-        setUp1(setup("/images/monster/greenslime_down_1", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
-        setUp2(setup("/images/monster/greenslime_down_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
-        setDown1(setup("/images/monster/greenslime_down_1", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
-        setDown2(setup("/images/monster/greenslime_down_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
-        setLeft1(setup("/images/monster/greenslime_down_1", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
-        setLeft2(setup("/images/monster/greenslime_down_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
-        setRight1(setup("/images/monster/greenslime_down_1", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
-        setRight2(setup("/images/monster/greenslime_down_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
+        setUp1(setup("/images/monster/redslime_down_1", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
+        setUp2(setup("/images/monster/redslime_down_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
+        setDown1(setup("/images/monster/redslime_down_1", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
+        setDown2(setup("/images/monster/redslime_down_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
+        setLeft1(setup("/images/monster/redslime_down_1", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
+        setLeft2(setup("/images/monster/redslime_down_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
+        setRight1(setup("/images/monster/redslime_down_1", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
+        setRight2(setup("/images/monster/redslime_down_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
     }
 
     @Override
     public void damageReaction() {
         setActionLockCounter(0);
-        setSpeed(3); // Increased speed to retreat
+        setSpeed(3);
         setDirection(getGamePanel().getPlayer().getDirection());
     }
 
@@ -78,5 +78,4 @@ public class MON_GreenSlime extends Monster {
     public void resetDefaultSpeed() {
         setSpeed(1);
     }
-
 }

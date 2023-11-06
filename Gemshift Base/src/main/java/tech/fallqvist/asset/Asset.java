@@ -97,4 +97,5 @@ public interface Asset {
     int getParticleMaxLife();
 
     int getPrice();
+    void resetDefaultSpeed();
 }

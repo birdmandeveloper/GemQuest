@@ -55,4 +55,9 @@ public class Particle extends Entity {
         graphics2D.setColor(color);
         graphics2D.fillRect(screenX, screenY, size, size);
     }
+
+    @Override
+    public void resetDefaultSpeed() {
+        // :P
+    }
 }

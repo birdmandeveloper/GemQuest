@@ -1,7 +1,9 @@
 package tech.fallqvist.asset;
 
 import tech.fallqvist.GamePanel;
+import tech.fallqvist.asset.entity.monster.MON_EggSlime;
 import tech.fallqvist.asset.entity.monster.MON_GreenSlime;
+import tech.fallqvist.asset.entity.monster.MON_RedSlime;
 import tech.fallqvist.asset.entity.npc.NPC_Merchant;
 import tech.fallqvist.asset.entity.npc.NPC_OldMan;
 import tech.fallqvist.asset.object.equipment.OBJ_Axe;
@@ -113,6 +115,16 @@ public class AssetManager {
         gamePanel.getMonsters()[map][4].setWorldX(tileSize * 38);
         gamePanel.getMonsters()[map][4].setWorldY(tileSize * 42);
         gamePanel.getMonsters()[map][4].setIndex(4);
+
+        gamePanel.getMonsters()[map][5] = new MON_EggSlime(gamePanel);
+        gamePanel.getMonsters()[map][5].setWorldX(tileSize * 35);
+        gamePanel.getMonsters()[map][5].setWorldY(tileSize * 42);
+        gamePanel.getMonsters()[map][5].setIndex(5);
+
+        gamePanel.getMonsters()[map][6] = new MON_RedSlime(gamePanel);
+        gamePanel.getMonsters()[map][6].setWorldX(tileSize * 39);
+        gamePanel.getMonsters()[map][6].setWorldY(tileSize * 42);
+        gamePanel.getMonsters()[map][6].setIndex(6);
     }
 
     public void setInteractiveTiles() {

@@ -206,14 +206,14 @@ public abstract class Entity implements Asset {
             }
 
             graphics2D.setColor(new Color(35, 35, 35));
-            graphics2D.fillRect(screenX - 1, screenY - 16, gamePanel.getTileSize() + 2, 12);
+            graphics2D.fillRect(screenX + 3, screenY - 9, gamePanel.getTileSize() - 6, 12);
 
-            graphics2D.setColor(new Color(255, 0, 30));
-            graphics2D.fillRect(screenX, screenY - 15, (int) lifeBarValue, 10);
+            graphics2D.setColor(new Color(255, 30, 70));
+            graphics2D.fillRect(screenX + 6, screenY - 6, (int) lifeBarValue, 6);
 
             hpBarCounter++;
 
-            if (hpBarCounter > 600) {
+            if (hpBarCounter > 180) {
                 setHpBarCounter(0);
                 setHpBarOn(false);
             }

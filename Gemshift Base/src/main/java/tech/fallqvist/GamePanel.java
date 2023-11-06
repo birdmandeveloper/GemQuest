@@ -87,6 +87,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final InteractiveTile[][] interactiveTiles = new InteractiveTile[maxMaps][50];
     private final List<Asset> projectiles = new ArrayList<>();
     private final List<Asset> particles = new ArrayList<>();
+    private int dynamicSpeedCounter = 0;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -194,9 +195,17 @@ public class GamePanel extends JPanel implements Runnable {
 
     private void updateMonsters() {
         for (int i = 0; i < monsters[1].length; i++) {
+
             if (monsters[currentMap][i] != null) {
                 if (monsters[currentMap][i].isAlive() && !monsters[currentMap][i].isDying()) {
                     monsters[currentMap][i].update();
+                    dynamicSpeedCounter++;
+
+                    // This is for resetting dynamic speed in the future. Monster code too tightly coupled atm
+                    if(dynamicSpeedCounter > 60) {
+                        monsters[currentMap][i].resetDefaultSpeed();
+                        dynamicSpeedCounter = 0;
+                    }
                 }
 
                 if (!monsters[currentMap][i].isAlive()) {

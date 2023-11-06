@@ -37,4 +37,8 @@ public class InteractiveTile extends Entity {
     public boolean isCorrectWeapon(Weapon weapon) {
         return false;
     }
+
+    @Override
+    public void resetDefaultSpeed() {
+    }
 }

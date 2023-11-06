@@ -17,6 +17,11 @@ public class Monster extends Entity {
         setupProjectileAI();
     }
 
+    @Override
+    public void resetDefaultSpeed() {
+        System.out.println("This method never gets called (I think)");
+    }
+
     private void setupProjectileAI() {
         int i = new Random().nextInt(100) + 1;
 
@@ -31,4 +36,5 @@ public class Monster extends Entity {
             setProjectileAvailableCounter(0);
         }
     }
+
 }

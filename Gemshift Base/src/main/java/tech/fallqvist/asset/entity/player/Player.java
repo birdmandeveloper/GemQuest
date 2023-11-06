@@ -558,4 +558,9 @@ public class Player extends Entity {
     public void use() {
         // Not used
     }
+
+    @Override
+    public void resetDefaultSpeed() {
+        setSpeed(4);
+    }
 }

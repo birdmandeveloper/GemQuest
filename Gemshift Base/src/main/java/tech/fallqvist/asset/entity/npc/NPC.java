@@ -51,4 +51,9 @@ public class NPC extends Entity {
         this.dialogueIndex = dialogueIndex;
         return this;
     }
+
+    @Override
+    public void resetDefaultSpeed() {
+        // Just imagine they get hit by another NPC or enemy
+    }
 }

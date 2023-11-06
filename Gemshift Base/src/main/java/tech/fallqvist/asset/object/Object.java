@@ -314,4 +314,9 @@ public class Object implements Asset {
     public int getParticleMaxLife() {
         return 0;
     }
+
+    @Override
+    public void resetDefaultSpeed() {
+        System.out.println("This method doesn't do anything!");
+    }
 }
