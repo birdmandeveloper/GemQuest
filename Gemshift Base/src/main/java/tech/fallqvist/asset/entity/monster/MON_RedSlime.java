@@ -17,9 +17,9 @@ public class MON_RedSlime extends Monster {
         setName("Red Slime");
         setDirection("down");
         setSpeed(1);
-        setMaxLife(4);
+        setMaxLife(3);
         setCurrentLife(getMaxLife());
-        setAttackPower(2);
+        setAttackPower(0);
         setDefensePower(0);
         setExp(2);
 

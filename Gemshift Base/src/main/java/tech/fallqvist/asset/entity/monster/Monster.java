@@ -2,10 +2,18 @@ package tech.fallqvist.asset.entity.monster;
 
 import tech.fallqvist.GamePanel;
 import tech.fallqvist.asset.entity.Entity;
+import tech.fallqvist.asset.object.Object;
+import tech.fallqvist.util.UtilityTool;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
 import java.util.Random;
 
 public class Monster extends Entity {
+
+    public int monsterId;
 
     public Monster(GamePanel gamePanel) {
         super(gamePanel);
@@ -37,4 +45,16 @@ public class Monster extends Entity {
         }
     }
 
+    public BufferedImage setup() {
+        BufferedImage image = null;
+
+        try {
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/monster/eggslime_down_1.png")));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return UtilityTool.scaleImage(image, 48, 48);
+    }
 }

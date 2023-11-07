@@ -369,13 +369,16 @@ public class Player extends Entity {
             if (!isInvincible() && !getGamePanel().getMonsters()[getGamePanel().getCurrentMap()][index].isDying()) {
                 getGamePanel().playSoundEffect(6);
 
-                int damage = getGamePanel().getMonsters()[getGamePanel().getCurrentMap()][index].getAttackPower() - getDefensePower();
-                if (damage < 0) {
-                    damage = 0;
-                }
+//                int damage = getGamePanel().getMonsters()[getGamePanel().getCurrentMap()][index].getAttackPower() - getDefensePower();
+//                if (damage < 0) {
+//                    damage = 0;
+//                }
+//
+//                setCurrentLife(getCurrentLife() - damage);
+//                setInvincible(true);
 
-                setCurrentLife(getCurrentLife() - damage);
-                setInvincible(true);
+                // Rather than dealing damage and granting i-frames, this now shifts the game state
+                getGamePanel().setGameState(getGamePanel().getBattleState());
             }
         }
     }

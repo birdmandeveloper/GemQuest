@@ -89,6 +89,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final List<Asset> projectiles = new ArrayList<>();
     private final List<Asset> particles = new ArrayList<>();
     private int dynamicSpeedCounter = 0;
+    public int interactingEnemy = 0;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -183,6 +184,10 @@ public class GamePanel extends JPanel implements Runnable {
 
         if (gameState == PAUSE_STATE) {
             // later update
+        }
+
+        if (gameState == BATTLE_STATE) {
+            // We want this to do NOTHING for now, like pause
         }
     }
 

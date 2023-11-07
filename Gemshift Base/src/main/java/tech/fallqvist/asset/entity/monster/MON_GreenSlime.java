@@ -14,12 +14,13 @@ public class MON_GreenSlime extends Monster {
     public MON_GreenSlime(GamePanel gamePanel) {
         super(gamePanel);
 
+
         setName("Green Slime");
         setDirection("down");
         setSpeed(1);
         setMaxLife(4);
         setCurrentLife(getMaxLife());
-        setAttackPower(5);
+        setAttackPower(0);
         setDefensePower(0);
         setExp(2);
 

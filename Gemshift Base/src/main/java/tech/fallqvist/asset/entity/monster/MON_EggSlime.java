@@ -7,6 +7,8 @@ import tech.fallqvist.asset.object.usable.pickuponly.OBJ_Heart;
 import tech.fallqvist.asset.object.usable.pickuponly.OBJ_ManaCrystal;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.nio.Buffer;
 import java.util.Random;
 
 public class MON_EggSlime extends Monster {
@@ -18,7 +20,7 @@ public class MON_EggSlime extends Monster {
         setSpeed(1);
         setMaxLife(4);
         setCurrentLife(getMaxLife());
-        setAttackPower(2);
+        setAttackPower(0);
         setDefensePower(0);
         setExp(2);
 
@@ -77,4 +79,5 @@ public class MON_EggSlime extends Monster {
     public void resetDefaultSpeed() {
         setSpeed(1);
     }
+
 }

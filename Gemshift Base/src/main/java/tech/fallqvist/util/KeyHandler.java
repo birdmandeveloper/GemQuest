@@ -44,6 +44,9 @@ public class KeyHandler implements KeyListener {
         } else if (gamePanel.getGameState() == gamePanel.getTradeState()) {
             checkTradeStateKeyPressed(code);
         }
+        else if (gamePanel.getGameState() == gamePanel.getBattleState()) {
+            checkBattleStateKeyPressed(code);
+        }
     }
 
     private void checkTitleStateKeyPressed(int code) {
@@ -190,6 +193,12 @@ public class KeyHandler implements KeyListener {
     }
 
     private void checkPauseStateKeyPressed(int code) {
+        if (code == KeyEvent.VK_P) {
+            gamePanel.setGameState(gamePanel.getPlayState());
+        }
+    }
+
+    private void checkBattleStateKeyPressed(int code) {
         if (code == KeyEvent.VK_P) {
             gamePanel.setGameState(gamePanel.getPlayState());
         }
@@ -503,4 +512,5 @@ public class KeyHandler implements KeyListener {
         this.projectileKeyPressed = projectileKeyPressed;
         return this;
     }
+
 }
