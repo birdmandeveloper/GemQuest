@@ -1,0 +1,468 @@
+{
+	"info": {
+		"_postman_id": "b8d5176e-8ea6-48e9-a794-f265c6568171",
+		"name": "M2-Final_Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Cart",
+					"item": [
+						{
+							"name": "Get cart",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cart",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add item to cart",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productId\": 7,\r\n    \"quantity\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cart/items",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart",
+										"items"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove item from cart",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cart/items/4",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart",
+										"items",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clear cart",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cart",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Wishlist",
+					"item": [
+						{
+							"name": "Get wishlists",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/wishlists",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"wishlists"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get one wishlist",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/wishlists/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"wishlists",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a wishlist",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"An added wishlist\",\r\n    \"items\": [\r\n        {\r\n            \"productId\": 4\r\n        },\r\n        {\r\n            \"productId\": 3\r\n        },\r\n        {\r\n            \"productId\": 2\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/wishlists",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"wishlists"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add wishlist item",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/wishlists/1/products/7",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"wishlists",
+										"1",
+										"products",
+										"7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add wishlist item existing",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/wishlists/1/products/4",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"wishlists",
+										"1",
+										"products",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove wishlist item",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/wishlists/1/products/3",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"wishlists",
+										"1",
+										"products",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete wishlist",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/wishlists/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"wishlists",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Get all products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find products by SKU",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products?sku=SKU-0006",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "sku",
+									"value": "SKU-0006"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find products by Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products?name=oduct",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "oduct"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products/4",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.collectionVariables.set(\"token\", jsonData.token);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"strictSSL": false
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"user\",\r\n    \"password\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"mike\",\r\n    \"password\": \"password\",\r\n    \"confirmPassword\": \"password\",\r\n    \"role\": \"USER\",\r\n    \"name\": \"User One\",\r\n    \"address\": \"1 User address, Anyplace 12345\",\r\n    \"city\": \"Willowick\",\r\n    \"stateCode\": \"OH\",\r\n    \"zip\": \"44094\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/register",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "default"
+		},
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY1NzY0MzI3NH0.DVYTDK3fsn80scCDYSCxdN4itbTObMVVzlpJmNZd1pC-Uh1fjLwUPN-du-OjeUTFBtDWvEuPiVjXXd1L_Dzh-A",
+			"type": "default"
+		}
+	]
+}

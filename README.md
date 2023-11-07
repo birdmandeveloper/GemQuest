@@ -2,7 +2,7 @@
 RPG Game Developed in Java
 Protagonists Lewis, Clark, and Tamatha embark on a mission to find a mystical stone, a beacon of hope for impoverished people worldwide.|
 
-CHAPTER ONE-
+# CHAPTER ONE-
 
 In this intricate tale, three young adventurers—Lewis, Clark, and Tamatha—embark on a quest to locate a mystical stone that embodies the aspirations of the impoverished across the globe. Their journey takes them from Yorkshire to Germany and eventually to Australia, where they face numerous challenges and adversaries.
 
@@ -21,7 +21,8 @@ The fate of the world now hangs in the balance, with the player left to determin
 
 
 
-SETTING DESCRIPTION-----So we can have them start in a town and talking to NPCS which you have free direction to create or you could just make one NPC class and clone it with varying randomize behaviors.---- they transition to a more free range/unexplored territory, we can think of a cool name of the unexlored lands but thats where random enemy encounters happen. Basically a rural environment that has human presence and one that doesn't for first setting.
+# SETTING DESCRIPTION-----
+So we can have them start in a town and talking to NPCS which you have free direction to create or you could just make one NPC class and clone it with varying randomize behaviors.---- they transition to a more free range/unexplored territory, we can think of a cool name of the unexlored lands but thats where random enemy encounters happen. Basically a rural environment that has human presence and one that doesn't for first setting.
 
 
 Encounter surreal challenges. The first chapter will have specific enemies. Sin Hugs, Sun Hugs, And Tech mogul extraordinaire- this is 3 enemy assets to design.
@@ -31,11 +32,12 @@ Introduction of antagonist Nazar, armed with a stopwatch freezing time, adding a
 Discovery of godsend girl Tamatha, possessing unique abilities, intensifying the intrigue of their quest and introducing magic.
 
 
-BATTLE SYSTEM: Turn Based. Either use physical move or cursed technique, items in your equip slot as well such as OBJ_Boots.
+# BATTLE SYSTEM: 
+Turn Based. Either use physical move or cursed technique, items in your equip slot as well such as OBJ_Boots.
 
 Example of battle system stats---------------
 
-Tech mogul extraordinaire stats——
+# Tech mogul extraordinaire stats——
 
 
 Random enemy encounter sequence
