@@ -3,8 +3,6 @@ package tech.fallqvist.ui;
 import tech.fallqvist.GamePanel;
 import tech.fallqvist.asset.Asset;
 import tech.fallqvist.asset.entity.Entity;
-import tech.fallqvist.asset.entity.monster.MON_GreenSlime;
-import tech.fallqvist.asset.entity.monster.Monster;
 import tech.fallqvist.asset.object.Object;
 import tech.fallqvist.asset.object.usable.pickuponly.OBJ_Coin_Bronze;
 import tech.fallqvist.asset.object.usable.pickuponly.OBJ_Heart;
@@ -1159,44 +1157,40 @@ public class UI {
 
         if (battleCounter >= 1) {
 
-            if(colorCounter == 0 ) {
+            if (colorCounter == 0) {
                 drawSubWindow(0, 0, gamePanel.getWidth(), gamePanel.getTileSize() * 3); // Top box
 
-                graphics2D.setColor(new Color(redCounter,greenCounter,blueCounter));
+                graphics2D.setColor(new Color(redCounter, greenCounter, blueCounter));
                 graphics2D.fillRect(0, gamePanel.getTileSize() * 3, gamePanel.getWidth(), gamePanel.getTileSize() * 5); // Full background
 
                 // This is where the monster drawing itself ought to happen
 
-                drawSubWindow(0, gamePanel.getTileSize() * 8, gamePanel.getWidth(), gamePanel.getTileSize() * 4); // Bottom window
+                drawSubWindow(0, gamePanel.getTileSize() * 8, gamePanel.getWidth(), gamePanel.getTileSize() * 4 ); // Bottom window
 
-                if(redCounter <= 250) {
+                if (redCounter <= 250) {
                     redCounter++;
-                }
-
-                else {
+                } else {
                     colorCounter++;
                 }
             }
-            if(colorCounter == 1) {
+            if (colorCounter == 1) {
                 drawSubWindow(0, 0, gamePanel.getWidth(), gamePanel.getTileSize() * 3); // Top box
 
-                graphics2D.setColor(new Color(redCounter,greenCounter,blueCounter));
+                graphics2D.setColor(new Color(redCounter, greenCounter, blueCounter));
                 graphics2D.fillRect(0, gamePanel.getTileSize() * 3, gamePanel.getWidth(), gamePanel.getTileSize() * 5); // Full background
 
-                // This is where the monster drawing itself ought to happen
+
 
                 drawSubWindow(0, gamePanel.getTileSize() * 8, gamePanel.getWidth(), gamePanel.getTileSize() * 4); // Bottom window
 
-                if(blueCounter <= 250) {
+                if (blueCounter <= 250) {
                     blueCounter++;
                     redCounter--;
-                }
-
-                else {
+                } else {
                     colorCounter++;
                 }
             }
-            if(colorCounter == 2) {
+            if (colorCounter == 2) {
                 drawSubWindow(0, 0, gamePanel.getWidth(), gamePanel.getTileSize() * 3); // Top box
 
                 graphics2D.setColor(new Color(redCounter, greenCounter, blueCounter));
@@ -1214,22 +1208,20 @@ public class UI {
                 }
 
             }
-            if(colorCounter == 3) {
+            if (colorCounter == 3) {
                 drawSubWindow(0, 0, gamePanel.getWidth(), gamePanel.getTileSize() * 3); // Top box
 
-                graphics2D.setColor(new Color(redCounter,greenCounter,blueCounter));
+                graphics2D.setColor(new Color(redCounter, greenCounter, blueCounter));
                 graphics2D.fillRect(0, gamePanel.getTileSize() * 3, gamePanel.getWidth(), gamePanel.getTileSize() * 5); // Full background
 
                 // This is where the monster drawing itself ought to happen
 
                 drawSubWindow(0, gamePanel.getTileSize() * 8, gamePanel.getWidth(), gamePanel.getTileSize() * 4); // Bottom window
 
-                if(redCounter <= 250) {
+                if (redCounter <= 250) {
                     redCounter++;
                     greenCounter--;
-                }
-
-                else {
+                } else {
                     colorCounter = 1;
                 }
             }
@@ -1237,16 +1229,16 @@ public class UI {
 
     }
 
+}
 
 
-
-    public void drawBattleEnemy() {
-        Color color = new Color(0, 0, 0);
+//    public void drawBattleEnemy() {
+  //      Color color = new Color(0, 0, 0);
 
 
 //        color = new Color(255, 255, 255);
 //        graphics2D.setColor(color);
 //        graphics2D.setStroke(new BasicStroke(5));
 //        graphics2D.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
-    }
-}
+ //   }
+//}

@@ -1,7 +1,7 @@
 package com.techelevator.controller;
 
 import javax.validation.Valid;
-
+import com.techelevator.dao.ProductDao;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.*;
 import org.springframework.http.HttpStatus;
@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import com.techelevator.dao.UserDao;
 import com.techelevator.security.jwt.TokenProvider;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 /**
  * AuthenticationController is a class used for handling requests to authenticate Users.
@@ -64,9 +66,7 @@ public class AuthenticationController {
         catch (DaoException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "DAO error - " + e.getMessage());
         }
-    }
-
-}
+    } }
 /* package com.techelevator.controller;
 
         import com.techelevator.dao.ProductDao;
