@@ -82,9 +82,11 @@ public class GamePanel extends JPanel implements Runnable {
     private Thread gameThread;
     private int currentMap = 0;
     private final Asset[][] objects = new Object[maxMaps][20];
-    private final Player player = new Player(this, keyHandler);
+
+    // NEEDS to be public, eventually we have to access these stats elsewhere
+    public final Player player = new Player(this, keyHandler);
     private final Asset[][] npcs = new Entity[maxMaps][10];
-    private final Asset[][] monsters = new Entity[maxMaps][20];
+    public final Asset[][] monsters = new Entity[maxMaps][20];
     private final InteractiveTile[][] interactiveTiles = new InteractiveTile[maxMaps][50];
     private final List<Asset> projectiles = new ArrayList<>();
     private final List<Asset> particles = new ArrayList<>();
@@ -174,12 +176,14 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
         if (gameState == PLAY_STATE) {
-            player.update();
-            updateNPCs();
-            updateMonsters();
-            updateProjectiles();
-            updateParticles();
-            updateInteractiveTiles();
+            if (!player.fromBattleState) {
+                player.update();
+                updateNPCs();
+                updateMonsters();
+                updateProjectiles();
+                updateParticles();
+                updateInteractiveTiles();
+            }
         }
 
         if (gameState == PAUSE_STATE) {

@@ -73,6 +73,9 @@ public interface Asset {
     Object getCurrentShield();
 
     BufferedImage getImage1();
+    BufferedImage getIdleImage1();
+    BufferedImage getIdleImage2();
+
 
     String getDescription();
 
@@ -83,6 +86,8 @@ public interface Asset {
     void use();
 
     int getMaxLife();
+
+    void retreatReaction();
 
     void checkDrop();
 

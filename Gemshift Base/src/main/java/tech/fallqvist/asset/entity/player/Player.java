@@ -9,6 +9,7 @@ import tech.fallqvist.asset.object.usable.inventory.OBJ_Key;
 import tech.fallqvist.asset.object.usable.inventory.OBJ_Potion_Red;
 import tech.fallqvist.asset.object.usable.pickuponly.PickUpOnlyObject;
 import tech.fallqvist.util.KeyHandler;
+import tech.fallqvist.util.UtilityTool;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -19,6 +20,8 @@ public class Player extends Entity {
     private final int screenX;
     private final int screenY;
     private int resetTimer;
+    public String playerName;
+    public boolean fromBattleState;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         super(gamePanel);
@@ -35,6 +38,8 @@ public class Player extends Entity {
 
     public void setDefaultValues() {
         setDefaultPosition();
+
+        this.playerName = "B I R D"; // Test placeholder for now
 
         setSpeed(4);
         setMaxLife(6);
@@ -137,8 +142,6 @@ public class Player extends Entity {
 
     @Override
     public void update() {
-
-
         if (isAttacking()) {
             attacking();
         } else if (keyHandler.isUpPressed()
@@ -366,7 +369,7 @@ public class Player extends Entity {
 
     private void interactWithMonster(int index) {
         if (index != 999) {
-            if (!isInvincible() && !getGamePanel().getMonsters()[getGamePanel().getCurrentMap()][index].isDying()) {
+            if (!isInvincible() && !getGamePanel().getMonsters()[getGamePanel().getCurrentMap()][index].isDying() && !getGamePanel().getMonsters()[getGamePanel().getCurrentMap()][index].isInvincible()) {
                 getGamePanel().playSoundEffect(6);
 
 //                int damage = getGamePanel().getMonsters()[getGamePanel().getCurrentMap()][index].getAttackPower() - getDefensePower();
@@ -378,7 +381,8 @@ public class Player extends Entity {
 //                setInvincible(true);
 
                 // Rather than dealing damage and granting i-frames, this now shifts the game state
-                getGamePanel().setGameState(getGamePanel().getBattleState());
+                getGamePanel().setGameState(getGamePanel().BATTLE_STATE);
+                getGamePanel().getMonsters()[getGamePanel().getCurrentMap()][index].damageReaction();
             }
         }
     }
@@ -484,7 +488,16 @@ public class Player extends Entity {
         int y = checkIfAtEdgeOfYAxis(bottomOffset);
 
         if (isInvincible()) {
-            graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4F));
+            int i = 5; // Frame interval
+
+            // Utilizes the already running invincibleCounter
+            if(getInvincibleCounter() <= i) { UtilityTool.changeAlpha(graphics2D, 1f); }
+            if(getInvincibleCounter() > i && getInvincibleCounter() <= i * 2) { UtilityTool.changeAlpha(graphics2D, 0.3f); }
+            if(getInvincibleCounter() > i * 2 && getInvincibleCounter() <= i * 3) { UtilityTool.changeAlpha(graphics2D, 1f); }
+            if(getInvincibleCounter() > i * 3 && getInvincibleCounter() <= i * 4) { UtilityTool.changeAlpha(graphics2D, 0.3f); }
+            if(getInvincibleCounter() > i * 4 && getInvincibleCounter() <= i * 5) { UtilityTool.changeAlpha(graphics2D, 1f); }
+            if(getInvincibleCounter() > i * 5 && getInvincibleCounter() <= i * 6) { UtilityTool.changeAlpha(graphics2D, 0.3f); }
+
         }
 
         if (isAttacking()) {

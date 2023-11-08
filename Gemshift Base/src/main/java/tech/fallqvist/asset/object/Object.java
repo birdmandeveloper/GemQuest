@@ -43,6 +43,11 @@ public class Object implements Asset {
     }
 
     @Override
+    public void retreatReaction() {
+        System.out.println("The item tried to retreat!");
+    }
+
+    @Override
     public void update() {
         // Not used
     }
@@ -318,5 +323,15 @@ public class Object implements Asset {
     @Override
     public void resetDefaultSpeed() {
         System.out.println("This method doesn't do anything!");
+    }
+
+    @Override
+    public BufferedImage getIdleImage1() {
+        return null;
+    }
+
+    @Override
+    public BufferedImage getIdleImage2() {
+        return null;
     }
 }

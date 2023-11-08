@@ -7,9 +7,11 @@ import tech.fallqvist.asset.object.usable.pickuponly.OBJ_Heart;
 import tech.fallqvist.asset.object.usable.pickuponly.OBJ_ManaCrystal;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class MON_GreenSlime extends Monster {
+    public int defaultSpeed = 1;
 
     public MON_GreenSlime(GamePanel gamePanel) {
         super(gamePanel);
@@ -17,7 +19,7 @@ public class MON_GreenSlime extends Monster {
 
         setName("Green Slime");
         setDirection("down");
-        setSpeed(1);
+        setSpeed(defaultSpeed);
         setMaxLife(4);
         setCurrentLife(getMaxLife());
         setAttackPower(0);
@@ -28,7 +30,7 @@ public class MON_GreenSlime extends Monster {
         setMaxAmmo(5);
         setCurrentAmmo(getMaxAmmo());
 
-        setCollisionArea(new Rectangle(3, 18, 42, 30));
+        setCollisionArea(new Rectangle(3, 12, 42, 30));
         setCollisionDefaultX(getCollisionArea().x);
         setCollisionDefaultY(getCollisionArea().y);
 
@@ -51,6 +53,22 @@ public class MON_GreenSlime extends Monster {
         setActionLockCounter(0);
         setSpeed(3); // Increased speed to retreat
         setDirection(getGamePanel().getPlayer().getDirection());
+        this.setInvincible(true);
+    }
+
+    @Override
+    public void retreatReaction() {
+        setActionLockCounter(3);
+        String updatedDirection = "";
+
+        if(direction.equals("up")) { updatedDirection = "down"; }
+        if(direction.equals("down")) { updatedDirection = "up"; }
+        if(direction.equals("left")) { updatedDirection = "right"; }
+        if(direction.equals("right")) { updatedDirection = "left"; }
+
+        setSpeed(3);
+        setDirection(updatedDirection);
+        this.setInvincible(true);
     }
 
     @Override
@@ -80,4 +98,13 @@ public class MON_GreenSlime extends Monster {
         setSpeed(1);
     }
 
+    @Override
+    public BufferedImage getIdleImage1() {
+        return setup("/images/monster/greenslime_down_1", getGamePanel().getTileSize() * 3, getGamePanel().getTileSize() * 3);
+    }
+
+    @Override
+    public BufferedImage getIdleImage2() {
+        return setup("/images/monster/greenslime_down_2", getGamePanel().getTileSize() * 3, getGamePanel().getTileSize() * 3);
+    }
 }

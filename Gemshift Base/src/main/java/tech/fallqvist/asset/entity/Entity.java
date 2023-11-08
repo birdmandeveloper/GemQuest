@@ -53,9 +53,9 @@ public abstract class Entity implements Asset {
     private int useCost;
 
     // ANIMATION
-    private BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
+    public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
     private BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, attackLeft1, attackLeft2, attackRight1, attackRight2;
-    private String direction;
+    public String direction;
     private int spriteCounter = 0;
     private int spriteNumber = 1;
     private int actionLockCounter = 0;
@@ -78,6 +78,7 @@ public abstract class Entity implements Asset {
     private boolean alive = true;
     private boolean dying = false;
     private int dyingCounter;
+    public int defaultSpeed = 1;
 
     public Entity(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -110,6 +111,10 @@ public abstract class Entity implements Asset {
 
             setActionLockCounter(0);
         }
+
+        if(actionLockCounter == 20) {
+            this.setSpeed(this.defaultSpeed);
+        }
     }
 
     @Override
@@ -129,7 +134,15 @@ public abstract class Entity implements Asset {
         boolean contactPlayer = gamePanel.getCollisionChecker().checkPlayer(this);
 
         if (this instanceof Monster && contactPlayer) {
-            damagePlayer(getAttackPower());
+            this.retreatReaction();
+
+            // Attempting to prevent this when player is invincible
+            if(!gamePanel.player.isInvincible()) {
+                gamePanel.setGameState(gamePanel.BATTLE_STATE);
+                gamePanel.player.setInvincible(true);
+                this.invincible = true;
+                escapeReaction();
+            }
         }
 
         checkIfInvincible();
@@ -197,37 +210,46 @@ public abstract class Entity implements Asset {
     }
 
     private void drawLifeBar(Graphics2D graphics2D, int screenX, int screenY) {
-        if (this instanceof Monster && hpBarOn) {
-            double oneCurrentLifeWidth = (double) gamePanel.getTileSize() / maxLife;
-            double lifeBarValue = oneCurrentLifeWidth * currentLife;
-
-            if (lifeBarValue <= 0) {
-                lifeBarValue = 0;
-            }
-
-            graphics2D.setColor(new Color(35, 35, 35));
-            graphics2D.fillRect(screenX + 3, screenY - 9, gamePanel.getTileSize() - 6, 12);
-
-            graphics2D.setColor(new Color(255, 30, 70));
-            graphics2D.fillRect(screenX + 6, screenY - 6, (int) lifeBarValue, 6);
-
-            hpBarCounter++;
-
-            if (hpBarCounter > 180) {
-                setHpBarCounter(0);
-                setHpBarOn(false);
-            }
-        }
+//        if (this instanceof Monster && hpBarOn) {
+//            double oneCurrentLifeWidth = (double) gamePanel.getTileSize() / maxLife;
+//            double lifeBarValue = oneCurrentLifeWidth * currentLife;
+//
+//            if (lifeBarValue <= 0) {
+//                lifeBarValue = 0;
+//            }
+//
+//            graphics2D.setColor(new Color(35, 35, 35));
+//            graphics2D.fillRect(screenX + 3, screenY - 9, gamePanel.getTileSize() - 6, 12);
+//
+//            graphics2D.setColor(new Color(255, 30, 70));
+//            graphics2D.fillRect(screenX + 6, screenY - 6, (int) lifeBarValue, 6);
+//
+//            hpBarCounter++;
+//
+//            if (hpBarCounter > 180) {
+//                setHpBarCounter(0);
+//                setHpBarOn(false);
+//            }
+//        }
     }
 
     private void drawInvincible(Graphics2D graphics2D) {
         if (isInvincible()) {
-            setHpBarOn(true);
-            setHpBarCounter(0);
+//            setHpBarOn(true);
+//            setHpBarCounter(0);
+//
+//            if (!(this instanceof InteractiveTile)) {
+//                UtilityTool.changeAlpha(graphics2D, 0.4F);
+//            }
+            int i = 5; // Frame interval
 
-            if (!(this instanceof InteractiveTile)) {
-                UtilityTool.changeAlpha(graphics2D, 0.4F);
-            }
+            // Utilizes the already running invincibleCounter
+            if(invincibleCounter <= i) { UtilityTool.changeAlpha(graphics2D, 1f); }
+            if(invincibleCounter > i && invincibleCounter <= i * 2) { UtilityTool.changeAlpha(graphics2D, 0.3f); }
+            if(invincibleCounter > i * 2 && invincibleCounter <= i * 3) { UtilityTool.changeAlpha(graphics2D, 1f); }
+            if(invincibleCounter > i * 3 && invincibleCounter <= i * 4) { UtilityTool.changeAlpha(graphics2D, 0.3f); }
+            if(invincibleCounter > i * 4 && invincibleCounter <= i * 5) { UtilityTool.changeAlpha(graphics2D, 1f); }
+            if(invincibleCounter > i * 5 && invincibleCounter <= i * 6) { UtilityTool.changeAlpha(graphics2D, 0.3f); }
         }
     }
 
@@ -936,6 +958,16 @@ public abstract class Entity implements Asset {
     }
 
     @Override
+    public BufferedImage getIdleImage1() {
+        return null;
+    }
+
+    @Override
+    public BufferedImage getIdleImage2() {
+        return null;
+    }
+
+    @Override
     public String getDescription() {
         return null;
     }
@@ -952,6 +984,11 @@ public abstract class Entity implements Asset {
 
     @Override
     public void damageReaction() {
+    }
+
+    @Override
+    public void retreatReaction() {
+
     }
 
     @Override
@@ -982,4 +1019,6 @@ public abstract class Entity implements Asset {
     public int getPrice() {
         return 0;
     }
+
+    public void escapeReaction() { }
 }

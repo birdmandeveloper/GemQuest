@@ -60,4 +60,5 @@ public abstract class Projectile extends Entity {
     public abstract boolean haveEnoughResource(Entity user);
 
     public abstract void subtractResource(Entity user);
+
 }

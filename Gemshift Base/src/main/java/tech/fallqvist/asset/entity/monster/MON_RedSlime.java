@@ -7,6 +7,7 @@ import tech.fallqvist.asset.object.usable.pickuponly.OBJ_Heart;
 import tech.fallqvist.asset.object.usable.pickuponly.OBJ_ManaCrystal;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class MON_RedSlime extends Monster {
@@ -77,5 +78,14 @@ public class MON_RedSlime extends Monster {
     @Override
     public void resetDefaultSpeed() {
         setSpeed(1);
+    }
+    @Override
+    public BufferedImage getIdleImage1() {
+        return setup("/images/monster/redslime_down_1", getGamePanel().getTileSize() * 3, getGamePanel().getTileSize() * 3);
+    }
+
+    @Override
+    public BufferedImage getIdleImage2() {
+        return setup("/images/monster/redslime_down_2", getGamePanel().getTileSize() * 3, getGamePanel().getTileSize() * 3);
     }
 }

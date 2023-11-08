@@ -80,4 +80,13 @@ public class MON_EggSlime extends Monster {
         setSpeed(1);
     }
 
+    @Override
+    public BufferedImage getIdleImage1() {
+        return setup("/images/monster/eggslime_down_1", getGamePanel().getTileSize() * 3, getGamePanel().getTileSize() * 3);
+    }
+
+    @Override
+    public BufferedImage getIdleImage2() {
+        return setup("/images/monster/eggslime_down_2", getGamePanel().getTileSize() * 3, getGamePanel().getTileSize() * 3);
+    }
 }

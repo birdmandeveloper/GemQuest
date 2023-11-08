@@ -21,8 +21,9 @@ public class UI {
 
     private final GamePanel gamePanel;
     private Graphics2D graphics2D;
+    private UtilityTool utilityTool = new UtilityTool();
     private final BufferedImage heart_full, heart_half, heart_blank, crystal_full, crystal_blank, coin;
-    private Font maruMonica;
+    private Font maruMonica, battleMaru, arial_32, arial_40_bold;
     private List<String> messages = new ArrayList<>();
     private List<Integer> messageCounter = new ArrayList<>();
     private boolean gameFinished = false;
@@ -37,11 +38,17 @@ public class UI {
     private int counter;
     private Entity npc;
     public int interactingMonster;
+
+    // COUNTERS
+    public int genericCounter;
     public int battleCounter = 0;
     public int colorCounter = 0;
     public int blueCounter = 0;
     public int greenCounter = 0;
     public int redCounter = 0;
+    public int transitionCounter = 1;
+    public int playStateShuffle = 0;
+    public int idleAnimationCounter = 0;
 
     public UI(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -68,6 +75,10 @@ public class UI {
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
+
+        this.battleMaru = maruMonica.deriveFont(Font.BOLD, 60);
+        this.arial_32 = new Font("Arial", Font.PLAIN, 32);
+        this.arial_40_bold = new Font("Arial", Font.BOLD, 40);
     }
 
     public void draw(Graphics2D graphics2D) {
@@ -78,24 +89,74 @@ public class UI {
         if (gamePanel.getGameState() == gamePanel.getTitleState()) {
             drawTitleScreen();
         }
-
         if (gamePanel.getGameState() == gamePanel.getPlayState()) {
-            battleCounter = 0;
-            drawPlayerLife();
-            drawPlayerMana();
-            drawMessages();
-        }
+            // Transition out of Battle State
+            if(gamePanel.player.fromBattleState) {
+                gamePanel.player.setInvincible(true);
+                if(playStateShuffle == 0) {
+                    if (transitionCounter <= 45) {
+                        // Draw last battle screen.
+                        drawBattleBackground();
 
+                        drawBattleTopFrame("You got away safely!!");
+                        drawBattleBottomFrame(1);
+
+                        graphics2D.setColor(new Color(0, 0, 0, transitionCounter * 5));
+                        graphics2D.fillRect(0, 0, gamePanel.getWidth(), gamePanel.getHeight());
+
+                        transitionCounter++;
+                    }
+                    if (transitionCounter > 45) {
+                        playStateShuffle++;
+                        transitionCounter = 1;
+                        gamePanel.player.setInvincibleCounter(0);
+                    }
+                }
+                if(playStateShuffle == 1) {
+                    // No need to deliberately call to draw the Play State
+
+                    if (transitionCounter <= 45) {
+                        graphics2D.setColor(new Color(0, 0, 0, 255 - (transitionCounter * 5)));
+                        graphics2D.fillRect(0, 0, gamePanel.getWidth(), gamePanel.getHeight());
+
+                        transitionCounter++;
+                    }
+                    else {
+                        playStateShuffle++;
+                        transitionCounter = 1;
+                        gamePanel.player.setInvincibleCounter(0);
+                    }
+                }
+                if(playStateShuffle == 2) {
+                    playStateShuffle = 0;
+                    transitionCounter = 1;
+                    genericCounter = 0;
+                    gamePanel.player.fromBattleState = false;
+                    gamePanel.player.setInvincibleCounter(0);
+                }
+            }
+
+            else { // Standard operating procedure
+                drawPlayerLife();
+                drawPlayerMana();
+                drawMessages();
+
+                // Resetting counters from other states
+                battleCounter = 0;
+                colorCounter = 0;
+                redCounter = 0;
+                blueCounter = 0;
+                greenCounter = 0;
+            }
+        }
         if (gamePanel.getGameState() == gamePanel.getPauseState()) {
             drawPlayerLife();
             drawPlayerMana();
             drawPauseScreen();
         }
-
         if (gamePanel.getGameState() == gamePanel.getDialogueState()) {
             drawDialogueScreen();
         }
-
         if (gamePanel.getGameState() == gamePanel.getCharacterState()) {
             colorCounter = 0;
             redCounter = 0;
@@ -106,24 +167,21 @@ public class UI {
             drawCharacterScreen();
             drawInventoryScreen(gamePanel.getPlayer(), true);
         }
-
         if (gamePanel.getGameState() == gamePanel.getOptionState()) {
             drawOptionScreen();
         }
-
         if (gamePanel.getGameState() == gamePanel.getGameOverState()) {
             drawGameOverScreen();
         }
-
         if (gamePanel.getGameState() == gamePanel.getTransitionState()) {
             drawTransitionScreen();
         }
-
         if (gamePanel.getGameState() == gamePanel.getTradeState()) {
             drawTradeScreen();
         }
-
         if (gamePanel.getGameState() == gamePanel.getBattleState()) {
+            gamePanel.player.fromBattleState = true;
+            transitionCounter = 1;
             drawBattleScreen();
         }
     }
@@ -1134,28 +1192,30 @@ public class UI {
     }
 
     public void drawBattleScreen() {
-        // Pause Screen code with different text
-//        graphics2D.setFont(graphics2D.getFont().deriveFont(Font.PLAIN, 80F));
-//
-//        String text = "BATTLE STATE";
-//        int x = UtilityTool.getXForCenterOfText(text, gamePanel, graphics2D);
-//        int y = gamePanel.getScreenHeight() / 2;
-//
-//        graphics2D.drawString(text, x, y);
-
+        // This first block is the initial transition IN
         if (battleCounter < 1) {
-            if (counter <= 45) {
-                counter++;
-                graphics2D.setColor(new Color(0, 0, 0, counter * 5));
+            if (genericCounter <= 45) {
+                genericCounter++;
+                graphics2D.setColor(new Color(0, 0, 0, genericCounter * 5));
                 graphics2D.fillRect(0, 0, gamePanel.getScreenWidth(), gamePanel.getScreenHeight());
             }
-            if (counter > 45) {
+            if (genericCounter > 45) {
                 battleCounter++;
-                counter = 0;
+                genericCounter = 0;
             }
         }
 
+        // Pretty much just calls draw methods and adjusts color counters
         if (battleCounter >= 1) {
+<<<<<<< HEAD
+            if(colorCounter == 0 ) {
+                drawBattleBackground();
+                drawBattleEnemies(0);
+                drawBattleTopFrame("A Green Slime approaches!");
+                drawBattleBottomFrame(1);
+
+                if(redCounter < 165) {
+=======
 
             if (colorCounter == 0) {
                 drawSubWindow(0, 0, gamePanel.getWidth(), gamePanel.getTileSize() * 3); // Top box
@@ -1168,11 +1228,40 @@ public class UI {
                 drawSubWindow(0, gamePanel.getTileSize() * 8, gamePanel.getWidth(), gamePanel.getTileSize() * 4 ); // Bottom window
 
                 if (redCounter <= 250) {
+>>>>>>> fdd9034c19329b0040592c27ee18cf30ab2eb0f9
                     redCounter++;
                 } else {
                     colorCounter++;
                 }
+
+                // Pretty sure THIS is where we sneak in the reverse transition
+                if (genericCounter <= 45) {
+                    genericCounter++;
+                    graphics2D.setColor(new Color(0, 0, 0, 255 - (genericCounter * 5)));
+                    graphics2D.fillRect(0, 0, gamePanel.getWidth(), gamePanel.getHeight());
+                }
             }
+<<<<<<< HEAD
+            if(colorCounter == 1) {
+                drawBattleBackground();
+                drawBattleEnemies(0);
+                drawBattleTopFrame("It seems to be vibing pretty hard tbh.");
+                drawBattleBottomFrame(1);
+
+                if(blueCounter < 165) {
+                    blueCounter++;
+                    redCounter--;
+                }
+                else {
+                    colorCounter++;
+                }
+            }
+            if(colorCounter == 2) {
+                drawBattleBackground();
+                drawBattleEnemies(0);
+                drawBattleTopFrame("It seems to be vibing pretty hard tbh.");
+                drawBattleBottomFrame(1);
+=======
             if (colorCounter == 1) {
                 drawSubWindow(0, 0, gamePanel.getWidth(), gamePanel.getTileSize() * 3); // Top box
 
@@ -1195,12 +1284,9 @@ public class UI {
 
                 graphics2D.setColor(new Color(redCounter, greenCounter, blueCounter));
                 graphics2D.fillRect(0, gamePanel.getTileSize() * 3, gamePanel.getWidth(), gamePanel.getTileSize() * 5); // Full background
+>>>>>>> fdd9034c19329b0040592c27ee18cf30ab2eb0f9
 
-                // This is where the monster drawing itself ought to happen
-
-                drawSubWindow(0, gamePanel.getTileSize() * 8, gamePanel.getWidth(), gamePanel.getTileSize() * 4); // Bottom window
-
-                if (greenCounter <= 250) {
+                if (greenCounter < 165) {
                     greenCounter++;
                     blueCounter--;
                 } else {
@@ -1208,6 +1294,15 @@ public class UI {
                 }
 
             }
+<<<<<<< HEAD
+            if(colorCounter == 3) {
+                drawBattleBackground();
+                drawBattleEnemies(0);
+                drawBattleTopFrame("It seems to be vibing pretty hard tbh.");
+                drawBattleBottomFrame(1);
+
+                if(redCounter < 165) {
+=======
             if (colorCounter == 3) {
                 drawSubWindow(0, 0, gamePanel.getWidth(), gamePanel.getTileSize() * 3); // Top box
 
@@ -1219,6 +1314,7 @@ public class UI {
                 drawSubWindow(0, gamePanel.getTileSize() * 8, gamePanel.getWidth(), gamePanel.getTileSize() * 4); // Bottom window
 
                 if (redCounter <= 250) {
+>>>>>>> fdd9034c19329b0040592c27ee18cf30ab2eb0f9
                     redCounter++;
                     greenCounter--;
                 } else {
@@ -1226,19 +1322,109 @@ public class UI {
                 }
             }
         }
+    }
+    public void drawBattleBackground() {
+        // Y'all know me, I hop in that bitch and have a HEART ATTACK
+        graphics2D.setColor(new Color(redCounter, greenCounter, blueCounter));
+        graphics2D.fillRect(0, 0, gamePanel.getScreenWidth(), gamePanel.getTileSize() * 3); // Background behind top box
 
+        graphics2D.setColor(new Color(redCounter + 15, greenCounter + 15, blueCounter + 15)); // Six rectangles, one tile each
+        graphics2D.fillRect(0, gamePanel.getTileSize() * 3, gamePanel.getScreenWidth(), gamePanel.getTileSize() + 24);
+
+        graphics2D.setColor(new Color(redCounter + 30, greenCounter + 30, blueCounter + 30));
+        graphics2D.fillRect(0, (gamePanel.getTileSize() * 4) + 24, gamePanel.getScreenWidth(), gamePanel.getTileSize() + 24);
+
+        graphics2D.setColor(new Color(redCounter + 45, greenCounter + 45, blueCounter + 45));
+        graphics2D.fillRect(0, gamePanel.getTileSize() * 6, gamePanel.getScreenWidth(), gamePanel.getTileSize() + 24);
+
+        graphics2D.setColor(new Color(redCounter + 60, greenCounter + 60, blueCounter + 60));
+        graphics2D.fillRect(0, gamePanel.getTileSize() * 7 + 24, gamePanel.getScreenWidth(), gamePanel.getTileSize() + 24);
+
+        graphics2D.setColor(new Color(redCounter + 75, greenCounter + 75, blueCounter + 75));
+        graphics2D.fillRect(0, gamePanel.getTileSize() * 9, gamePanel.getScreenWidth(), gamePanel.getTileSize() + 24);
+
+        graphics2D.setColor(new Color(redCounter + 90, greenCounter + 90, blueCounter + 90)); // Background behind bottom box
+        graphics2D.fillRect(0, (gamePanel.getTileSize() * 10) + 24, gamePanel.getScreenWidth(), gamePanel.getTileSize() + 24);
     }
 
+<<<<<<< HEAD
+    // This ALWAYS loads in Monster 0 right now (AKA the first Green Slime)
+    public void drawBattleEnemies(int monsterId) {
+        // Scaling image in battle for now, probably not ideal for all time
+        BufferedImage fightSprite;
+        idleAnimationCounter++;
+=======
 }
+>>>>>>> fdd9034c19329b0040592c27ee18cf30ab2eb0f9
 
+        if(idleAnimationCounter <= 20) {
+            fightSprite = gamePanel.monsters[0][monsterId].getIdleImage1();
+            graphics2D.drawImage(fightSprite, gamePanel.getTileSize() * 8 + 36, gamePanel.getTileSize() * 5 - 24, null);
+        }
+        if(idleAnimationCounter > 20 && idleAnimationCounter < 40) {
+            fightSprite = gamePanel.monsters[0][monsterId].getIdleImage2();
+            graphics2D.drawImage(fightSprite, gamePanel.getTileSize() * 8 + 36, gamePanel.getTileSize() * 5 - 24, null);
+        }
+        if(idleAnimationCounter == 40) {
+            // No real way around drawing this for a single frame while we reset the counter
+            fightSprite = gamePanel.monsters[0][monsterId].getIdleImage2();
+            graphics2D.drawImage(fightSprite, gamePanel.getTileSize() * 8 + 36, gamePanel.getTileSize() * 5 -24, null);
+            idleAnimationCounter = 0;
+        }
+    }
+    public void drawBattleTopFrame(String displayText) {
+        drawSubWindow(0, 0, gamePanel.getWidth(), gamePanel.getTileSize() * 3);
 
+<<<<<<< HEAD
+        graphics2D.setColor(Color.white);
+        graphics2D.setFont(battleMaru);
+        graphics2D.drawString(displayText, 32, gamePanel.getTileSize() + 44);
+    }
+    public void drawBattleBottomFrame(int playerCount) {
+        if(playerCount == 1) {
+            currentDialogue = "";
+
+            drawSubWindow(gamePanel.getTileSize() * 8 + 12, gamePanel.getTileSize() * 8, gamePanel.getTileSize() * 4, (gamePanel.getTileSize() * 4) - 24);
+=======
 //    public void drawBattleEnemy() {
   //      Color color = new Color(0, 0, 0);
+>>>>>>> fdd9034c19329b0040592c27ee18cf30ab2eb0f9
 
+            graphics2D.setColor(Color.white);
 
+            graphics2D.setFont(new Font("Monospaced", Font.BOLD, 32));
+            graphics2D.drawString(gamePanel.player.playerName, gamePanel.getTileSize() * 9 - 6, gamePanel.getTileSize() * 9 - 12);
+
+            graphics2D.fillRect(gamePanel.getTileSize() * 8 + 18, gamePanel.getTileSize() * 9, gamePanel.getTileSize() * 4 - 12, 4);
+
+            graphics2D.setFont(graphics2D.getFont().deriveFont(Font.BOLD, 27));
+            graphics2D.drawString("Life: ", gamePanel.getTileSize() * 9 - 20, gamePanel.getTileSize() * 10 - 6);
+            graphics2D.drawString("Mana: ", gamePanel.getTileSize() * 9 - 20, gamePanel.getTileSize() * 11 - 6);
+
+            currentDialogue = "0" + gamePanel.player.getCurrentLife();
+            graphics2D.drawString(currentDialogue, gamePanel.getTileSize() * 11 + 12, gamePanel.getTileSize() * 10 - 6);
+
+            currentDialogue = "0" + gamePanel.player.getCurrentMana();
+            graphics2D.drawString(currentDialogue, gamePanel.getTileSize() * 11 + 12, gamePanel.getTileSize() * 11 - 6);
+        }
+
+<<<<<<< HEAD
+        /* These are for adjusting the displayed screens based on party size, just structural
+           placeholders for now. I think it makes the most sense to feed an ARRAY of some kind into
+           the Battle State itself, or the Battle Manager we eventually code. This works fine
+           for 1 on 1s which is all we have right now, but iterating through and array of Players
+           to get different party member stats HAS to happen at some point. No sense not making the monster
+           methods follow suit. */
+        if(playerCount == 2) { }
+        if(playerCount == 3) { }
+        if(playerCount == 4) { }
+    }
+}
+=======
 //        color = new Color(255, 255, 255);
 //        graphics2D.setColor(color);
 //        graphics2D.setStroke(new BasicStroke(5));
 //        graphics2D.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
  //   }
 //}
+>>>>>>> fdd9034c19329b0040592c27ee18cf30ab2eb0f9

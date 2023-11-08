@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 
 public class UtilityTool {
 
+    // No longer static, needs to be a little more flexible
     public static BufferedImage scaleImage(BufferedImage original, int width, int height) {
         BufferedImage scaledImage = new BufferedImage(width, height, original.getType());
         Graphics2D graphics2D = scaledImage.createGraphics();

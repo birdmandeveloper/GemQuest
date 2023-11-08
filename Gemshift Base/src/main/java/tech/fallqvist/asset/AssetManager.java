@@ -92,8 +92,8 @@ public class AssetManager {
         // MAP 0
         map = 0;
         gamePanel.getMonsters()[map][0] = new MON_GreenSlime(gamePanel);
-        gamePanel.getMonsters()[map][0].setWorldX(tileSize * 21);
-        gamePanel.getMonsters()[map][0].setWorldY(tileSize * 38);
+        gamePanel.getMonsters()[map][0].setWorldX(tileSize * 22);
+        gamePanel.getMonsters()[map][0].setWorldY(tileSize * 19);
         gamePanel.getMonsters()[map][0].setIndex(0);
 
         gamePanel.getMonsters()[map][1] = new MON_GreenSlime(gamePanel);
