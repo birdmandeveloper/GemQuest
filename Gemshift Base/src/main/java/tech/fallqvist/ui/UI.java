@@ -1207,28 +1207,13 @@ public class UI {
 
         // Pretty much just calls draw methods and adjusts color counters
         if (battleCounter >= 1) {
-<<<<<<< HEAD
             if(colorCounter == 0 ) {
                 drawBattleBackground();
                 drawBattleEnemies(0);
                 drawBattleTopFrame("A Green Slime approaches!");
                 drawBattleBottomFrame(1);
 
-                if(redCounter < 165) {
-=======
-
-            if (colorCounter == 0) {
-                drawSubWindow(0, 0, gamePanel.getWidth(), gamePanel.getTileSize() * 3); // Top box
-
-                graphics2D.setColor(new Color(redCounter, greenCounter, blueCounter));
-                graphics2D.fillRect(0, gamePanel.getTileSize() * 3, gamePanel.getWidth(), gamePanel.getTileSize() * 5); // Full background
-
-                // This is where the monster drawing itself ought to happen
-
-                drawSubWindow(0, gamePanel.getTileSize() * 8, gamePanel.getWidth(), gamePanel.getTileSize() * 4 ); // Bottom window
-
-                if (redCounter <= 250) {
->>>>>>> fdd9034c19329b0040592c27ee18cf30ab2eb0f9
+                if (redCounter < 165) {
                     redCounter++;
                 } else {
                     colorCounter++;
@@ -1241,38 +1226,13 @@ public class UI {
                     graphics2D.fillRect(0, 0, gamePanel.getWidth(), gamePanel.getHeight());
                 }
             }
-<<<<<<< HEAD
-            if(colorCounter == 1) {
-                drawBattleBackground();
-                drawBattleEnemies(0);
-                drawBattleTopFrame("It seems to be vibing pretty hard tbh.");
-                drawBattleBottomFrame(1);
-
-                if(blueCounter < 165) {
-                    blueCounter++;
-                    redCounter--;
-                }
-                else {
-                    colorCounter++;
-                }
-            }
-            if(colorCounter == 2) {
-                drawBattleBackground();
-                drawBattleEnemies(0);
-                drawBattleTopFrame("It seems to be vibing pretty hard tbh.");
-                drawBattleBottomFrame(1);
-=======
             if (colorCounter == 1) {
-                drawSubWindow(0, 0, gamePanel.getWidth(), gamePanel.getTileSize() * 3); // Top box
+                drawBattleBackground();
+                drawBattleEnemies(0);
+                drawBattleTopFrame("It seems to be vibing pretty hard tbh.");
+                drawBattleBottomFrame(1);
 
-                graphics2D.setColor(new Color(redCounter, greenCounter, blueCounter));
-                graphics2D.fillRect(0, gamePanel.getTileSize() * 3, gamePanel.getWidth(), gamePanel.getTileSize() * 5); // Full background
-
-
-
-                drawSubWindow(0, gamePanel.getTileSize() * 8, gamePanel.getWidth(), gamePanel.getTileSize() * 4); // Bottom window
-
-                if (blueCounter <= 250) {
+                if (blueCounter < 165) {
                     blueCounter++;
                     redCounter--;
                 } else {
@@ -1280,11 +1240,10 @@ public class UI {
                 }
             }
             if (colorCounter == 2) {
-                drawSubWindow(0, 0, gamePanel.getWidth(), gamePanel.getTileSize() * 3); // Top box
-
-                graphics2D.setColor(new Color(redCounter, greenCounter, blueCounter));
-                graphics2D.fillRect(0, gamePanel.getTileSize() * 3, gamePanel.getWidth(), gamePanel.getTileSize() * 5); // Full background
->>>>>>> fdd9034c19329b0040592c27ee18cf30ab2eb0f9
+                drawBattleBackground();
+                drawBattleEnemies(0);
+                drawBattleTopFrame("It seems to be vibing pretty hard tbh.");
+                drawBattleBottomFrame(1);
 
                 if (greenCounter < 165) {
                     greenCounter++;
@@ -1292,29 +1251,14 @@ public class UI {
                 } else {
                     colorCounter++;
                 }
-
             }
-<<<<<<< HEAD
-            if(colorCounter == 3) {
+            if (colorCounter == 3) {
                 drawBattleBackground();
                 drawBattleEnemies(0);
                 drawBattleTopFrame("It seems to be vibing pretty hard tbh.");
                 drawBattleBottomFrame(1);
 
-                if(redCounter < 165) {
-=======
-            if (colorCounter == 3) {
-                drawSubWindow(0, 0, gamePanel.getWidth(), gamePanel.getTileSize() * 3); // Top box
-
-                graphics2D.setColor(new Color(redCounter, greenCounter, blueCounter));
-                graphics2D.fillRect(0, gamePanel.getTileSize() * 3, gamePanel.getWidth(), gamePanel.getTileSize() * 5); // Full background
-
-                // This is where the monster drawing itself ought to happen
-
-                drawSubWindow(0, gamePanel.getTileSize() * 8, gamePanel.getWidth(), gamePanel.getTileSize() * 4); // Bottom window
-
-                if (redCounter <= 250) {
->>>>>>> fdd9034c19329b0040592c27ee18cf30ab2eb0f9
+                if (redCounter < 165) {
                     redCounter++;
                     greenCounter--;
                 } else {
@@ -1347,15 +1291,11 @@ public class UI {
         graphics2D.fillRect(0, (gamePanel.getTileSize() * 10) + 24, gamePanel.getScreenWidth(), gamePanel.getTileSize() + 24);
     }
 
-<<<<<<< HEAD
     // This ALWAYS loads in Monster 0 right now (AKA the first Green Slime)
     public void drawBattleEnemies(int monsterId) {
         // Scaling image in battle for now, probably not ideal for all time
         BufferedImage fightSprite;
         idleAnimationCounter++;
-=======
-}
->>>>>>> fdd9034c19329b0040592c27ee18cf30ab2eb0f9
 
         if(idleAnimationCounter <= 20) {
             fightSprite = gamePanel.monsters[0][monsterId].getIdleImage1();
@@ -1372,10 +1312,10 @@ public class UI {
             idleAnimationCounter = 0;
         }
     }
+
     public void drawBattleTopFrame(String displayText) {
         drawSubWindow(0, 0, gamePanel.getWidth(), gamePanel.getTileSize() * 3);
 
-<<<<<<< HEAD
         graphics2D.setColor(Color.white);
         graphics2D.setFont(battleMaru);
         graphics2D.drawString(displayText, 32, gamePanel.getTileSize() + 44);
@@ -1385,10 +1325,6 @@ public class UI {
             currentDialogue = "";
 
             drawSubWindow(gamePanel.getTileSize() * 8 + 12, gamePanel.getTileSize() * 8, gamePanel.getTileSize() * 4, (gamePanel.getTileSize() * 4) - 24);
-=======
-//    public void drawBattleEnemy() {
-  //      Color color = new Color(0, 0, 0);
->>>>>>> fdd9034c19329b0040592c27ee18cf30ab2eb0f9
 
             graphics2D.setColor(Color.white);
 
@@ -1408,7 +1344,6 @@ public class UI {
             graphics2D.drawString(currentDialogue, gamePanel.getTileSize() * 11 + 12, gamePanel.getTileSize() * 11 - 6);
         }
 
-<<<<<<< HEAD
         /* These are for adjusting the displayed screens based on party size, just structural
            placeholders for now. I think it makes the most sense to feed an ARRAY of some kind into
            the Battle State itself, or the Battle Manager we eventually code. This works fine
@@ -1420,11 +1355,3 @@ public class UI {
         if(playerCount == 4) { }
     }
 }
-=======
-//        color = new Color(255, 255, 255);
-//        graphics2D.setColor(color);
-//        graphics2D.setStroke(new BasicStroke(5));
-//        graphics2D.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
- //   }
-//}
->>>>>>> fdd9034c19329b0040592c27ee18cf30ab2eb0f9
