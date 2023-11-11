@@ -29,6 +29,11 @@ public class Monster extends Entity {
         System.out.println("This method never gets called (I think)");
     }
 
+    @Override
+    public String getIdleMessage() {
+        return null;
+    }
+
     private void setupProjectileAI() {
         int i = new Random().nextInt(100) + 1;
 

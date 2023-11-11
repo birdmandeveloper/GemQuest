@@ -60,4 +60,9 @@ public class Particle extends Entity {
     public void resetDefaultSpeed() {
         // :P
     }
+
+    @Override
+    public String getIdleMessage() {
+        return null;
+    }
 }

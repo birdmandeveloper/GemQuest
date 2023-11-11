@@ -10,6 +10,7 @@ import tech.GemQuet.asset.tile.interactive.InteractiveTile;
 import tech.GemQuet.event.EventHandler;
 import tech.GemQuet.sound.SoundManager;
 import tech.GemQuet.ui.UI;
+import tech.GemQuet.util.BattleManager;
 import tech.GemQuet.util.CollisionChecker;
 import tech.GemQuet.util.Config;
 import tech.GemQuet.util.KeyHandler;
@@ -73,6 +74,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int TRANSITION_STATE = 7;
     public final int TRADE_STATE = 8;
     public final int BATTLE_STATE = 9;
+    private String[] BATTLE_MENU_OPTIONS = {"Attack", "Defend", "Item", "Run"};
+    private int selectedOptionIndex = 0;  // To keep track of the selected option
 
     // ENTITIES & OBJECTS
     private final List<Asset> assets = new ArrayList<>();
@@ -575,5 +578,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     public int getBattleState() {
         return BATTLE_STATE;
+    }
+
+    public BattleManager getBattleM() {
+
+        return null;
     }
 }

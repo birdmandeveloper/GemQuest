@@ -1,13 +1,24 @@
-package tech.fallqvist.ui;
+package tech.GemQuet.ui;
 
-import tech.fallqvist.GamePanel;
-import tech.fallqvist.asset.Asset;
-import tech.fallqvist.asset.entity.Entity;
-import tech.fallqvist.asset.object.Object;
-import tech.fallqvist.asset.object.usable.pickuponly.OBJ_Coin_Bronze;
-import tech.fallqvist.asset.object.usable.pickuponly.OBJ_Heart;
-import tech.fallqvist.asset.object.usable.pickuponly.OBJ_ManaCrystal;
-import tech.fallqvist.util.UtilityTool;
+import tech.GemQuet.asset.Asset;
+import tech.GemQuet.asset.AssetManager;
+import tech.GemQuet.asset.entity.Entity;
+import tech.GemQuet.asset.entity.player.Player;
+import tech.GemQuet.asset.object.Object;
+import tech.GemQuet.asset.object.usable.pickuponly.OBJ_Coin_Bronze;
+import tech.GemQuet.asset.object.usable.pickuponly.OBJ_Heart;
+import tech.GemQuet.asset.object.usable.pickuponly.OBJ_ManaCrystal;
+import tech.GemQuet.asset.tile.TileManager;
+import tech.GemQuet.asset.tile.interactive.InteractiveTile;
+import tech.GemQuet.event.EventHandler;
+import tech.GemQuet.sound.SoundManager;
+import tech.GemQuet.ui.UI;
+import tech.GemQuet.util.CollisionChecker;
+import tech.GemQuet.util.Config;
+import tech.GemQuet.util.KeyHandler;
+
+import tech.GemQuet.GamePanel;
+import tech.GemQuet.util.UtilityTool;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -1476,11 +1487,11 @@ public class UI {
         graphics2D.setColor(Color.gray);
         graphics2D.fillRoundRect(ROW_X,cursorY,cursorWidth - 24,cursorHeight, 25, 25);
 
-        graphics2D.setColor(Color.white);
-        for(int i = 0; i < gamePanel.player.BATTLE_MENU_OPTIONS.length; i++) {
-            graphics2D.drawString("- " + gamePanel.player.BATTLE_MENU_OPTIONS[i], gamePanel.getTileSize() * 13 - 32, textY );
-            textY += 32;
-        }
+    //    graphics2D.setColor(Color.white);
+   //     for(int i = 0; i < Entity.BATTLE_MENU_OPTIONS.substring(1); i++) {
+   //         graphics2D.drawString("- " + gamePanel.player.BATTLE_MENU_OPTIONS[i], gamePanel.getTileSize() * 13 - 32, textY );
+       //     textY += 32;
+   //     }
     }
 
     public void updateColorCounter(int currentColorCount) {

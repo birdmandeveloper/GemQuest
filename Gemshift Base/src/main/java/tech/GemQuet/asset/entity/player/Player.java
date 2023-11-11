@@ -579,4 +579,9 @@ public class Player extends Entity {
     public void resetDefaultSpeed() {
         setSpeed(4);
     }
+
+    @Override
+    public String getIdleMessage() {
+        return null;
+    }
 }

@@ -67,4 +67,9 @@ public class OBJ_Fireball extends Projectile {
     public void resetDefaultSpeed() {
         // These will come in handy later, trust
     }
+
+    @Override
+    public String getIdleMessage() {
+        return null;
+    }
 }

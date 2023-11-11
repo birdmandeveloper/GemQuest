@@ -103,4 +103,6 @@ public interface Asset {
 
     int getPrice();
     void resetDefaultSpeed();
+
+    String getIdleMessage();
 }

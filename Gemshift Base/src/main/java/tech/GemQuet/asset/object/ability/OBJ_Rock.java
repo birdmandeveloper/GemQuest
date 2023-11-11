@@ -67,4 +67,9 @@ public class OBJ_Rock extends Projectile {
     public void resetDefaultSpeed() {
 
     }
+
+    @Override
+    public String getIdleMessage() {
+        return null;
+    }
 }

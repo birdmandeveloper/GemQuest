@@ -41,4 +41,9 @@ public class InteractiveTile extends Entity {
     @Override
     public void resetDefaultSpeed() {
     }
+
+    @Override
+    public String getIdleMessage() {
+        return null;
+    }
 }

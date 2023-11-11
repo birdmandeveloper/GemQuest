@@ -326,6 +326,11 @@ public class Object implements Asset {
     }
 
     @Override
+    public String getIdleMessage() {
+        return null;
+    }
+
+    @Override
     public BufferedImage getIdleImage1() {
         return null;
     }
