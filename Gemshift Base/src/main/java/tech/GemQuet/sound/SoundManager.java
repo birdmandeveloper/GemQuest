@@ -15,7 +15,7 @@ public class SoundManager {
     private float volume;
 
     public SoundManager() {
-        soundUrl[0] = getClass().getResource("/sounds/BouKenTeki_adventurous_theme_49_.wav");
+        soundUrl[0] = getClass().getResource("/sounds/Nazar_monologue_theme_Draft_finished.wav");
         soundUrl[1] = getClass().getResource("/sounds/coin.wav");
         soundUrl[2] = getClass().getResource("/sounds/powerup.wav");
         soundUrl[3] = getClass().getResource("/sounds/unlock.wav");

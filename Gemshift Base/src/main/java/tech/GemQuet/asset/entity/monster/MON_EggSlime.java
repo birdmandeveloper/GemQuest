@@ -11,11 +11,12 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class MON_EggSlime extends Monster {
-    public MON_EggSlime(GamePanel gamePanel) {
-        super(gamePanel);
+    public MON_EggSlime(GamePanel gamePanel, int monsterIndex) {
+        super(gamePanel, monsterIndex);
 
         setName("Egg Slime");
         setDirection("down");
+        setIdleMessage("Good morning, sunshine!");
         setSpeed(1);
         setMaxLife(4);
         setCurrentLife(getMaxLife());
@@ -48,14 +49,25 @@ public class MON_EggSlime extends Monster {
     @Override
     public void damageReaction() {
         setActionLockCounter(0);
+        setSpeed(3); // Increased speed to retreat
         setDirection(getGamePanel().getPlayer().getDirection());
+        this.setInvincible(true);
     }
 
-        // This one just vibes
-//    @Override
-//    public void setupAI() {
-//        super.setupAI();
-//    }
+    @Override
+    public void retreatReaction() {
+        setActionLockCounter(3);
+        String updatedDirection = "";
+
+        if(direction.equals("up")) { updatedDirection = "down"; }
+        if(direction.equals("down")) { updatedDirection = "up"; }
+        if(direction.equals("left")) { updatedDirection = "right"; }
+        if(direction.equals("right")) { updatedDirection = "left"; }
+
+        setSpeed(3);
+        setDirection(updatedDirection);
+        this.setInvincible(true);
+    }
 
     @Override
     public void checkDrop() {

@@ -11,12 +11,12 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class MON_RedSlime extends Monster {
-
-    public MON_RedSlime(GamePanel gamePanel) {
-        super(gamePanel);
+    public MON_RedSlime(GamePanel gamePanel, int monsterIndex) {
+        super(gamePanel, monsterIndex);
 
         setName("Red Slime");
         setDirection("down");
+        setIdleMessage("It's staring you down, menacingly.");
         setSpeed(1);
         setMaxLife(3);
         setCurrentLife(getMaxLife());
@@ -49,8 +49,24 @@ public class MON_RedSlime extends Monster {
     @Override
     public void damageReaction() {
         setActionLockCounter(0);
-        setSpeed(3);
+        setSpeed(3); // Increased speed to retreat
         setDirection(getGamePanel().getPlayer().getDirection());
+        this.setInvincible(true);
+    }
+
+    @Override
+    public void retreatReaction() {
+        setActionLockCounter(3);
+        String updatedDirection = "";
+
+        if(direction.equals("up")) { updatedDirection = "down"; }
+        if(direction.equals("down")) { updatedDirection = "up"; }
+        if(direction.equals("left")) { updatedDirection = "right"; }
+        if(direction.equals("right")) { updatedDirection = "left"; }
+
+        setSpeed(3);
+        setDirection(updatedDirection);
+        this.setInvincible(true);
     }
 
     @Override

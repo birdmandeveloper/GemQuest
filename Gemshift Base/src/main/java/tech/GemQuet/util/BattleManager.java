@@ -2,18 +2,6 @@ package tech.GemQuet.util;
 
 import tech.GemQuet.GamePanel;
 import tech.GemQuet.asset.Asset;
-import tech.GemQuet.asset.AssetManager;
-import tech.GemQuet.asset.entity.Entity;
-import tech.GemQuet.asset.entity.player.Player;
-import tech.GemQuet.asset.object.Object;
-import tech.GemQuet.asset.tile.TileManager;
-import tech.GemQuet.asset.tile.interactive.InteractiveTile;
-import tech.GemQuet.event.EventHandler;
-import tech.GemQuet.sound.SoundManager;
-import tech.GemQuet.ui.UI;
-import tech.GemQuet.util.CollisionChecker;
-import tech.GemQuet.util.Config;
-import tech.GemQuet.util.KeyHandler;
 
 // Exists specifically to run Battle State operations
 public class BattleManager {

@@ -91,40 +91,37 @@ public class AssetManager {
 
         // MAP 0
         map = 0;
-        gamePanel.getMonsters()[map][0] = new MON_GreenSlime(gamePanel);
+
+        // This has been altered slightly, it feeds the index position number into the Monster itself so we can use it later in battle
+        gamePanel.getMonsters()[map][0] = new MON_GreenSlime(gamePanel, 0);
         gamePanel.getMonsters()[map][0].setWorldX(tileSize * 22);
         gamePanel.getMonsters()[map][0].setWorldY(tileSize * 19);
         gamePanel.getMonsters()[map][0].setIndex(0);
 
-        gamePanel.getMonsters()[map][1] = new MON_GreenSlime(gamePanel);
+        gamePanel.getMonsters()[map][1] = new MON_GreenSlime(gamePanel, 1);
         gamePanel.getMonsters()[map][1].setWorldX(tileSize * 23);
-        gamePanel.getMonsters()[map][1].setWorldY(tileSize * 42);
+        gamePanel.getMonsters()[map][1].setWorldY(tileSize * 35);
         gamePanel.getMonsters()[map][1].setIndex(1);
 
-        gamePanel.getMonsters()[map][2] = new MON_GreenSlime(gamePanel);
+        gamePanel.getMonsters()[map][2] = new MON_EggSlime(gamePanel, 2);
         gamePanel.getMonsters()[map][2].setWorldX(tileSize * 24);
-        gamePanel.getMonsters()[map][2].setWorldY(tileSize * 37);
+        gamePanel.getMonsters()[map][2].setWorldY(tileSize * 33);
         gamePanel.getMonsters()[map][2].setIndex(2);
 
-        gamePanel.getMonsters()[map][3] = new MON_GreenSlime(gamePanel);
-        gamePanel.getMonsters()[map][3].setWorldX(tileSize * 34);
-        gamePanel.getMonsters()[map][3].setWorldY(tileSize * 42);
+        gamePanel.getMonsters()[map][3] = new MON_RedSlime(gamePanel, 3);
+        gamePanel.getMonsters()[map][3].setWorldX(tileSize * 21);
+        gamePanel.getMonsters()[map][3].setWorldY(tileSize * 38);
         gamePanel.getMonsters()[map][3].setIndex(3);
 
-        gamePanel.getMonsters()[map][4] = new MON_GreenSlime(gamePanel);
+        gamePanel.getMonsters()[map][4] = new MON_GreenSlime(gamePanel,4);
         gamePanel.getMonsters()[map][4].setWorldX(tileSize * 38);
         gamePanel.getMonsters()[map][4].setWorldY(tileSize * 42);
         gamePanel.getMonsters()[map][4].setIndex(4);
 
-        gamePanel.getMonsters()[map][5] = new MON_EggSlime(gamePanel);
+        gamePanel.getMonsters()[map][5] = new MON_GreenSlime(gamePanel, 5);
         gamePanel.getMonsters()[map][5].setWorldX(tileSize * 35);
         gamePanel.getMonsters()[map][5].setWorldY(tileSize * 42);
         gamePanel.getMonsters()[map][5].setIndex(5);
-
-        gamePanel.getMonsters()[map][6] = new MON_RedSlime(gamePanel);
-        gamePanel.getMonsters()[map][6].setWorldX(tileSize * 39);
-        gamePanel.getMonsters()[map][6].setWorldY(tileSize * 42);
-        gamePanel.getMonsters()[map][6].setIndex(6);
     }
 
     public void setInteractiveTiles() {

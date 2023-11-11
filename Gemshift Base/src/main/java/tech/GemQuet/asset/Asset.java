@@ -75,6 +75,7 @@ public interface Asset {
     BufferedImage getImage1();
     BufferedImage getIdleImage1();
     BufferedImage getIdleImage2();
+    String getIdleMessage();
 
 
     String getDescription();
@@ -103,6 +104,6 @@ public interface Asset {
 
     int getPrice();
     void resetDefaultSpeed();
+    boolean getIsTakingTurn();
 
-    String getIdleMessage();
 }

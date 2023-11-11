@@ -13,12 +13,12 @@ import java.util.Random;
 public class MON_GreenSlime extends Monster {
     public int defaultSpeed = 1;
 
-    public MON_GreenSlime(GamePanel gamePanel) {
-        super(gamePanel);
-
+    public MON_GreenSlime(GamePanel gamePanel, int monsterIndex) {
+        super(gamePanel, monsterIndex);
 
         setName("Green Slime");
         setDirection("down");
+        setIdleMessage("It seems to vibing pretty hard tbh.");
         setSpeed(defaultSpeed);
         setMaxLife(4);
         setCurrentLife(getMaxLife());

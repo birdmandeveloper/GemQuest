@@ -1,6 +1,5 @@
 package tech.GemQuet.asset.entity;
 
-import jdk.internal.icu.text.BidiBase;
 import tech.GemQuet.GamePanel;
 import tech.GemQuet.asset.Asset;
 import tech.GemQuet.asset.entity.ability.Projectile;
@@ -10,7 +9,6 @@ import tech.GemQuet.asset.entity.player.Player;
 import tech.GemQuet.asset.object.equipment.Shield;
 import tech.GemQuet.asset.object.equipment.Weapon;
 import tech.GemQuet.asset.tile.interactive.InteractiveTile;
-import tech.GemQuet.util.BattleManager;
 import tech.GemQuet.util.UtilityTool;
 
 import javax.imageio.ImageIO;
@@ -24,13 +22,7 @@ import java.util.Random;
 
 public abstract class Entity implements Asset {
 
-    public static final String BATTLE_MENU_OPTIONS = "Attack";;
-
-
-    private int selectedOptionIndex = 0;  // To keep track of the selected option
     private final GamePanel gamePanel;
-    public int battleMonsterID;
-    public boolean battleMenuOn;
     public boolean isTakingTurn;
 
     // CHARACTER INFO
@@ -51,6 +43,7 @@ public abstract class Entity implements Asset {
     private int defensePower;
     private int exp;
     private int nextLevelExp;
+    private String idleMessage;
 
     // OBJECTS & ABILITIES
     private final int maxInventorySize = 20;
@@ -82,6 +75,7 @@ public abstract class Entity implements Asset {
     private boolean hpBarOn = false;
     private int hpBarCounter;
     private int projectileAvailableCounter;
+    public boolean inBattle;
 
     // ENTITY STATUS
     private boolean alive = true;
@@ -147,6 +141,7 @@ public abstract class Entity implements Asset {
 
             // Attempting to prevent this when player is invincible
             if(!gamePanel.player.isInvincible()) {
+                gamePanel.player.battleMonsterID = ((Monster) this).monsterIndex; // This pipeline WORKS
                 gamePanel.setGameState(gamePanel.BATTLE_STATE);
                 gamePanel.player.setInvincible(true);
                 this.invincible = true;
@@ -733,6 +728,15 @@ public abstract class Entity implements Asset {
         this.currentLife = currentLife;
     }
 
+    @Override
+    public String getIdleMessage() {
+        return idleMessage;
+    }
+
+    public void setIdleMessage(String message) {
+        this.idleMessage = message;
+    }
+
     public boolean isAttacking() {
         return attacking;
     }
@@ -1030,4 +1034,10 @@ public abstract class Entity implements Asset {
     }
 
     public void escapeReaction() { }
+
+    @Override
+    public boolean getIsTakingTurn() {
+        return isTakingTurn;
+    }
 }
+

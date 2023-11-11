@@ -11,11 +11,11 @@ import java.util.Objects;
 import java.util.Random;
 
 public class Monster extends Entity {
+    public int monsterIndex;
 
-    public int monsterId;
-
-    public Monster(GamePanel gamePanel) {
+    public Monster(GamePanel gamePanel, int monsterIndex) {
         super(gamePanel);
+        this.monsterIndex = monsterIndex;
     }
 
     @Override
@@ -27,11 +27,6 @@ public class Monster extends Entity {
     @Override
     public void resetDefaultSpeed() {
         System.out.println("This method never gets called (I think)");
-    }
-
-    @Override
-    public String getIdleMessage() {
-        return null;
     }
 
     private void setupProjectileAI() {

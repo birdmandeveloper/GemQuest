@@ -61,6 +61,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final UI ui = new UI(this);
     private final EventHandler eventHandler = new EventHandler(this);
     private final Config config = new Config(this);
+    private final BattleManager battleM = new BattleManager(this);
 
     // Game State (no shit)
     public int gameState;
@@ -74,8 +75,6 @@ public class GamePanel extends JPanel implements Runnable {
     public final int TRANSITION_STATE = 7;
     public final int TRADE_STATE = 8;
     public final int BATTLE_STATE = 9;
-    private String[] BATTLE_MENU_OPTIONS = {"Attack", "Defend", "Item", "Run"};
-    private int selectedOptionIndex = 0;  // To keep track of the selected option
 
     // ENTITIES & OBJECTS
     private final List<Asset> assets = new ArrayList<>();
@@ -581,7 +580,6 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public BattleManager getBattleM() {
-
-        return null;
+        return battleM;
     }
 }

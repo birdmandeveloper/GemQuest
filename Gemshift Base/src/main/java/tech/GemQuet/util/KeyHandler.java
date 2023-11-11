@@ -7,7 +7,7 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
 
-    private boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed, spacePressed, projectileKeyPressed;
+    private boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed, spacePressed, projectileKeyPressed, shiftPressed;
     private final GamePanel gamePanel;
 
     // DEBUG
@@ -148,6 +148,9 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_D) {
             rightPressed = true;
         }
+        if (code == KeyEvent.VK_SHIFT) {
+            gamePanel.player.setSpeed(6);
+        }
     }
 
     private void checkGameStateKeys(int code) {
@@ -199,8 +202,62 @@ public class KeyHandler implements KeyListener {
     }
 
     private void checkBattleStateKeyPressed(int code) {
+        // DEBUG, press P to escape Battle State at any time
         if (code == KeyEvent.VK_P) {
             gamePanel.setGameState(gamePanel.getPlayState());
+        }
+
+        // Typical exit route via ENTER
+        if(gamePanel.getUi().battleCounter == 3) {
+            if(code == KeyEvent.VK_ENTER) {
+                gamePanel.setGameState(gamePanel.getPlayState());
+            }
+        }
+
+        // Actual Battle State commands, none of which work if Battle Menu isn't visible
+        if(gamePanel.player.battleMenuOn) {
+            // Menu controls
+            if (code == KeyEvent.VK_W) {
+                if(gamePanel.getUi().battleRow != 0) {
+                    gamePanel.getUi().battleRow--;
+                } else {
+                    gamePanel.getUi().battleRow = 2;
+                }
+            }
+            if (code == KeyEvent.VK_S) {
+                if(gamePanel.getUi().battleRow != 2) {
+                    gamePanel.getUi().battleRow++;
+                } else {
+                    gamePanel.getUi().battleRow = 0;
+                }
+            }
+
+            // Selecting from initial menu
+            if (code == KeyEvent.VK_ENTER) {
+                if (!gamePanel.player.battleItemMenu) {
+                    // Attack
+                    if(gamePanel.getUi().battleRow == 0) {
+                        gamePanel.player.isTakingTurn = true;
+                        gamePanel.getUi().battleCounter = 2;
+                    }
+
+                    // Item
+                    if(gamePanel.getUi().battleRow == 1) {
+                        // :P
+                    }
+
+                    // Retreat
+                    if(gamePanel.getUi().battleRow == 2) {
+                        gamePanel.getUi().battleCounter = 3;
+                    }
+                }
+
+                // Item menu navigation
+                if(gamePanel.player.battleItemMenu) {
+                    // Nothing yet
+                }
+            }
+
         }
     }
 
@@ -432,6 +489,10 @@ public class KeyHandler implements KeyListener {
 
         if (code == KeyEvent.VK_F) {
             projectileKeyPressed = false;
+        }
+
+        if(code == KeyEvent.VK_SHIFT) {
+            gamePanel.player.setSpeed(3);
         }
     }
 

@@ -22,6 +22,10 @@ public class Player extends Entity {
     private int resetTimer;
     public String playerName;
     public boolean fromBattleState;
+    public int battleMonsterID = 0; // Defaults to Monster 0
+    public boolean battleMenuOn;
+    public boolean battleItemMenu;
+    public String[] BATTLE_MENU_OPTIONS = new String[] {"Attack",  "Item", "Retreat"};
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         super(gamePanel);
@@ -381,8 +385,10 @@ public class Player extends Entity {
 //                setInvincible(true);
 
                 // Rather than dealing damage and granting i-frames, this now shifts the game state
-                getGamePanel().setGameState(getGamePanel().BATTLE_STATE);
+                this.battleMonsterID = index;
                 getGamePanel().getMonsters()[getGamePanel().getCurrentMap()][index].damageReaction();
+                getGamePanel().setGameState(getGamePanel().BATTLE_STATE);
+
             }
         }
     }
@@ -578,10 +584,5 @@ public class Player extends Entity {
     @Override
     public void resetDefaultSpeed() {
         setSpeed(4);
-    }
-
-    @Override
-    public String getIdleMessage() {
-        return null;
     }
 }

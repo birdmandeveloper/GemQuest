@@ -326,11 +326,6 @@ public class Object implements Asset {
     }
 
     @Override
-    public String getIdleMessage() {
-        return null;
-    }
-
-    @Override
     public BufferedImage getIdleImage1() {
         return null;
     }
@@ -338,5 +333,15 @@ public class Object implements Asset {
     @Override
     public BufferedImage getIdleImage2() {
         return null;
+    }
+
+    @Override
+    public String getIdleMessage() {
+        return null;
+    }
+
+    @Override
+    public boolean getIsTakingTurn() {
+        return false;
     }
 }

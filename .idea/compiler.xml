@@ -6,8 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="My2DGame" />
+        <module name="GQ Perfect Cell 11-10-23" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="GQ Perfect Cell 11-10-23" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>

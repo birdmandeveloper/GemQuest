@@ -56,9 +56,4 @@ public class NPC extends Entity {
     public void resetDefaultSpeed() {
         // Just imagine they get hit by another NPC or enemy
     }
-
-    @Override
-    public String getIdleMessage() {
-        return null;
-    }
 }
