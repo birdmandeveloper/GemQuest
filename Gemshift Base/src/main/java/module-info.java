@@ -4,6 +4,4 @@ module com.example.realdemo {
     requires java.desktop;
 
 
-    opens tech to javafx.fxml;
-    exports tech;
 }
