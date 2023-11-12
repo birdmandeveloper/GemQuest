@@ -47,11 +47,7 @@ public class Config {
             String s = bufferedReader.readLine();
 
             // FULLSCREEN
-            if (s.equals("On")) {
-                gamePanel.setFullScreenOn(true);
-            } else {
-                gamePanel.setFullScreenOn(false);
-            }
+            gamePanel.setFullScreenOn(s.equals("On"));
 
             // MUSIC VOLUME
             s = bufferedReader.readLine();

@@ -24,7 +24,7 @@ public class Object implements Asset {
 
     // COLLISION
     private boolean collision = false;
-    private Rectangle collisionArea = new Rectangle(0, 0, 48, 48);
+    private final Rectangle collisionArea = new Rectangle(0, 0, 48, 48);
     private int collisionDefaultX = 0;
     private int collisionDefaultY = 0;
     public boolean isBattleItem;

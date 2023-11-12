@@ -8,10 +8,11 @@ import java.awt.*;
 
 public class Particle extends Entity {
 
-    private Asset generator;
-    private Color color;
-    private int size;
-    private int xd, yd;
+    private final Asset generator;
+    private final Color color;
+    private final int size;
+    private final int xd;
+    private int yd;
 
     public Particle(GamePanel gamePanel, Asset generator, Color color, int size, int speed, int maxLife, int xd, int yd) {
         super(gamePanel);

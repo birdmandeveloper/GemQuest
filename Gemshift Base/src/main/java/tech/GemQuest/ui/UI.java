@@ -21,11 +21,11 @@ public class UI {
 
     private final GamePanel gamePanel;
     private Graphics2D graphics2D;
-    private UtilityTool utilityTool = new UtilityTool();
+    private final UtilityTool utilityTool = new UtilityTool();
     private final BufferedImage heart_full, heart_half, heart_blank, crystal_full, crystal_blank, coin;
     private Font maruMonica, battleMaru, arial_32, arial_40_bold;
-    private List<String> messages = new ArrayList<>();
-    private List<Integer> messageCounter = new ArrayList<>();
+    private final List<String> messages = new ArrayList<>();
+    private final List<Integer> messageCounter = new ArrayList<>();
     public List<Asset> visibleBattleInventory = new ArrayList<>();
     private boolean gameFinished = false;
     private String currentDialogue;
@@ -1357,7 +1357,7 @@ public class UI {
                     drawBattleBottomFrame(1, gamePanel.getTileSize() * 8);
 
                     // What goes up...
-                    graphics2D.drawImage(utilityTool.scaleImage(gamePanel.monsters[0][interactingMonster].getIdleImage2(), (gamePanel.getTileSize() * 3),
+                    graphics2D.drawImage(UtilityTool.scaleImage(gamePanel.monsters[0][interactingMonster].getIdleImage2(), (gamePanel.getTileSize() * 3),
                             (gamePanel.getTileSize() * 3)), gamePanel.getTileSize() * 8 + 36, (gamePanel.getTileSize() * 5 - 24) - (turnTimeCounter * 3), null);
                 }
                 if(turnTimeCounter > 10 && turnTimeCounter <= 15) {
@@ -1365,7 +1365,7 @@ public class UI {
                     drawBattleTopFrame(currentDialogue, 0);
                     drawBattleBottomFrame(1, gamePanel.getTileSize() * 8);
 
-                    graphics2D.drawImage(utilityTool.scaleImage(gamePanel.monsters[0][interactingMonster].getIdleImage2(), (gamePanel.getTileSize() * 3),
+                    graphics2D.drawImage(UtilityTool.scaleImage(gamePanel.monsters[0][interactingMonster].getIdleImage2(), (gamePanel.getTileSize() * 3),
                             (gamePanel.getTileSize() * 3)), gamePanel.getTileSize() * 8 + 36, gamePanel.getTileSize() * 5 - 54, null);
                 }
                 if(turnTimeCounter > 15 && turnTimeCounter < 35) {
@@ -1373,7 +1373,7 @@ public class UI {
                     drawBattleTopFrame(currentDialogue, 0);
                     drawBattleBottomFrame(1, gamePanel.getTileSize() * 8);
 
-                    graphics2D.drawImage(utilityTool.scaleImage(gamePanel.monsters[0][interactingMonster].getIdleImage2(), (gamePanel.getTileSize() * 3),
+                    graphics2D.drawImage(UtilityTool.scaleImage(gamePanel.monsters[0][interactingMonster].getIdleImage2(), (gamePanel.getTileSize() * 3),
                             (gamePanel.getTileSize() * 3)), gamePanel.getTileSize() * 8 + 36, gamePanel.getTileSize() * 4 + (turnTimeCounter * 3) - 54, null);
                 }
                 // Damage calc
@@ -1451,7 +1451,7 @@ public class UI {
                     drawBattleBottomFrame(1, gamePanel.getTileSize() * 8);
 
                     // Sprite gets tricky
-                    BufferedImage deathSprite = utilityTool.scaleImage(gamePanel.monsters[0][interactingMonster].getIdleImage1(),
+                    BufferedImage deathSprite = UtilityTool.scaleImage(gamePanel.monsters[0][interactingMonster].getIdleImage1(),
                             (gamePanel.getTileSize() * 3), (gamePanel.getTileSize() * 3));
 
                     graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaValue));
