@@ -102,16 +102,18 @@ public class UI {
         if (gamePanel.getGameState() == gamePanel.getPlayState()) {
             // Transition out of Battle State
             if(gamePanel.player.fromBattleState) {
-                gamePanel.player.setInvincible(true);
+                // gamePanel.player.setInvincible(true);
                 if(playStateShuffle == 0) {
                     if (transitionCounter <= 45) {
-                        if(gamePanel.monsters[0][interactingMonster] != null) {
+                        if(gamePanel.monsters[0][interactingMonster].isAlive()) {
                             drawBattleBase(interactingMonster, currentDialogue, 1);
 
                             graphics2D.setColor(new Color(0, 0, 0, transitionCounter * 5));
                             graphics2D.fillRect(0, 0, gamePanel.getWidth(), gamePanel.getHeight());
                         }
                         else{
+                            gamePanel.monsters[0][interactingMonster].setDying(true);
+
                             // Draw last battle screen.
                             drawBattleBackground();
 
@@ -132,6 +134,7 @@ public class UI {
                     }
                 }
                 if(playStateShuffle == 1) {
+
                     // No need to deliberately call to draw the Play State
 
                     if (transitionCounter <= 45) {
@@ -143,15 +146,16 @@ public class UI {
                     else {
                         playStateShuffle++;
                         transitionCounter = 1;
-                        gamePanel.player.setInvincibleCounter(0);
+                        // gamePanel.player.setInvincibleCounter(0);
                     }
                 }
                 if(playStateShuffle == 2) {
                     playStateShuffle = 0;
                     transitionCounter = 1;
                     genericCounter = 0;
+                    gamePanel.player.checkLevelUp();
                     gamePanel.player.fromBattleState = false;
-                    gamePanel.player.setInvincibleCounter(0);
+                    // gamePanel.player.setInvincibleCounter(0);
                     gamePanel.player.battleMonsterID = 0; // Reset this just to be safe
                     battleOver = false;
                 }
@@ -1239,7 +1243,7 @@ public class UI {
 
         // Pretty much just calls draw methods and adjusts color counters
         if (battleCounter == 1) {
-            System.out.println(visibleBattleInventory);
+            // System.out.println(visibleBattleInventory);
             gamePanel.player.usedItem = false;
             if (!gamePanel.player.battleItemMenu) {
                 if (colorCounter == 0) {
@@ -1465,9 +1469,12 @@ public class UI {
                     drawBattleBottomFrame(1, gamePanel.getTileSize() * 8);
 
                     // Adds exp once, dodges null pointer
-                    if(gamePanel.monsters[0][interactingMonster] != null) {
+                    if(gamePanel.monsters[0][interactingMonster].isAlive()) {
                         gamePanel.player.setExp(gamePanel.player.getExp() + gamePanel.monsters[0][interactingMonster].getExp());
-                        gamePanel.monsters[0][interactingMonster] = null;
+                        gamePanel.monsters[0][interactingMonster].setAlive(false);
+
+                        // Kills it dead for good
+                        gamePanel.getAssetManager().monSpawnZero[interactingMonster] = false;
                     }
                 }
             }

@@ -111,4 +111,5 @@ public interface Asset {
     boolean getIsBattleItem();
     boolean getIsBattleMenuVisible();
     void setIsBattleMenuVisible(boolean set);
+
 }

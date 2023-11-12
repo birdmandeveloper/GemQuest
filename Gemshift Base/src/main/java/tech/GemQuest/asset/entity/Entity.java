@@ -84,6 +84,7 @@ public abstract class Entity implements Asset {
     private int dyingCounter;
     public int defaultSpeed = 1;
     public boolean isBattleMenuVisible;
+    public boolean isRespawnable;
 
     public Entity(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -1066,5 +1067,10 @@ public abstract class Entity implements Asset {
     public boolean getIsBattleMenuVisible() {
         return this.isBattleMenuVisible;
     }
+
+    public void setIsRespawnable(boolean set) {
+        this.isRespawnable = set;
+    }
+
 }
 

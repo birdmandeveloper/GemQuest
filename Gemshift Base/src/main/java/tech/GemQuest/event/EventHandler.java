@@ -119,7 +119,7 @@ public class EventHandler {
             gamePanel.getUi().setCurrentDialogue("You drink the water. \nYour life and mana has been restored.");
             gamePanel.getPlayer().setCurrentLife(gamePanel.getPlayer().getMaxLife());
             gamePanel.getPlayer().setCurrentMana(gamePanel.getPlayer().getMaxMana());
-            gamePanel.getAssetManager().setMonsters();
+            gamePanel.getAssetManager().setMonsters(); // !!!
         }
     }
 

@@ -255,7 +255,7 @@ public class Player extends Entity {
                 if (getGamePanel().getMonsters()[getGamePanel().getCurrentMap()][index].getCurrentLife() <= 0) {
                     getGamePanel().getMonsters()[getGamePanel().getCurrentMap()][index].setDying(true);
                     getGamePanel().getUi().addMessage("Killed the " + getGamePanel().getMonsters()[getGamePanel().getCurrentMap()][index].getName() + "!");
-                    setExp(getExp() + getGamePanel().getMonsters()[getGamePanel().getCurrentMap()][index].getExp());
+                    // setExp(getExp() + getGamePanel().getMonsters()[getGamePanel().getCurrentMap()][index].getExp());
                     getGamePanel().getUi().addMessage("Exp + " + getGamePanel().getMonsters()[getGamePanel().getCurrentMap()][index].getExp());
 
                     checkLevelUp();
@@ -282,7 +282,7 @@ public class Player extends Entity {
         }
     }
 
-    private void checkLevelUp() {
+    public void checkLevelUp() {
         if (getExp() >= getNextLevelExp()) {
             setLevel(getLevel() + 1);
             setNextLevelExp(getNextLevelExp() * 3);

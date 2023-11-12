@@ -353,48 +353,48 @@ public class KeyHandler implements KeyListener {
                     }
                 }
             }
-        }
 
-        // Main menu
-        if (!gamePanel.player.battleItemMenu) {
-            if (code == KeyEvent.VK_W) {
-                if (gamePanel.getUi().battleRow != 0) {
-                    gamePanel.getUi().battleRow--;
-                } else {
-                    gamePanel.getUi().battleRow = 2;
-                }
-            }
-            if (code == KeyEvent.VK_S) {
-                if (gamePanel.getUi().battleRow != 2) {
-                    gamePanel.getUi().battleRow++;
-                } else {
-                    gamePanel.getUi().battleRow = 0;
-                }
-            }
-
-            if (code == KeyEvent.VK_ENTER) {
-                if (gamePanel.getUi().battleRow == 0) {
-                    // gp.player.attemptAttack = true;
-                    gamePanel.player.isTakingTurn = true;
-                    gamePanel.getUi().battleCounter = 2;
-                }
-                if (gamePanel.getUi().battleRow == 1) {
-                    gamePanel.player.battleItemMenu = true;
-                    gamePanel.getUi().battleRow = 0;
-
-                    for (int i = 0; i < gamePanel.player.getInventory().size(); i++) {
-                        if (i < 3) {
-                            gamePanel.player.getInventory().get(i).setIsBattleMenuVisible(true);
-                            gamePanel.getUi().visibleBattleInventory.add(gamePanel.player.getInventory().get(i)); // Adds first three to visible list
-                        } else {
-                            gamePanel.player.getInventory().get(i).setIsBattleMenuVisible(false);
-                        }
+            // Main menu
+            if (!gamePanel.player.battleItemMenu) {
+                if (code == KeyEvent.VK_W) {
+                    if (gamePanel.getUi().battleRow != 0) {
+                        gamePanel.getUi().battleRow--;
+                    } else {
+                        gamePanel.getUi().battleRow = 2;
                     }
-
-                    gamePanel.getUi().setCurrentDialogue(gamePanel.monsters[0][gamePanel.getUi().interactingMonster].getIdleMessage());
                 }
-                if (gamePanel.getUi().battleRow == 2) {
-                    gamePanel.getUi().battleCounter = 3;
+                if (code == KeyEvent.VK_S) {
+                    if (gamePanel.getUi().battleRow != 2) {
+                        gamePanel.getUi().battleRow++;
+                    } else {
+                        gamePanel.getUi().battleRow = 0;
+                    }
+                }
+
+                if (code == KeyEvent.VK_ENTER) {
+                    if (gamePanel.getUi().battleRow == 0) {
+                        // gp.player.attemptAttack = true;
+                        gamePanel.player.isTakingTurn = true;
+                        gamePanel.getUi().battleCounter = 2;
+                    }
+                    if (gamePanel.getUi().battleRow == 1) {
+                        gamePanel.player.battleItemMenu = true;
+                        gamePanel.getUi().battleRow = 0;
+
+                        for (int i = 0; i < gamePanel.player.getInventory().size(); i++) {
+                            if (i < 3) {
+                                gamePanel.player.getInventory().get(i).setIsBattleMenuVisible(true);
+                                gamePanel.getUi().visibleBattleInventory.add(gamePanel.player.getInventory().get(i)); // Adds first three to visible list
+                            } else {
+                                gamePanel.player.getInventory().get(i).setIsBattleMenuVisible(false);
+                            }
+                        }
+
+                        gamePanel.getUi().setCurrentDialogue(gamePanel.monsters[0][gamePanel.getUi().interactingMonster].getIdleMessage());
+                    }
+                    if (gamePanel.getUi().battleRow == 2) {
+                        gamePanel.getUi().battleCounter = 3;
+                    }
                 }
             }
         }
