@@ -16,7 +16,7 @@ public class Main {
         window.add(gamePanel);
 
      // This will be used in the future to load configs. Currently, no txt.//
-        //   gamePanel.getConfig().loadConfig();
+          gamePanel.getConfig().loadConfig();
 
         if (gamePanel.isFullScreenOn()) {
             window.setUndecorated(true);
