@@ -56,4 +56,5 @@ public class Monster extends Entity {
 
         return UtilityTool.scaleImage(image, 48, 48);
     }
+
 }

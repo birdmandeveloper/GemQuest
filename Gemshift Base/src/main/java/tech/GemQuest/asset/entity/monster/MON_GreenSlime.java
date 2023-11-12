@@ -20,9 +20,9 @@ public class MON_GreenSlime extends Monster {
         setDirection("down");
         setIdleMessage("It seems to vibing pretty hard tbh.");
         setSpeed(defaultSpeed);
-        setMaxLife(4);
+        setMaxLife(3);
         setCurrentLife(getMaxLife());
-        setAttackPower(0);
+        setAttackPower(3);
         setDefensePower(0);
         setExp(2);
 
@@ -46,6 +46,9 @@ public class MON_GreenSlime extends Monster {
         setLeft2(setup("/images/monster/greenslime_down_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
         setRight1(setup("/images/monster/greenslime_down_1", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
         setRight2(setup("/images/monster/greenslime_down_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
+
+        // Putting here for now
+        setStun1(setup("/images/monster/slimeflash", getGamePanel().getTileSize() * 3, getGamePanel().getTileSize() * 3));
     }
 
     @Override

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c6fe4610-6adf-4948-9d2d-bea255a7d182" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/Asset.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/Asset.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/monster/MON_EggSlime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/monster/MON_EggSlime.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/monster/MON_GreenSlime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/monster/MON_GreenSlime.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/monster/MON_RedSlime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/monster/MON_RedSlime.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/monster/Monster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/monster/Monster.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/player/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/object/Object.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/object/Object.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/object/usable/inventory/OBJ_Potion_Red.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/object/usable/inventory/OBJ_Potion_Red.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/ui/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/ui/UI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/util/KeyHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/util/KeyHandler.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="workspaceImportEnabled" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2Y3JgnxPiNMESqnASxO5dc6Kir0" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/Student/workspace/GemQuest/Gemshift Base/src/main/resources/images/monster"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Student\workspace\GemQuest\Gemshift Base\src\main\resources\images\monster" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c6fe4610-6adf-4948-9d2d-bea255a7d182" name="Changes" comment="" />
+      <created>1699748445120</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1699748445120</updated>
+    </task>
+    <servers />
+  </component>
+</project>

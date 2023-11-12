@@ -27,6 +27,8 @@ public class Object implements Asset {
     private Rectangle collisionArea = new Rectangle(0, 0, 48, 48);
     private int collisionDefaultX = 0;
     private int collisionDefaultY = 0;
+    public boolean isBattleItem;
+    public boolean isBattleMenuVisible;
 
     public Object(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -343,5 +345,28 @@ public class Object implements Asset {
     @Override
     public boolean getIsTakingTurn() {
         return false;
+    }
+
+    @Override
+    public void setIsTakingTurn(boolean something) {
+        // DO NOTHING
+    }
+
+    public BufferedImage getStun1() {
+        return null;
+    }
+    public boolean getIsBattleItem() {
+        return isBattleItem;
+    }
+    public void setIsBattleItem(boolean set) {
+        this.isBattleItem = set;
+    }
+
+    public boolean getIsBattleMenuVisible() {
+        return this.isBattleMenuVisible;
+    }
+
+    public void setIsBattleMenuVisible(boolean set) {
+        this.isBattleMenuVisible = set;
     }
 }

@@ -26,6 +26,7 @@ public class UI {
     private Font maruMonica, battleMaru, arial_32, arial_40_bold;
     private List<String> messages = new ArrayList<>();
     private List<Integer> messageCounter = new ArrayList<>();
+    public List<Asset> visibleBattleInventory = new ArrayList<>();
     private boolean gameFinished = false;
     private String currentDialogue;
     private int commandNumber;
@@ -56,6 +57,7 @@ public class UI {
     public int playStateShuffle = 0;
     public int idleAnimationCounter = 0;
     public int turnTimeCounter = 0;
+    public int turnTimeAssist = 0;
     public int currentDamageDealt = 0;
 
     public UI(GamePanel gamePanel) {
@@ -103,11 +105,19 @@ public class UI {
                 gamePanel.player.setInvincible(true);
                 if(playStateShuffle == 0) {
                     if (transitionCounter <= 45) {
-                        // Draw last battle screen.
-                        drawBattleBackground();
+                        if(gamePanel.monsters[0][interactingMonster] != null) {
+                            drawBattleBase(interactingMonster, currentDialogue, 1);
 
-                        drawBattleTopFrame(currentDialogue);
-                        drawBattleBottomFrame(1);
+                            graphics2D.setColor(new Color(0, 0, 0, transitionCounter * 5));
+                            graphics2D.fillRect(0, 0, gamePanel.getWidth(), gamePanel.getHeight());
+                        }
+                        else{
+                            // Draw last battle screen.
+                            drawBattleBackground();
+
+                            drawBattleTopFrame(currentDialogue, 0);
+                            drawBattleBottomFrame(1, gamePanel.getTileSize() * 8);
+                        }
 
                         graphics2D.setColor(new Color(0, 0, 0, transitionCounter * 5));
                         graphics2D.fillRect(0, 0, gamePanel.getWidth(), gamePanel.getHeight());
@@ -143,6 +153,7 @@ public class UI {
                     gamePanel.player.fromBattleState = false;
                     gamePanel.player.setInvincibleCounter(0);
                     gamePanel.player.battleMonsterID = 0; // Reset this just to be safe
+                    battleOver = false;
                 }
             }
 
@@ -152,12 +163,17 @@ public class UI {
                 drawMessages();
 
                 // Resetting counters from other states
+                genericCounter = 0;
                 battleCounter = 0;
                 colorCounter = 0;
                 redCounter = 0;
                 blueCounter = 0;
                 greenCounter = 0;
                 battleRow = 0;
+                battleOver = false;
+                interactingMonster = 0;
+                gamePanel.player.battleItemMenu = false;
+                visibleBattleInventory.clear();
             }
         }
         if (gamePanel.getGameState() == gamePanel.getPauseState()) {
@@ -1217,30 +1233,41 @@ public class UI {
             if (genericCounter > 45) {
                 battleCounter++;
                 genericCounter = 0;
+                currentDialogue = gamePanel.monsters[0][interactingMonster].getName() + " approaches!";
             }
         }
 
         // Pretty much just calls draw methods and adjusts color counters
         if (battleCounter == 1) {
-            if(colorCounter == 0 ) {
-                drawBattleBase(interactingMonster, gamePanel.monsters[0][interactingMonster].getName() + " approaches!", 1);
+            System.out.println(visibleBattleInventory);
+            gamePanel.player.usedItem = false;
+            if (!gamePanel.player.battleItemMenu) {
+                if (colorCounter == 0) {
 
-                // Pretty sure THIS is where we sneak in the reverse transition
-                if (genericCounter <= 45) {
-                    genericCounter++;
-                    graphics2D.setColor(new Color(0, 0, 0, 255 - (genericCounter * 5)));
-                    graphics2D.fillRect(0, 0, gamePanel.getWidth(), gamePanel.getHeight());
-                } else {
+                    drawBattleBase(interactingMonster, currentDialogue, 1);
+
+                    // Pretty sure THIS is where we sneak in the reverse transition
+                    if (genericCounter <= 45) {
+                        genericCounter++;
+                        graphics2D.setColor(new Color(0, 0, 0, 255 - (genericCounter * 5)));
+                        graphics2D.fillRect(0, 0, gamePanel.getWidth(), gamePanel.getHeight());
+                    } else {
+                        gamePanel.player.battleMenuOn = true;
+                    }
+                }
+                if (colorCounter > 0) {
                     gamePanel.player.battleMenuOn = true;
+                    drawBattleBase(interactingMonster, gamePanel.monsters[0][interactingMonster].getIdleMessage(), 1);
+                }
+
+                // Battle Menu conditional
+                if (gamePanel.player.battleMenuOn) {
+                    drawBattleMenu();
                 }
             }
-            if (colorCounter > 0) {
-                gamePanel.player.battleMenuOn = true;
-                drawBattleBase(interactingMonster, gamePanel.monsters[0][interactingMonster].getIdleMessage(), 1);
-            }
 
-            // Battle Menu conditional
-            if(gamePanel.player.battleMenuOn) {
+            if(gamePanel.player.battleItemMenu) {
+                drawBattleBase(interactingMonster, currentDialogue, 1);
                 drawBattleMenu();
             }
         }
@@ -1251,39 +1278,61 @@ public class UI {
             if(gamePanel.player.isTakingTurn) {
                 turnTimeCounter++;
 
-                // Because of the way the Color Counters are set up, the background should continue flowing normally
-                if (turnTimeCounter <= 89) {
-                    drawBattleBase(interactingMonster, gamePanel.player.playerName + " takes a swing --", 1);
-                }
-                // Damage calc
-                if (turnTimeCounter == 90) {
-                    drawBattleBase(interactingMonster, gamePanel.player.playerName + " takes a swing --", 1);
+                if(!gamePanel.player.usedItem) {
+                    currentDialogue = gamePanel.player.playerName + " takes a swing --";
 
-                    currentDamageDealt = gamePanel.getBattleM().getDamageCalc(gamePanel.player, gamePanel.monsters[0][interactingMonster]);
-                    gamePanel.playSoundEffect(5);
-                    gamePanel.monsters[0][interactingMonster].setCurrentLife(gamePanel.monsters[0][interactingMonster].getCurrentLife() - currentDamageDealt);
-                }
-                if (turnTimeCounter > 90 && turnTimeCounter <= 180) {
-                    drawBattleBase(interactingMonster, "BOOM! " + currentDamageDealt + " damage!", 1);
+                    if (turnTimeCounter <= 89) {
+                        drawBattleBase(interactingMonster, currentDialogue, 1);
+                    }
+                    // Damage calc
+                    if (turnTimeCounter == 90) {
+                        drawBattleBase(interactingMonster, currentDialogue, 1);
 
-                    // Visual effects, SUPER bare bones right now
-                    if (turnTimeCounter <= 93) {
-                        idleAnimationCounter = 0; // This holds a still image for the first part of this loop, but realistically we'll have a unique "Hurting" sprite
-                        screenFlash();
+                        currentDamageDealt = gamePanel.getBattleM().getDamageCalc(gamePanel.player, gamePanel.monsters[0][interactingMonster]);
+                        gamePanel.playSoundEffect(5);
+                        gamePanel.monsters[0][interactingMonster].setCurrentLife(gamePanel.monsters[0][interactingMonster].getCurrentLife() - currentDamageDealt);
                     }
-                    if (turnTimeCounter > 97 && turnTimeCounter <= 100) {
-                        screenFlash();
+                    if (turnTimeCounter > 90 && turnTimeCounter <= 180) {
+                        currentDialogue = "BOOM! " + currentDamageDealt + " damage!";
+
+                        drawBattleBase(interactingMonster, currentDialogue, 1);
+
+                        // Visual effects, SUPER bare bones right now
+                        if (turnTimeCounter <= 93) {
+                            idleAnimationCounter = 0; // This holds a still image for the first part of this loop, but realistically we'll have a unique "Hurting" sprite
+                            enemyFlash(interactingMonster);
+                            screenFlash();
+                        }
+                        if (turnTimeCounter > 97 && turnTimeCounter <= 100) {
+                            enemyFlash(interactingMonster);
+                        }
+                        if (turnTimeCounter > 103 && turnTimeCounter <= 106) {
+                            enemyFlash(interactingMonster);
+                        }
+                        if (turnTimeCounter == 113 || turnTimeCounter == 120) {
+                            idleAnimationCounter = 0;
+                        }
                     }
-                    if (turnTimeCounter > 103 && turnTimeCounter <= 106) {
-                        screenFlash();
+                }
+
+                // Aesthetics. Hard coded to Red Potion for now, but can be made more versatile later -- I'm tired >;c
+                if(gamePanel.player.usedItem) {
+                    currentDialogue = "Restored 5HP!";
+                    if(turnTimeCounter <= 89) {
+                        drawBattleBase(interactingMonster, currentDialogue, 1);
                     }
-                    if (turnTimeCounter == 113 || turnTimeCounter == 120) {
-                        idleAnimationCounter = 0;
+                    if (turnTimeCounter > 89 && turnTimeCounter <= 180) {
+                        drawBattleBase(interactingMonster, currentDialogue, 1);
                     }
                 }
 
                 if (turnTimeCounter > 180) {
-                    drawBattleBase(interactingMonster, "BOOM! " + currentDamageDealt + " damage!", 1);
+                    drawBattleBase(interactingMonster, currentDialogue, 1);
+
+                    // Quick death check to skip Monster turn if Player attack kills
+                    if (gamePanel.monsters[0][interactingMonster].getCurrentLife() > 0) {
+                        gamePanel.monsters[0][interactingMonster].setIsTakingTurn(true);
+                    }
 
                     // End turn, reset counters
                     gamePanel.player.isTakingTurn = false;
@@ -1292,12 +1341,86 @@ public class UI {
             }
 
             // Monster turn code goes here, have to shuffle some booleans later
+            if (gamePanel.monsters[0][interactingMonster].getIsTakingTurn()) {
+                turnTimeCounter++;
 
+                // Basic animation
+                if (turnTimeCounter <= 10) {
+                    currentDialogue = gamePanel.monsters[0][interactingMonster].getName() + " attacks --";
+
+                    drawBattleBackground();
+                    drawBattleTopFrame(currentDialogue, 0);
+                    drawBattleBottomFrame(1, gamePanel.getTileSize() * 8);
+
+                    // What goes up...
+                    graphics2D.drawImage(utilityTool.scaleImage(gamePanel.monsters[0][interactingMonster].getIdleImage2(), (gamePanel.getTileSize() * 3),
+                            (gamePanel.getTileSize() * 3)), gamePanel.getTileSize() * 8 + 36, (gamePanel.getTileSize() * 5 - 24) - (turnTimeCounter * 3), null);
+                }
+                if(turnTimeCounter > 10 && turnTimeCounter <= 15) {
+                    drawBattleBackground();
+                    drawBattleTopFrame(currentDialogue, 0);
+                    drawBattleBottomFrame(1, gamePanel.getTileSize() * 8);
+
+                    graphics2D.drawImage(utilityTool.scaleImage(gamePanel.monsters[0][interactingMonster].getIdleImage2(), (gamePanel.getTileSize() * 3),
+                            (gamePanel.getTileSize() * 3)), gamePanel.getTileSize() * 8 + 36, gamePanel.getTileSize() * 5 - 54, null);
+                }
+                if(turnTimeCounter > 15 && turnTimeCounter < 35) {
+                    drawBattleBackground();
+                    drawBattleTopFrame(currentDialogue, 0);
+                    drawBattleBottomFrame(1, gamePanel.getTileSize() * 8);
+
+                    graphics2D.drawImage(utilityTool.scaleImage(gamePanel.monsters[0][interactingMonster].getIdleImage2(), (gamePanel.getTileSize() * 3),
+                            (gamePanel.getTileSize() * 3)), gamePanel.getTileSize() * 8 + 36, gamePanel.getTileSize() * 4 + (turnTimeCounter * 3) - 54, null);
+                }
+                // Damage calc
+                if (turnTimeCounter == 35) {
+                    screenFlash();
+
+                    currentDamageDealt = gamePanel.getBattleM().getDamageCalc(gamePanel.monsters[0][interactingMonster], gamePanel.getPlayer());
+                    gamePanel.playSoundEffect(5);
+                    gamePanel.getPlayer().setCurrentLife(gamePanel.getPlayer().getCurrentLife() - currentDamageDealt);
+                }
+                if (turnTimeCounter > 35 && turnTimeCounter <= 65) {
+                    currentDialogue = "OUCH! " + currentDamageDealt + " damage!";
+
+                    // drawBattleBase(battleMonsterID, currentDialogue, 1);
+
+                    // Initial positions
+                    drawBattleBackground();
+                    drawBattleEnemies(interactingMonster);
+
+                    drawBattleBottomFrame(1, gamePanel.getTileSize() * 8 + 24);
+                    drawBattleTopFrame(currentDialogue, 0); // This one is easy
+                }
+                if (turnTimeCounter > 65 && turnTimeCounter <= 110) {
+                    if(turnTimeCounter % 2 == 0) {
+                        turnTimeAssist = turnTimeCounter / 2;
+                    }
+
+                    drawBattleBackground();
+                    drawBattleEnemies(interactingMonster);
+
+                    drawBattleBottomFrame(1, (gamePanel.getTileSize() * 8 + 56) - turnTimeAssist) ; // 89 being 65 + the initial offset of 24
+                    drawBattleTopFrame(currentDialogue, 0);
+                }
+                // Reset counter, end turn
+                if (turnTimeCounter > 110) {
+                    drawBattleBase(interactingMonster, currentDialogue, 1);
+
+                    // End turn, reset counters
+                    gamePanel.monsters[0][interactingMonster].setIsTakingTurn(false);
+                    turnTimeCounter = 0;
+                    currentDialogue = "";
+                }
+            }
 
             // THIS needs to check that the Monster turn has ended also, once that code is in
             if(!gamePanel.player.isTakingTurn && !gamePanel.monsters[0][interactingMonster].getIsTakingTurn()) {
                 // Monster death check BEFORE this stuff
                 if(gamePanel.monsters[0][interactingMonster].getCurrentLife() > 0) {
+                    visibleBattleInventory.clear();
+                    gamePanel.player.battleItemMenu = false;
+                    gamePanel.player.battleMenuOn = false;
                     battleCounter = 1;
                 } else {
                     battleCounter = 3;
@@ -1309,9 +1432,9 @@ public class UI {
 
         // Exiting Battle State
         if(battleCounter == 3) {
-            if(battleOver) {
-                genericCounter++;
+            genericCounter++;
 
+            if(battleOver) {
                 if (genericCounter <= 49) {
                     double doubleGCounter = genericCounter;
                     float alphaValue = (float) (100 - (doubleGCounter * 2)) / 100;
@@ -1320,8 +1443,8 @@ public class UI {
 
                     // Standard battle draw
                     drawBattleBackground();
-                    drawBattleTopFrame(currentDialogue);
-                    drawBattleBottomFrame(1);
+                    drawBattleTopFrame(currentDialogue, 0);
+                    drawBattleBottomFrame(1, gamePanel.getTileSize() * 8);
 
                     // Sprite gets tricky
                     BufferedImage deathSprite = utilityTool.scaleImage(gamePanel.monsters[0][interactingMonster].getIdleImage1(),
@@ -1332,14 +1455,14 @@ public class UI {
                 }
                 else if (genericCounter <= 98) {
                     drawBattleBackground();
-                    drawBattleTopFrame(currentDialogue);
-                    drawBattleBottomFrame(1);
+                    drawBattleTopFrame(currentDialogue, 0);
+                    drawBattleBottomFrame(1, gamePanel.getTileSize() * 8);
                 }
                 else {
                     currentDialogue = "You got some free stuff. Wow!";
                     drawBattleBackground();
-                    drawBattleTopFrame(currentDialogue);
-                    drawBattleBottomFrame(1);
+                    drawBattleTopFrame(currentDialogue, 0);
+                    drawBattleBottomFrame(1, gamePanel.getTileSize() * 8);
 
                     // Adds exp once, dodges null pointer
                     if(gamePanel.monsters[0][interactingMonster] != null) {
@@ -1353,14 +1476,13 @@ public class UI {
                 drawBattleBase(interactingMonster, currentDialogue, 1);
             }
         }
-
     }
 
     public void drawBattleBase(int monsterIndex, String topFrameText, int playerCount) {
         drawBattleBackground();
         drawBattleEnemies(monsterIndex);
-        drawBattleTopFrame(topFrameText);
-        drawBattleBottomFrame(playerCount);
+        drawBattleTopFrame(topFrameText, 0);
+        drawBattleBottomFrame(playerCount, gamePanel.getTileSize() * 8);
     }
     public void drawBattleBackground() {
         // Y'all know me, I hop in that bitch and have a HEART ATTACK
@@ -1414,37 +1536,37 @@ public class UI {
             idleAnimationCounter = 0;
         }
     }
-    public void drawBattleTopFrame(String displayText) {
-        drawSubWindow(0, 0, gamePanel.getWidth(), gamePanel.getTileSize() * 3);
+    public void drawBattleTopFrame(String displayText, int frameY) {
+        drawSubWindow(0, frameY, gamePanel.getWidth(), gamePanel.getTileSize() * 3);
 
         graphics2D.setColor(Color.white);
         graphics2D.setFont(battleMaru);
-        graphics2D.drawString(displayText, 32, gamePanel.getTileSize() + 44);
+        graphics2D.drawString(displayText, 32, frameY + 48 + 44); // One tile, and then the additional offset
     }
 
     // Can't forget to format the counters eventually
-    public void drawBattleBottomFrame(int playerCount) {
+    public void drawBattleBottomFrame(int playerCount, int frameY) {
         if(playerCount == 1) {
             battleCharacterText = "";
 
-            drawSubWindow(gamePanel.getTileSize() * 8 + 12, gamePanel.getTileSize() * 8, gamePanel.getTileSize() * 4, (gamePanel.getTileSize() * 4) - 24);
+            drawSubWindow(gamePanel.getTileSize() * 8 + 12, frameY, gamePanel.getTileSize() * 4, (gamePanel.getTileSize() * 4) - 24);
 
             graphics2D.setColor(Color.white);
 
             graphics2D.setFont(new Font("Monospaced", Font.BOLD, 32));
-            graphics2D.drawString(gamePanel.player.playerName, gamePanel.getTileSize() * 9 - 6, gamePanel.getTileSize() * 9 - 12);
+            graphics2D.drawString(gamePanel.player.playerName, gamePanel.getTileSize() * 9 - 6, frameY + 36);
 
-            graphics2D.fillRect(gamePanel.getTileSize() * 8 + 18, gamePanel.getTileSize() * 9, gamePanel.getTileSize() * 4 - 12, 4);
+            graphics2D.fillRect(gamePanel.getTileSize() * 8 + 18, frameY + 48, gamePanel.getTileSize() * 4 - 12, 4);
 
             graphics2D.setFont(graphics2D.getFont().deriveFont(Font.BOLD, 27));
-            graphics2D.drawString("Life: ", gamePanel.getTileSize() * 9 - 20, gamePanel.getTileSize() * 10 - 6);
-            graphics2D.drawString("Mana: ", gamePanel.getTileSize() * 9 - 20, gamePanel.getTileSize() * 11 - 6);
+            graphics2D.drawString("Life: ", gamePanel.getTileSize() * 9 - 20, frameY + 48 + 42);
+            graphics2D.drawString("Mana: ", gamePanel.getTileSize() * 9 - 20, frameY + 48 + 48 + 42);
 
             battleCharacterText = "0" + gamePanel.player.getCurrentLife();
-            graphics2D.drawString(battleCharacterText, gamePanel.getTileSize() * 11 + 12, gamePanel.getTileSize() * 10 - 6);
+            graphics2D.drawString(battleCharacterText, gamePanel.getTileSize() * 11 + 12, frameY + 48 + 42);
 
             battleCharacterText = "0" + gamePanel.player.getCurrentMana();
-            graphics2D.drawString(battleCharacterText, gamePanel.getTileSize() * 11 + 12, gamePanel.getTileSize() * 11 - 6);
+            graphics2D.drawString(battleCharacterText, gamePanel.getTileSize() * 11 + 12, frameY + 48 + 48 + 42);
         }
 
         /* These are for adjusting the displayed screens based on party size, just structural
@@ -1458,34 +1580,76 @@ public class UI {
         if(playerCount == 4) { }
     }
 
+    // This method is definitely a little clunky, I'll clean it up this week but for now it works fine
     public void drawBattleMenu() {
-        final int INITIAL_TEXT_Y = gamePanel.getTileSize() * 9 - 12;
-        int textY = INITIAL_TEXT_Y;
+        // Main menu
+        if(!gamePanel.player.battleItemMenu) {
+            visibleBattleInventory.clear();
 
-        // Initial sub window
-        drawSubWindow(gamePanel.getTileSize() * 12 + 12, gamePanel.getTileSize() * 8, gamePanel.getTileSize() * 4 - 12, (gamePanel.getTileSize() * 3) - 24);
+            final int INITIAL_TEXT_Y = gamePanel.getTileSize() * 9 - 12;
+            int textY = INITIAL_TEXT_Y;
 
-        // Slots
-        final int ROW_X = gamePanel.getTileSize() * 12 + 24;
-        final int rowYstart = gamePanel.getTileSize() * 8 + 12; // Y of first row
-        int rowY = rowYstart;
-        int rowSize = gamePanel.getTileSize() - 12; // Sets space between items
+            // Initial sub window
+            drawSubWindow(gamePanel.getTileSize() * 12 + 12, gamePanel.getTileSize() * 8, gamePanel.getTileSize() * 4 - 12, (gamePanel.getTileSize() * 3) - 24);
 
-        // Looks like it's misaligned, but only because drawString and fillRoundRect use different coordinate systems
-        int cursorY = rowYstart + (32 * battleRow);
-        int cursorWidth = gamePanel.getTileSize() * 4 - 12;
-        int cursorHeight = gamePanel.getTileSize() - 18;
+            // Slots
+            final int ROW_X = gamePanel.getTileSize() * 12 + 24;
+            final int rowYstart = gamePanel.getTileSize() * 8 + 12; // Y of first row
+            int rowY = rowYstart;
+            int rowSize = gamePanel.getTileSize() - 12; // Sets space between items
 
-        // DRAW CURSOR
-        graphics2D.setColor(Color.gray);
-        graphics2D.fillRoundRect(ROW_X,cursorY,cursorWidth - 24,cursorHeight, 25, 25);
+            // Looks like it's misaligned, but only because drawString and fillRoundRect use different coordinate systems
+            int cursorY = rowYstart + (32 * battleRow);
+            int cursorWidth = gamePanel.getTileSize() * 4 - 12;
+            int cursorHeight = gamePanel.getTileSize() - 18;
 
-        graphics2D.setColor(Color.white);
-        for(int i = 0; i < gamePanel.player.BATTLE_MENU_OPTIONS.length; i++) {
-            graphics2D.drawString("- " + gamePanel.player.BATTLE_MENU_OPTIONS[i], gamePanel.getTileSize() * 13 - 32, textY );
-            textY += 32;
+            // DRAW CURSOR
+            graphics2D.setColor(Color.gray);
+            graphics2D.fillRoundRect(ROW_X,cursorY,cursorWidth - 24,cursorHeight, 25, 25);
+
+            graphics2D.setColor(Color.white);
+            for(int i = 0; i < gamePanel.player.BATTLE_MENU_OPTIONS.length; i++) {
+                graphics2D.drawString("- " + gamePanel.player.BATTLE_MENU_OPTIONS[i], gamePanel.getTileSize() * 13 - 32, textY );
+                textY += 32;
+            }
+        }
+
+        if(gamePanel.player.battleItemMenu) {
+            final int INITIAL_TEXT_Y = gamePanel.getTileSize() * 9 - 12;
+            int textY = INITIAL_TEXT_Y;
+
+            // Initial sub window
+            drawSubWindow(gamePanel.getTileSize() * 12 + 12, gamePanel.getTileSize() * 8, gamePanel.getTileSize() * 5 + 24, (gamePanel.getTileSize() * 3) - 24);
+
+            // Slots
+            final int ROW_X = gamePanel.getTileSize() * 12 + 24;
+            final int rowYstart = gamePanel.getTileSize() * 8 + 12; // Y of first row
+            int rowY = rowYstart;
+            int rowSize = gamePanel.getTileSize() - 12; // Sets space between items
+
+            int cursorY = rowYstart + (32 * battleRow);
+            int cursorWidth = gamePanel.getTileSize() * 5;
+            int cursorHeight = gamePanel.getTileSize() - 18;
+
+            // DRAW CURSOR
+            graphics2D.setColor(Color.gray);
+            graphics2D.fillRoundRect(ROW_X, cursorY, cursorWidth, cursorHeight, 25, 25);
+
+            for(int i = 0; i < visibleBattleInventory.size(); i++) {
+                if(visibleBattleInventory.get(i).getIsBattleItem()) {
+                    graphics2D.setColor(Color.white);
+                }
+                if(!visibleBattleInventory.get(i).getIsBattleItem()) {
+                    graphics2D.setColor(Color.lightGray);
+                }
+
+                graphics2D.drawString("- " + visibleBattleInventory.get(i).getName(), gamePanel.getTileSize() * 13 - 32, textY);
+                textY += 32;
+            }
         }
     }
+
+
 
     public void updateColorCounter(int currentColorCount) {
         if(currentColorCount == 0) {
@@ -1525,5 +1689,9 @@ public class UI {
     public void screenFlash() {
         graphics2D.setColor(Color.white);
         graphics2D.fillRect(0,0, gamePanel.getWidth(), gamePanel.getHeight());
+    }
+
+    public void enemyFlash(int monsterId) {
+        graphics2D.drawImage(gamePanel.monsters[0][monsterId].getStun1(), gamePanel.getTileSize() * 8 + 36, gamePanel.getTileSize() * 5 - 24, null);
     }
 }

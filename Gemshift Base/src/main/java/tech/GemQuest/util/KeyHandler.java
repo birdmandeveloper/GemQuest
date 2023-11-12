@@ -43,8 +43,7 @@ public class KeyHandler implements KeyListener {
             checkGameOverStateKeyPressed(code);
         } else if (gamePanel.getGameState() == gamePanel.getTradeState()) {
             checkTradeStateKeyPressed(code);
-        }
-        else if (gamePanel.getGameState() == gamePanel.getBattleState()) {
+        } else if (gamePanel.getGameState() == gamePanel.getBattleState()) {
             checkBattleStateKeyPressed(code);
         }
     }
@@ -208,56 +207,196 @@ public class KeyHandler implements KeyListener {
         }
 
         // Typical exit route via ENTER
-        if(gamePanel.getUi().battleCounter == 3) {
-            if(code == KeyEvent.VK_ENTER) {
+        if (gamePanel.getUi().battleCounter == 3 && gamePanel.getUi().genericCounter > 120) {
+            if (code == KeyEvent.VK_ENTER) {
                 gamePanel.setGameState(gamePanel.getPlayState());
             }
         }
 
-        // Actual Battle State commands, none of which work if Battle Menu isn't visible
-        if(gamePanel.player.battleMenuOn) {
-            // Menu controls
+        if (gamePanel.player.battleMenuOn) {
+            // Item menu
+            if (gamePanel.player.battleItemMenu) {
+                // Handles item sub menu operations
+                if (code == KeyEvent.VK_W) {
+                    if (gamePanel.getUi().battleRow != 0) {
+                        gamePanel.getUi().battleRow--;
+                    } else {
+                        // THIS is where it needs to change the visibility of items
+                        int outsideCounter = 0;
+
+                        // I'm THINKING of a quick for loop here, that finds the first "true" and switches it to false, and then
+                        // finds the last "false" and switches it to true
+                        for (int i = 0; i < gamePanel.player.getInventory().size(); i++) {
+                            if (outsideCounter == 0 && i > 0) {
+                                // BECAUSE we're only showing three items right now, the position of the last false is
+                                // always EXACTLY two more than the position of the first true
+                                if (gamePanel.player.getInventory().get(i).getIsBattleMenuVisible()) {
+                                    gamePanel.player.getInventory().get(i - 1).setIsBattleMenuVisible(true);
+                                    gamePanel.player.getInventory().get(i + 2).setIsBattleMenuVisible(false);
+
+                                    gamePanel.getUi().visibleBattleInventory.clear();
+
+                                    gamePanel.getUi().visibleBattleInventory.add(gamePanel.player.getInventory().get(i - 1));
+                                    gamePanel.getUi().visibleBattleInventory.add(gamePanel.player.getInventory().get(i));
+                                    gamePanel.getUi().visibleBattleInventory.add(gamePanel.player.getInventory().get(i + 1));
+
+                                    outsideCounter++;
+                                }
+                            }
+
+                            if (i == gamePanel.player.getInventory().size()) {
+                                outsideCounter = 0;
+                            }
+                        }
+                    }
+                }
+                if (code == KeyEvent.VK_S) {
+                    if (gamePanel.getUi().battleRow != 2) {
+                        gamePanel.getUi().battleRow++;
+                    } else {
+                        // THIS is where it needs to change the visibility of items
+                        int outsideCounter = 0;
+
+                        // I'm THINKING of a quick for loop here, that finds the first "true" and switches it to false, and then
+                        // finds the last "false" and switches it to true
+                        for (int i = 0; i < gamePanel.player.getInventory().size(); i++) {
+                            if (outsideCounter == 0 && i < gamePanel.player.getInventory().size() - 3) {
+                                // BECAUSE we're only showing three items right now, the position of the last false is
+                                // always EXACTLY two more than the position of the first true
+                                if (gamePanel.player.getInventory().get(i).getIsBattleMenuVisible()) {
+                                    gamePanel.player.getInventory().get(i).setIsBattleMenuVisible(false);
+                                    gamePanel.getUi().visibleBattleInventory.remove(0);
+
+                                    gamePanel.player.getInventory().get(i + 3).setIsBattleMenuVisible(true);
+                                    gamePanel.getUi().visibleBattleInventory.add(gamePanel.player.getInventory().get(i + 3));
+                                    outsideCounter++;
+                                }
+                            }
+
+                            if (i == gamePanel.player.getInventory().size()) {
+                                outsideCounter = 0;
+                            }
+                        }
+                    }
+                }
+                if (code == KeyEvent.VK_A) {
+                    gamePanel.getUi().battleRow = 1;
+                    gamePanel.player.battleItemMenu = false;
+                    gamePanel.getUi().setCurrentDialogue(gamePanel.monsters[0][gamePanel.getUi().interactingMonster].getIdleMessage());
+                }
+
+                if (code == KeyEvent.VK_ENTER) {
+                    if (gamePanel.getUi().battleRow == 0) {
+                        if (!gamePanel.getUi().visibleBattleInventory.get(0).getIsBattleItem()) {
+                            // Just prints right now
+                            gamePanel.getUi().setCurrentDialogue("You can't use the " + gamePanel.getUi().visibleBattleInventory.get(0).getName() + " now.");
+                        }
+                        if (gamePanel.getUi().visibleBattleInventory.get(0).getIsBattleItem()) {
+                            // isItemUsable can only check for 1 (Healing item) right now
+                            if (!gamePanel.player.checkItemUsability(1)) {
+                                gamePanel.getUi().setCurrentDialogue("You already have full health!");
+                            }
+                            if (gamePanel.player.checkItemUsability(1)) {
+                                // I want to use the item, let the monster go, delete the item, update the list, and maybe display a message about the item
+
+                                // Because we always add the first three, it shouldn't matter if we stop drawing the menu and go straight to phase 2
+                                gamePanel.getUi().battleRow = 1;
+                                gamePanel.player.battleItemMenu = false;
+
+                                gamePanel.player.isTakingTurn = true;
+                                gamePanel.getUi().battleCounter = 2;
+
+                                gamePanel.player.usedItem = true;
+                                gamePanel.player.inBattleSelectItem(0);
+                            }
+                        }
+
+                    }
+                    if (gamePanel.getUi().battleRow == 1) {
+                        if (!gamePanel.getUi().visibleBattleInventory.get(1).getIsBattleItem()) {
+                            gamePanel.getUi().setCurrentDialogue("You can't use the " + gamePanel.getUi().visibleBattleInventory.get(1).getName() + " now.");
+                        }
+                        if (gamePanel.getUi().visibleBattleInventory.get(1).getIsBattleItem()) {
+                            if (!gamePanel.player.checkItemUsability(1)) {
+                                gamePanel.getUi().setCurrentDialogue("You already have full health!");
+                            }
+                            if (gamePanel.player.checkItemUsability(1)) {
+                                gamePanel.player.battleItemMenu = false;
+
+                                gamePanel.player.isTakingTurn = true;
+                                gamePanel.getUi().battleCounter = 2;
+
+                                gamePanel.player.usedItem = true;
+                                gamePanel.player.inBattleSelectItem(1);
+                            }
+                        }
+                    }
+                    if (gamePanel.getUi().battleRow == 2) {
+                        if (!gamePanel.getUi().visibleBattleInventory.get(2).getIsBattleItem()) {
+                            gamePanel.getUi().setCurrentDialogue("You can't use the " + gamePanel.getUi().visibleBattleInventory.get(2).getName() + " now.");
+                        }
+                        if (gamePanel.getUi().visibleBattleInventory.get(2).getIsBattleItem()) {
+                            if (!gamePanel.player.checkItemUsability(1)) {
+                                gamePanel.getUi().setCurrentDialogue("You already have full health!");
+                            }
+                            if (gamePanel.player.checkItemUsability(1)) {
+                                gamePanel.getUi().battleRow = 1;
+                                gamePanel.player.battleItemMenu = false;
+
+                                gamePanel.player.isTakingTurn = true;
+                                gamePanel.getUi().battleCounter = 2;
+
+                                gamePanel.player.usedItem = true;
+                                gamePanel.player.inBattleSelectItem(2);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Main menu
+        if (!gamePanel.player.battleItemMenu) {
             if (code == KeyEvent.VK_W) {
-                if(gamePanel.getUi().battleRow != 0) {
+                if (gamePanel.getUi().battleRow != 0) {
                     gamePanel.getUi().battleRow--;
                 } else {
                     gamePanel.getUi().battleRow = 2;
                 }
             }
             if (code == KeyEvent.VK_S) {
-                if(gamePanel.getUi().battleRow != 2) {
+                if (gamePanel.getUi().battleRow != 2) {
                     gamePanel.getUi().battleRow++;
                 } else {
                     gamePanel.getUi().battleRow = 0;
                 }
             }
 
-            // Selecting from initial menu
             if (code == KeyEvent.VK_ENTER) {
-                if (!gamePanel.player.battleItemMenu) {
-                    // Attack
-                    if(gamePanel.getUi().battleRow == 0) {
-                        gamePanel.player.isTakingTurn = true;
-                        gamePanel.getUi().battleCounter = 2;
-                    }
-
-                    // Item
-                    if(gamePanel.getUi().battleRow == 1) {
-                        // :P
-                    }
-
-                    // Retreat
-                    if(gamePanel.getUi().battleRow == 2) {
-                        gamePanel.getUi().battleCounter = 3;
-                    }
+                if (gamePanel.getUi().battleRow == 0) {
+                    // gp.player.attemptAttack = true;
+                    gamePanel.player.isTakingTurn = true;
+                    gamePanel.getUi().battleCounter = 2;
                 }
+                if (gamePanel.getUi().battleRow == 1) {
+                    gamePanel.player.battleItemMenu = true;
+                    gamePanel.getUi().battleRow = 0;
 
-                // Item menu navigation
-                if(gamePanel.player.battleItemMenu) {
-                    // Nothing yet
+                    for (int i = 0; i < gamePanel.player.getInventory().size(); i++) {
+                        if (i < 3) {
+                            gamePanel.player.getInventory().get(i).setIsBattleMenuVisible(true);
+                            gamePanel.getUi().visibleBattleInventory.add(gamePanel.player.getInventory().get(i)); // Adds first three to visible list
+                        } else {
+                            gamePanel.player.getInventory().get(i).setIsBattleMenuVisible(false);
+                        }
+                    }
+
+                    gamePanel.getUi().setCurrentDialogue(gamePanel.monsters[0][gamePanel.getUi().interactingMonster].getIdleMessage());
+                }
+                if (gamePanel.getUi().battleRow == 2) {
+                    gamePanel.getUi().battleCounter = 3;
                 }
             }
-
         }
     }
 

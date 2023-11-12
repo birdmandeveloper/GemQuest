@@ -25,6 +25,7 @@ public class Player extends Entity {
     public int battleMonsterID = 0; // Defaults to Monster 0
     public boolean battleMenuOn;
     public boolean battleItemMenu;
+    public boolean usedItem;
     public String[] BATTLE_MENU_OPTIONS = new String[] {"Attack",  "Item", "Retreat"};
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
@@ -68,8 +69,11 @@ public class Player extends Entity {
         setDefaultWeapon();
         setCurrentShield(new OBJ_Shield_Wood(getGamePanel()));
         setProjectile(new OBJ_Fireball(getGamePanel()));
+
         getInventory().add(getCurrentWeapon());
         getInventory().add(getCurrentShield());
+        getInventory().add(new OBJ_Potion_Red(getGamePanel()));
+        getInventory().add(new OBJ_Key(getGamePanel()));
         getInventory().add(new OBJ_Key(getGamePanel()));
     }
 
@@ -485,6 +489,23 @@ public class Player extends Entity {
         }
     }
 
+    // Item use in battle, utilizes the battleRow of UI and the visibleBattleItems List
+    public void inBattleSelectItem(int row) {
+        // Healing items only right now
+        if(getCurrentLife() < getMaxLife()) {
+            getGamePanel().getUi().setCurrentDialogue("Recovered 5HP!");
+            setCurrentLife(getCurrentLife() + 5);
+            if (getCurrentLife() > getMaxLife()) {
+                setCurrentLife(getMaxLife());
+            }
+            getGamePanel().playSoundEffect(2);
+
+            getInventory().remove(getGamePanel().getUi().visibleBattleInventory.get(row));
+        } else {
+            getGamePanel().getUi().setCurrentDialogue("You're already at full health!");
+        }
+    }
+
     @Override
     public void draw(Graphics2D graphics2D) {
         int rightOffset = getGamePanel().getScreenWidth() - screenX;
@@ -584,5 +605,22 @@ public class Player extends Entity {
     @Override
     public void resetDefaultSpeed() {
         setSpeed(4);
+    }
+
+    public boolean getIsBattleMenuVisible() {
+        return this.isBattleMenuVisible;
+    }
+
+    // THIS is important, haven't fully fleshed it out, it just auto runs healing items at the moment
+    public boolean checkItemUsability(int itemType) {
+        boolean usable = false;
+
+        if(itemType == 1) {
+            if(getCurrentLife() < getMaxLife()) {
+                usable = true;
+            }
+        }
+
+        return usable;
     }
 }

@@ -106,4 +106,9 @@ public interface Asset {
     void resetDefaultSpeed();
     boolean getIsTakingTurn();
 
+    void setIsTakingTurn(boolean set);
+    BufferedImage getStun1();
+    boolean getIsBattleItem();
+    boolean getIsBattleMenuVisible();
+    void setIsBattleMenuVisible(boolean set);
 }

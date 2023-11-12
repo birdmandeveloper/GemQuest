@@ -15,7 +15,7 @@ public class Main {
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
 
-     // This will be used in the future to load configs. Currently no txt.//
+     // This will be used in the future to load configs. Currently, no txt.//
         //   gamePanel.getConfig().loadConfig();
 
         if (gamePanel.isFullScreenOn()) {

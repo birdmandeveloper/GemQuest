@@ -21,6 +21,7 @@ public class OBJ_Potion_Red extends Object {
         setValue(5);
         setDescription("[" + getName() + "]\nRestores " + getValue() + " health");
         setPrice(25);
+        setIsBattleItem(true);
 
         try {
             BufferedImage image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/objects/potion_red.png")));

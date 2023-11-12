@@ -18,9 +18,9 @@ public class MON_EggSlime extends Monster {
         setDirection("down");
         setIdleMessage("Good morning, sunshine!");
         setSpeed(1);
-        setMaxLife(4);
+        setMaxLife(3);
         setCurrentLife(getMaxLife());
-        setAttackPower(0);
+        setAttackPower(3);
         setDefensePower(0);
         setExp(2);
 
@@ -44,6 +44,8 @@ public class MON_EggSlime extends Monster {
         setLeft2(setup("/images/monster/eggslime_down_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
         setRight1(setup("/images/monster/eggslime_down_1", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
         setRight2(setup("/images/monster/eggslime_down_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
+
+        setStun1(setup("/images/monster/slimeflash", getGamePanel().getTileSize() * 3, getGamePanel().getTileSize() * 3));
     }
 
     @Override

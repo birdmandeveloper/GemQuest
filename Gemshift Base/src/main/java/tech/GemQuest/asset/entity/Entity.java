@@ -53,9 +53,10 @@ public abstract class Entity implements Asset {
     private Shield currentShield;
     private Projectile projectile;
     private int useCost;
+    private boolean isBattleItem;
 
     // ANIMATION
-    public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
+    public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2, stun1;
     private BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, attackLeft1, attackLeft2, attackRight1, attackRight2;
     public String direction;
     private int spriteCounter = 0;
@@ -82,6 +83,7 @@ public abstract class Entity implements Asset {
     private boolean dying = false;
     private int dyingCounter;
     public int defaultSpeed = 1;
+    public boolean isBattleMenuVisible;
 
     public Entity(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -539,6 +541,12 @@ public abstract class Entity implements Asset {
 
     public Entity setRight2(BufferedImage right2) {
         this.right2 = right2;
+        return this;
+    }
+
+    public BufferedImage getStun1() { return stun1; }
+    public Entity setStun1(BufferedImage stun1) {
+        this.stun1 = stun1;
         return this;
     }
 
@@ -1038,6 +1046,25 @@ public abstract class Entity implements Asset {
     @Override
     public boolean getIsTakingTurn() {
         return isTakingTurn;
+    }
+
+    @Override
+    public void setIsTakingTurn(boolean set) {
+        this.isTakingTurn = set;
+    }
+
+    public boolean getIsBattleItem() {
+        return isBattleItem;
+    }
+    public void setIsBattleItem(boolean set) {
+        this.isBattleItem = set;
+    }
+
+    public void setIsBattleMenuVisible(boolean set) {
+        this.isBattleMenuVisible = set;
+    }
+    public boolean getIsBattleMenuVisible() {
+        return this.isBattleMenuVisible;
     }
 }
 
