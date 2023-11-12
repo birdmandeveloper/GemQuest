@@ -301,7 +301,7 @@ public class UI {
         int y = gamePanel.getTileSize() * 3;
         graphics2D.drawString(text, x, y);
 
-        text = "Fighter";
+        text = "Clark";
         x = UtilityTool.getXForCenterOfText(text, gamePanel, graphics2D);
         y += gamePanel.getTileSize() * 3;
         graphics2D.drawString(text, x, y);
@@ -315,7 +315,7 @@ public class UI {
             }
         }
 
-        text = "Rogue";
+        text = "Lewis";
         x = UtilityTool.getXForCenterOfText(text, gamePanel, graphics2D);
         y += gamePanel.getTileSize();
         graphics2D.drawString(text, x, y);
@@ -329,7 +329,7 @@ public class UI {
             }
         }
 
-        text = "Sorcerer";
+        text = "Tamatha";
         x = UtilityTool.getXForCenterOfText(text, gamePanel, graphics2D);
         y += gamePanel.getTileSize();
         graphics2D.drawString(text, x, y);
