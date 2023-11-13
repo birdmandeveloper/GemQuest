@@ -39,8 +39,6 @@ public class PathFinder {
 
     // Reset previous nodes
     public void resetNodes() {
-        // node = new Node[gp.getMaxWorldColumns()][gp.getMaxWorldRows()];
-
         int col = 0;
         int row = 0;
 

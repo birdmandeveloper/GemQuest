@@ -64,7 +64,7 @@ public abstract class Entity implements Asset {
     private int actionLockCounter = 0;
 
     // COLLISION
-    private Rectangle collisionArea = new Rectangle(0, 0, 48, 48);
+    private Rectangle collisionArea = new Rectangle(3, 3, 42, 42);
     private int collisionDefaultX, collisionDefaultY;
     private boolean collisionOn = false;
 
@@ -1101,7 +1101,7 @@ public abstract class Entity implements Asset {
             else if(entityTopY < nextY && entityLeftX >= nextX && entityRightX < nextX + gamePanel.getTileSize()) {
                 direction = "down";
             }
-            else if(entityTopY >= nextY && entityBottomY < nextY + gamePanel.getTileSize()) {
+            else if(entityTopY <= nextY && entityBottomY < nextY + gamePanel.getTileSize()) {
                 // Left OR right
                 if(entityLeftX > nextX) {
                     direction = "left";
