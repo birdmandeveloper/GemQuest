@@ -85,6 +85,8 @@ public abstract class Entity implements Asset {
     public int defaultSpeed = 1;
     public boolean isBattleMenuVisible;
     public boolean isRespawnable;
+    public boolean onPath = false;
+    public boolean contactPlayer;
 
     public Entity(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -92,30 +94,39 @@ public abstract class Entity implements Asset {
     }
 
     public void setupAI() {
-        actionLockCounter++;
+        if(onPath) {
+            int goalCol = 12;
+            int goalRow = 9;
 
-        if (actionLockCounter == 120) {
+            searchPath(goalCol, goalRow);
+        }
 
-            Random random = new Random();
-            int i = random.nextInt(100) + 1;
+        else {
+            actionLockCounter++;
 
-            if (i <= 25) {
-                setDirection("up");
+            if (actionLockCounter == 120) {
+
+                Random random = new Random();
+                int i = random.nextInt(100) + 1;
+
+                if (i <= 25) {
+                    setDirection("up");
+                }
+
+                if (i > 25 && i <= 50) {
+                    setDirection("down");
+                }
+
+                if (i > 50 && i <= 75) {
+                    setDirection("left");
+                }
+
+                if (i > 75) {
+                    setDirection("right");
+                }
+
+                setActionLockCounter(0);
             }
-
-            if (i > 25 && i <= 50) {
-                setDirection("down");
-            }
-
-            if (i > 50 && i <= 75) {
-                setDirection("left");
-            }
-
-            if (i > 75) {
-                setDirection("right");
-            }
-
-            setActionLockCounter(0);
         }
 
         if(actionLockCounter == 20) {
@@ -131,13 +142,7 @@ public abstract class Entity implements Asset {
     public void update() {
         setupAI();
 
-        collisionOn = false;
-        gamePanel.getCollisionChecker().checkTile(this);
-        gamePanel.getCollisionChecker().checkObject(this, false);
-        gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getNpcs());
-        gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getMonsters());
-        gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getInteractiveTiles());
-        boolean contactPlayer = gamePanel.getCollisionChecker().checkPlayer(this);
+        checkCollision();
 
         if (this instanceof Monster && contactPlayer) {
             this.retreatReaction();
@@ -1070,6 +1075,92 @@ public abstract class Entity implements Asset {
 
     public void setIsRespawnable(boolean set) {
         this.isRespawnable = set;
+    }
+
+    public void searchPath(int goalCol, int goalRow) {
+        int startCol = (worldX + collisionArea.x)/gamePanel.getTileSize();
+        int startRow = (worldY + collisionArea.y)/gamePanel.getTileSize();
+
+        gamePanel.pFinder.setNodes(startCol, startRow, goalCol, goalRow, this);
+
+        // Confirms goal is reachable, lets get it
+        if(gamePanel.pFinder.search()) {
+            // Next World X and World Y
+            int nextX = gamePanel.pFinder.pathList.get(0).col * gamePanel.getTileSize();
+            int nextY = gamePanel.pFinder.pathList.get(0).row * gamePanel.getTileSize();
+
+            // Entity hurt box
+            int entityLeftX = worldX + collisionArea.x;
+            int entityRightX = worldX + collisionArea.x + collisionArea.width;
+            int entityTopY = worldY + collisionArea.y;
+            int entityBottomY = worldY + collisionArea.y + collisionArea.height;
+
+            if(entityTopY > nextY && entityLeftX >= nextX && entityRightX < nextX + gamePanel.getTileSize()) {
+                direction = "up";
+            }
+            else if(entityTopY < nextY && entityLeftX >= nextX && entityRightX < nextX + gamePanel.getTileSize()) {
+                direction = "down";
+            }
+            else if(entityTopY >= nextY && entityBottomY < nextY + gamePanel.getTileSize()) {
+                // Left OR right
+                if(entityLeftX > nextX) {
+                    direction = "left";
+                }
+                if(entityLeftX < nextX) {
+                    direction = "right";
+                }
+            }
+            else if(entityTopY > nextY && entityLeftX > nextX) {
+                // up or left
+                direction = "up";
+                checkCollision();
+                if(collisionOn) {
+                    direction = "left";
+                }
+            }
+            else if(entityTopY > nextY && entityLeftX < nextX) {
+                // up or right
+                direction = "up";
+                checkCollision();
+                if(collisionOn) {
+                    direction = "right";
+                }
+            }
+            else if(entityTopY < nextY && entityLeftX > nextX) {
+                // down or left
+                direction = "down";
+                checkCollision();
+                if(collisionOn) {
+                    direction = "left";
+                }
+            }
+            else if(entityTopY < nextY && entityLeftX < nextX) {
+                // down or right
+                direction = "down";
+                checkCollision();
+                if(collisionOn) {
+                    direction = "right";
+                }
+            }
+
+             // Stops when the goal is reached
+            int nextCol = gamePanel.pFinder.pathList.get(0).col;
+            int nextRow = gamePanel.pFinder.pathList.get(0).row;
+
+            if(nextCol == goalCol && nextRow == goalRow) {
+                onPath = false;
+            }
+        }
+    }
+
+    private void checkCollision() {
+        collisionOn = false;
+        gamePanel.getCollisionChecker().checkTile(this);
+        gamePanel.getCollisionChecker().checkObject(this, false);
+        gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getNpcs());
+        gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getMonsters());
+        gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getInteractiveTiles());
+        contactPlayer = gamePanel.getCollisionChecker().checkPlayer(this);
     }
 
 }

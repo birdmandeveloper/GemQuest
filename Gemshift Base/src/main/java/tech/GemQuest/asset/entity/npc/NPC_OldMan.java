@@ -31,7 +31,7 @@ public class NPC_OldMan extends NPC {
     }
 
     public void setDialogue() {
-        getDialogues()[0] = "Hello, lad.";
+        getDialogues()[0] = "I'm going home.";
         getDialogues()[1] = "So you've come to this island to find \nthe treasure?";
         getDialogues()[2] = "I used to be a great wizard, but now... \nI'm a bit too old for adventuring.";
         getDialogues()[3] = "Well, good luck to you lad.";
@@ -40,5 +40,7 @@ public class NPC_OldMan extends NPC {
     @Override
     public void speak() {
         super.speak();
+
+        onPath = true;
     }
 }

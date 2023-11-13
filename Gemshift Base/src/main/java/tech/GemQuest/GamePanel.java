@@ -1,5 +1,6 @@
 package tech.GemQuest;
 
+import tech.GemQuest.ai.PathFinder;
 import tech.GemQuest.asset.Asset;
 import tech.GemQuest.asset.AssetManager;
 import tech.GemQuest.asset.entity.Entity;
@@ -62,6 +63,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final EventHandler eventHandler = new EventHandler(this);
     private final Config config = new Config(this);
     private final BattleManager battleM = new BattleManager(this);
+    public PathFinder pFinder = new PathFinder(this);
 
     // Game State (no shit)
     public int gameState;
