@@ -38,8 +38,8 @@ public class GamePanel extends JPanel implements Runnable {
     private final int screenHeight = tileSize * maxScreenRows; // 576 px
 
     // Full screen mode
-    private int fullScreenWidth = screenWidth + (screenWidth/2) ;
-    private int fullScreenHeight = screenHeight + (screenHeight/2) ;
+    private int fullScreenWidth = screenWidth; //+ (screenWidth) ;
+    private int fullScreenHeight = screenHeight; //+ (screenHeight) ;
     private BufferedImage tempScreen;
     private Graphics2D graphics2D;
 
