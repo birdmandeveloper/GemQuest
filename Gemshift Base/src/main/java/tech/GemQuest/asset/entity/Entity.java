@@ -95,8 +95,8 @@ public abstract class Entity implements Asset {
 
     public void setupAI() {
         if(onPath) {
-            int goalCol = 12;
-            int goalRow = 9;
+            int goalCol = (gamePanel.getPlayer().getWorldX() + gamePanel.getPlayer().getCollisionDefaultX()) / gamePanel.getTileSize();
+            int goalRow = (gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getCollisionDefaultY()) / gamePanel.getTileSize();
 
             searchPath(goalCol, goalRow);
         }
@@ -1144,12 +1144,12 @@ public abstract class Entity implements Asset {
             }
 
              // Stops when the goal is reached
-            int nextCol = gamePanel.pFinder.pathList.get(0).col;
-            int nextRow = gamePanel.pFinder.pathList.get(0).row;
-
-            if(nextCol == goalCol && nextRow == goalRow) {
-                onPath = false;
-            }
+//            int nextCol = gamePanel.pFinder.pathList.get(0).col;
+//            int nextRow = gamePanel.pFinder.pathList.get(0).row;
+//
+//            if(nextCol == goalCol && nextRow == goalRow) {
+//                onPath = false;
+//            }
         }
     }
 

@@ -161,18 +161,19 @@ public class TileManager {
             }
         }
 
-        if(drawPath == true) {
-            graphics2D.setColor(new Color(0,0,255, 70));
-
-            for (int i = 0; i < gamePanel.pFinder.pathList.size(); i++) {
-                int worldX = gamePanel.pFinder.pathList.get(i).col * gamePanel.getTileSize();
-                int worldY = gamePanel.pFinder.pathList.get(i).row * gamePanel.getTileSize();
-                int screenX = worldX - gamePanel.player.getWorldX()  + gamePanel.getPlayer().getScreenX();
-                int screenY = worldY - gamePanel.player.getWorldY()  + gamePanel.getPlayer().getScreenY();
-
-                graphics2D.fillRect(screenX, screenY, gamePanel.getTileSize(), gamePanel.getTileSize());
-            }
-        }
+        // Turns on colored paths
+//        if(drawPath == true) {
+//            graphics2D.setColor(new Color(0,0,255, 70));
+//
+//            for (int i = 0; i < gamePanel.pFinder.pathList.size(); i++) {
+//                int worldX = gamePanel.pFinder.pathList.get(i).col * gamePanel.getTileSize();
+//                int worldY = gamePanel.pFinder.pathList.get(i).row * gamePanel.getTileSize();
+//                int screenX = worldX - gamePanel.player.getWorldX()  + gamePanel.getPlayer().getScreenX();
+//                int screenY = worldY - gamePanel.player.getWorldY()  + gamePanel.getPlayer().getScreenY();
+//
+//                graphics2D.fillRect(screenX, screenY, gamePanel.getTileSize(), gamePanel.getTileSize());
+//            }
+//        }
     }
 
     private int checkIfAtEdgeOfXAxis(int worldX, int screenX, int rightOffset) {

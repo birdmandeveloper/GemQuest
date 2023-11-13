@@ -35,6 +35,9 @@ public class MON_GreenSlime extends Monster {
         setCollisionDefaultY(getCollisionArea().y);
 
         getAnimationImages();
+
+        // Aggro
+        onPath = true;
     }
 
     public void getAnimationImages() {

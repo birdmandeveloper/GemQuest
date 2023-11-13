@@ -7,7 +7,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c6fe4610-6adf-4948-9d2d-bea255a7d182" name="Changes" comment="" />
+    <list default="true" id="c6fe4610-6adf-4948-9d2d-bea255a7d182" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.txt" beforeDir="false" afterPath="$PROJECT_DIR$/config.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/monster/MON_GreenSlime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/monster/MON_GreenSlime.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/npc/NPC_OldMan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/npc/NPC_OldMan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/tile/TileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/tile/TileManager.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
