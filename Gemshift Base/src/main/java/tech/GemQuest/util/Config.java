@@ -5,9 +5,9 @@ import tech.GemQuest.GamePanel;
 import java.io.*;
 
 public class Config {
-
     private final GamePanel gamePanel;
 
+    // Constructor
     public Config(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
@@ -33,8 +33,6 @@ public class Config {
             bufferedWriter.newLine();
 
             bufferedWriter.close();
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }

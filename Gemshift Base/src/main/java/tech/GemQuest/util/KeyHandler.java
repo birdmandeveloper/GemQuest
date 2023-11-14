@@ -7,23 +7,26 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
 
-    private boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed, spacePressed, projectileKeyPressed, shiftPressed;
     private final GamePanel gamePanel;
+
+    // Key status booleans
+    private boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed, spacePressed, projectileKeyPressed, shiftPressed;
 
     // DEBUG
     private boolean showDebugText = false;
 
+    // Constructor
     public KeyHandler(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
 
+    // Checks what key is pressed based on game state
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
         if (gamePanel.getGameState() == gamePanel.getTitleState()) {
             checkTitleStateKeyPressed(code);
-
         } else if (gamePanel.getGameState() == gamePanel.getPlayState()) {
             checkPlayStateKeyPressed(code);
 
@@ -56,7 +59,6 @@ public class KeyHandler implements KeyListener {
             checkCharacterSelectionScreenKeyPressed(code);
         }
     }
-
     private void checkMainTitleScreenKeyPressed(int code) {
         if (code == KeyEvent.VK_W) {
             gamePanel.getUi().setCommandNumber(gamePanel.getUi().getCommandNumber() - 1);
@@ -78,7 +80,6 @@ public class KeyHandler implements KeyListener {
             enterPressed = true;
         }
     }
-
     private void checkCharacterSelectionScreenKeyPressed(int code) {
         if (code == KeyEvent.VK_W) {
             gamePanel.getUi().setCommandNumber(gamePanel.getUi().getCommandNumber() - 1);
@@ -101,29 +102,30 @@ public class KeyHandler implements KeyListener {
         }
     }
 
-    private void characterScreenEnterPressed() {
-        if (gamePanel.getUi().getCommandNumber() == 0) {
-            System.out.println("Fighter selected!");
+    // To be implemented later
 
-        }
-
-        if (gamePanel.getUi().getCommandNumber() == 1) {
-            System.out.println("Rogue selected!");
-            gamePanel.setGameState(gamePanel.getPlayState());
-            gamePanel.playMusic(0);
-        }
-
-        if (gamePanel.getUi().getCommandNumber() == 2) {
-            System.out.println("Sorcerer selected!");
-            gamePanel.setGameState(gamePanel.getPlayState());
-            gamePanel.playMusic(0);
-        }
-
-        if (gamePanel.getUi().getCommandNumber() == 3) {
-            gamePanel.getUi().setTitleScreenState(0);
-        }
-    }
-
+//    private void characterScreenEnterPressed() {
+//        if (gamePanel.getUi().getCommandNumber() == 0) {
+//            System.out.println("Fighter selected!");
+//
+//        }
+//
+//        if (gamePanel.getUi().getCommandNumber() == 1) {
+//            System.out.println("Rogue selected!");
+//            gamePanel.setGameState(gamePanel.getPlayState());
+//            gamePanel.playMusic(0);
+//        }
+//
+//        if (gamePanel.getUi().getCommandNumber() == 2) {
+//            System.out.println("Sorcerer selected!");
+//            gamePanel.setGameState(gamePanel.getPlayState());
+//            gamePanel.playMusic(0);
+//        }
+//
+//        if (gamePanel.getUi().getCommandNumber() == 3) {
+//            gamePanel.getUi().setTitleScreenState(0);
+//        }
+//    }
     private void checkPlayStateKeyPressed(int code) {
         checkMovementKeys(code);
         checkGameStateKeys(code);
@@ -131,6 +133,7 @@ public class KeyHandler implements KeyListener {
         checkAdminKeys(code);
     }
 
+    // Character movement keys
     private void checkMovementKeys(int code) {
         if (code == KeyEvent.VK_W) {
             upPressed = true;
@@ -152,40 +155,37 @@ public class KeyHandler implements KeyListener {
         }
     }
 
+    // Player commands for menu management
     private void checkGameStateKeys(int code) {
         if (code == KeyEvent.VK_P) {
             gamePanel.setGameState(gamePanel.getPauseState());
         }
-
         if (code == KeyEvent.VK_C) {
             gamePanel.setGameState(gamePanel.getCharacterState());
         }
-
         if (code == KeyEvent.VK_ESCAPE) {
             gamePanel.setGameState(gamePanel.getOptionState());
         }
     }
 
+    // PLayer action checks (fireball, talk, et al.)
     private void checkInteractionKeys(int code) {
         if (code == KeyEvent.VK_ENTER) {
             enterPressed = true;
         }
-
         if (code == KeyEvent.VK_SPACE) {
             spacePressed = true;
         }
-
         if (code == KeyEvent.VK_F) {
             projectileKeyPressed = true;
         }
     }
 
+    // DEBUG
     private void checkAdminKeys(int code) {
-        // DEBUG
         if (code == KeyEvent.VK_T) {
             showDebugText = !showDebugText;
         }
-
         if (code == KeyEvent.VK_R) {
             switch (gamePanel.getCurrentMap()) {
                 case 0 -> gamePanel.getTileManager().loadMap("/maps/worldV3.txt", 0);
@@ -194,6 +194,7 @@ public class KeyHandler implements KeyListener {
         }
     }
 
+    // The only possible key press in Pause State
     private void checkPauseStateKeyPressed(int code) {
         if (code == KeyEvent.VK_P) {
             gamePanel.setGameState(gamePanel.getPlayState());
@@ -213,10 +214,11 @@ public class KeyHandler implements KeyListener {
             }
         }
 
+        // ACTUAL MENU CONTROLS
         if (gamePanel.player.battleMenuOn) {
-            // Item menu
+            // Item menu navigation
             if (gamePanel.player.battleItemMenu) {
-                // Handles item sub menu operations
+                // Up
                 if (code == KeyEvent.VK_W) {
                     if (gamePanel.getUi().battleRow != 0) {
                         gamePanel.getUi().battleRow--;
@@ -224,8 +226,7 @@ public class KeyHandler implements KeyListener {
                         // THIS is where it needs to change the visibility of items
                         int outsideCounter = 0;
 
-                        // I'm THINKING of a quick for loop here, that finds the first "true" and switches it to false, and then
-                        // finds the last "false" and switches it to true
+                        // This loop finds the first "true" and switches it to false, and then finds the last "false" and switches it to true
                         for (int i = 0; i < gamePanel.player.getInventory().size(); i++) {
                             if (outsideCounter == 0 && i > 0) {
                                 // BECAUSE we're only showing three items right now, the position of the last false is
@@ -244,25 +245,23 @@ public class KeyHandler implements KeyListener {
                                 }
                             }
 
+                            // Resets counter
                             if (i == gamePanel.player.getInventory().size()) {
                                 outsideCounter = 0;
                             }
                         }
                     }
                 }
+
+                // Down
                 if (code == KeyEvent.VK_S) {
                     if (gamePanel.getUi().battleRow != 2) {
                         gamePanel.getUi().battleRow++;
                     } else {
-                        // THIS is where it needs to change the visibility of items
                         int outsideCounter = 0;
 
-                        // I'm THINKING of a quick for loop here, that finds the first "true" and switches it to false, and then
-                        // finds the last "false" and switches it to true
                         for (int i = 0; i < gamePanel.player.getInventory().size(); i++) {
                             if (outsideCounter == 0 && i < gamePanel.player.getInventory().size() - 3) {
-                                // BECAUSE we're only showing three items right now, the position of the last false is
-                                // always EXACTLY two more than the position of the first true
                                 if (gamePanel.player.getInventory().get(i).getIsBattleMenuVisible()) {
                                     gamePanel.player.getInventory().get(i).setIsBattleMenuVisible(false);
                                     gamePanel.getUi().visibleBattleInventory.remove(0);
@@ -279,16 +278,18 @@ public class KeyHandler implements KeyListener {
                         }
                     }
                 }
+
+                // Left
                 if (code == KeyEvent.VK_A) {
                     gamePanel.getUi().battleRow = 1;
                     gamePanel.player.battleItemMenu = false;
                     gamePanel.getUi().setCurrentDialogue(gamePanel.monsters[0][gamePanel.getUi().interactingMonster].getIdleMessage());
                 }
 
+                // Selecting
                 if (code == KeyEvent.VK_ENTER) {
                     if (gamePanel.getUi().battleRow == 0) {
                         if (!gamePanel.getUi().visibleBattleInventory.get(0).getIsBattleItem()) {
-                            // Just prints right now
                             gamePanel.getUi().setCurrentDialogue("You can't use the " + gamePanel.getUi().visibleBattleInventory.get(0).getName() + " now.");
                         }
                         if (gamePanel.getUi().visibleBattleInventory.get(0).getIsBattleItem()) {
@@ -297,9 +298,7 @@ public class KeyHandler implements KeyListener {
                                 gamePanel.getUi().setCurrentDialogue("You already have full health!");
                             }
                             if (gamePanel.player.checkItemUsability(1)) {
-                                // I want to use the item, let the monster go, delete the item, update the list, and maybe display a message about the item
-
-                                // Because we always add the first three, it shouldn't matter if we stop drawing the menu and go straight to phase 2
+                                // Because we always add the first three items, it shouldn't matter if we stop drawing the menu and go straight to phase 2
                                 gamePanel.getUi().battleRow = 1;
                                 gamePanel.player.battleItemMenu = false;
 
@@ -310,7 +309,6 @@ public class KeyHandler implements KeyListener {
                                 gamePanel.player.inBattleSelectItem(0);
                             }
                         }
-
                     }
                     if (gamePanel.getUi().battleRow == 1) {
                         if (!gamePanel.getUi().visibleBattleInventory.get(1).getIsBattleItem()) {
@@ -354,7 +352,7 @@ public class KeyHandler implements KeyListener {
                 }
             }
 
-            // Main menu
+            // Main menu navigation
             if (!gamePanel.player.battleItemMenu) {
                 if (code == KeyEvent.VK_W) {
                     if (gamePanel.getUi().battleRow != 0) {
@@ -373,7 +371,6 @@ public class KeyHandler implements KeyListener {
 
                 if (code == KeyEvent.VK_ENTER) {
                     if (gamePanel.getUi().battleRow == 0) {
-                        // gp.player.attemptAttack = true;
                         gamePanel.player.isTakingTurn = true;
                         gamePanel.getUi().battleCounter = 2;
                     }
@@ -400,12 +397,12 @@ public class KeyHandler implements KeyListener {
         }
     }
 
+    // Character menu screens, dialogue game states, NPC interactions
     private void checkDialogueStateKeyPressed(int code) {
         if (code == KeyEvent.VK_ENTER) {
             gamePanel.setGameState(gamePanel.getPlayState());
         }
     }
-
     private void checkCharacterStateKeyPressed(int code) {
         if (code == KeyEvent.VK_C) {
             gamePanel.setGameState(gamePanel.getPlayState());
@@ -417,7 +414,6 @@ public class KeyHandler implements KeyListener {
 
         playerInventoryMovement(code);
     }
-
     private void playerInventoryMovement(int code) {
         if (code == KeyEvent.VK_W) {
             if (gamePanel.getUi().getPlayerSlotRow() != 0) {
@@ -447,7 +443,6 @@ public class KeyHandler implements KeyListener {
             }
         }
     }
-
     private void checkOptionStateKeyPressed(int code) {
         if (code == KeyEvent.VK_ESCAPE) {
             gamePanel.setGameState(gamePanel.getPlayState());
@@ -511,7 +506,6 @@ public class KeyHandler implements KeyListener {
             }
         }
     }
-
     private void checkGameOverStateKeyPressed(int code) {
         if (code == KeyEvent.VK_W) {
             gamePanel.getUi().setCommandNumber(gamePanel.getUi().getCommandNumber() - 1);
@@ -533,7 +527,6 @@ public class KeyHandler implements KeyListener {
             enterPressed = true;
         }
     }
-
     private void checkTradeStateKeyPressed(int code) {
         if (code == KeyEvent.VK_ENTER) {
             enterPressed = true;
@@ -571,7 +564,6 @@ public class KeyHandler implements KeyListener {
             }
         }
     }
-
     private void npcInventoryMovement(int code) {
         if (code == KeyEvent.VK_W) {
             if (gamePanel.getUi().getNpcSlotRow() != 0) {
@@ -640,77 +632,61 @@ public class KeyHandler implements KeyListener {
         // Not used
     }
 
-
+    // GETTERS AND SETTERS
     public boolean isUpPressed() {
         return upPressed;
     }
-
     public KeyHandler setUpPressed(boolean upPressed) {
         this.upPressed = upPressed;
         return this;
     }
-
     public boolean isDownPressed() {
         return downPressed;
     }
-
     public KeyHandler setDownPressed(boolean downPressed) {
         this.downPressed = downPressed;
         return this;
     }
-
     public boolean isLeftPressed() {
         return leftPressed;
     }
-
     public KeyHandler setLeftPressed(boolean leftPressed) {
         this.leftPressed = leftPressed;
         return this;
     }
-
     public boolean isRightPressed() {
         return rightPressed;
     }
-
     public KeyHandler setRightPressed(boolean rightPressed) {
         this.rightPressed = rightPressed;
         return this;
     }
-
     public boolean isEnterPressed() {
         return enterPressed;
     }
-
     public KeyHandler setEnterPressed(boolean enterPressed) {
         this.enterPressed = enterPressed;
         return this;
     }
-
     public boolean isShowDebugText() {
         return showDebugText;
     }
-
     public KeyHandler setShowDebugText(boolean showDebugText) {
         this.showDebugText = showDebugText;
         return this;
     }
-
     public boolean isSpacePressed() {
         return spacePressed;
     }
-
     public KeyHandler setSpacePressed(boolean spacePressed) {
         this.spacePressed = spacePressed;
         return this;
     }
-
     public boolean isProjectileKeyPressed() {
         return projectileKeyPressed;
     }
-
     public KeyHandler setProjectileKeyPressed(boolean projectileKeyPressed) {
         this.projectileKeyPressed = projectileKeyPressed;
         return this;
     }
-
 }

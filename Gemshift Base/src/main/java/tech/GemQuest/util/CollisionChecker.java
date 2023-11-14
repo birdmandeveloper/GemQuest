@@ -5,13 +5,14 @@ import tech.GemQuest.asset.Asset;
 import tech.GemQuest.asset.entity.Entity;
 
 public class CollisionChecker {
-
     private final GamePanel gamePanel;
 
+    // Constructor
     public CollisionChecker(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
 
+    // Starts with Tiles
     public void checkTile(Entity entity) {
         int entityLeftWorldX = entity.getWorldX() + entity.getCollisionArea().x;
         int entityRightWorldX = entity.getWorldX() + entity.getCollisionArea().x + entity.getCollisionArea().width;
@@ -25,6 +26,7 @@ public class CollisionChecker {
 
         int tileNum1, tileNum2;
 
+        // Checks up to two tiles when contact is made, based on direction
         switch (entity.getDirection()) {
             case "up" -> {
                 entityTopRow = (entityTopWorldY - entity.getSpeed()) / gamePanel.getTileSize();
@@ -69,6 +71,7 @@ public class CollisionChecker {
         }
     }
 
+    // Changes behavior based on whether the Player makes contact
     public int checkObject(Entity entity, boolean isPlayer) {
         int index = 999;
 
@@ -104,6 +107,7 @@ public class CollisionChecker {
         return index;
     }
 
+    // Generic Entity check
     public int checkEntity(Entity entity, Asset[][] targets) {
 
         int index = 999;
@@ -160,6 +164,7 @@ public class CollisionChecker {
         return contactPlayer;
     }
 
+    // Just checks if the next movement is possible
     private void checkFutureMovement(Entity entity) {
         switch (entity.getDirection()) {
             case "up" -> entity.getCollisionArea().y -= entity.getSpeed();

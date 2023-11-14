@@ -1,5 +1,4 @@
 package tech.GemQuest.util;
-
 import tech.GemQuest.GamePanel;
 
 import java.awt.*;
@@ -7,7 +6,7 @@ import java.awt.image.BufferedImage;
 
 public class UtilityTool {
 
-    // No longer static, needs to be a little more flexible
+    // IMAGE SCALING
     public static BufferedImage scaleImage(BufferedImage original, int width, int height) {
         BufferedImage scaledImage = new BufferedImage(width, height, original.getType());
         Graphics2D graphics2D = scaledImage.createGraphics();
@@ -17,6 +16,7 @@ public class UtilityTool {
         return scaledImage;
     }
 
+    // TEXT FORMATTING
     public static int getXForCenterOfText(String text, GamePanel gamePanel, Graphics2D graphics2D) {
         int length = (int) graphics2D.getFontMetrics().getStringBounds(text, graphics2D).getWidth();
         return gamePanel.getScreenWidth() / 2 - length / 2;
@@ -27,6 +27,7 @@ public class UtilityTool {
         return tailX - length;
     }
 
+    // VISIBILITY
     public static boolean isInsidePlayerView(int worldX, int worldY, GamePanel gamePanel) {
         return worldX + gamePanel.getTileSize() > gamePanel.getPlayer().getWorldX() - gamePanel.getPlayer().getScreenX()
                 && worldX - gamePanel.getTileSize() < gamePanel.getPlayer().getWorldX() + gamePanel.getPlayer().getScreenX()
