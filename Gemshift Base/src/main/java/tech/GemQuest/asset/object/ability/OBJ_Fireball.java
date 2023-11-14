@@ -5,7 +5,7 @@ import tech.GemQuest.asset.entity.Entity;
 import tech.GemQuest.asset.entity.ability.Projectile;
 
 import java.awt.*;
-//PLAYER PROJECTILE.
+// PLAYER PROJECTILE.
 public class OBJ_Fireball extends Projectile {
 
     public OBJ_Fireball(GamePanel gamePanel) {
@@ -22,7 +22,7 @@ public class OBJ_Fireball extends Projectile {
         getAnimationImages();
     }
 
-    //GETTERS
+    // GETTERS
     public void getAnimationImages() {
         setUp1(setup("/images/ability/fireball_up_1", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
         setUp2(setup("/images/ability/fireball_up_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));

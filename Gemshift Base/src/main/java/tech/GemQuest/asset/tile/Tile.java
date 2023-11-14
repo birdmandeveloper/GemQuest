@@ -7,8 +7,7 @@ public class Tile {
     private BufferedImage image;
     private boolean collision;
 
-    //THIS JUST MAKES A TILE INTO A TILE
-
+    // THIS JUST MAKES A TILE INTO A TILE
     public BufferedImage getImage() {
         return image;
     }

@@ -9,7 +9,7 @@ import tech.GemQuest.asset.object.usable.pickuponly.OBJ_ManaCrystal;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
-//EXAMPLE OF MONSTER CLASS
+// EXAMPLE OF MONSTER CLASS
 public class MON_EggSlime extends Monster {
     public MON_EggSlime(GamePanel gamePanel, int monsterIndex) {
         super(gamePanel, monsterIndex);
@@ -35,7 +35,7 @@ public class MON_EggSlime extends Monster {
         getAnimationImages();
     }
 
-    //THIS IS A UNIQUE ASSET
+    // THIS IS A UNIQUE ASSET
     public void getAnimationImages() {
         setUp1(setup("/images/monster/eggslime_down_1", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
         setUp2(setup("/images/monster/eggslime_down_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));

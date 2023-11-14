@@ -12,13 +12,13 @@ import java.io.InputStreamReader;
 import java.util.Objects;
 
 public class TileManager {
-//VARIABLES
+    // VARIABLES
     private final GamePanel gamePanel;
     private final Tile[] tiles;
     private final int[][][] mapTileNumbers;
-    boolean drawPath = true;
+    boolean drawPath = true; // Used to display the AI's path
 
-    //CONSTRUCTOR
+    // CONSTRUCTOR
     public TileManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 
@@ -30,7 +30,7 @@ public class TileManager {
         loadMap("/maps/interior01.txt", 1);
     }
 
-    //STOCK TILES. STOCK MAP. DESIGN STAGE EDIT IMPLEMENTATIONS
+    // STOCK TILES. STOCK MAP. DESIGN STAGE EDIT IMPLEMENTATIONS
     public void getTileImage() {
         // PLACEHOLDER
         setup(0, "grass00", false);
@@ -83,7 +83,7 @@ public class TileManager {
         setup(44, "table01", true);
     }
 
-    //LOADS THE IMAGES
+    // LOADS THE IMAGES
     public void setup(int index, String imageName, boolean collision) {
         try {
             tiles[index] = new Tile();
@@ -95,7 +95,7 @@ public class TileManager {
         }
     }
 
-    //LOADS THE MAP LAYOUT
+    // LOADS THE MAP LAYOUT
     public void loadMap(String mapPath, int map) {
         try {
             InputStream inputStream = getClass().getResourceAsStream(mapPath);
@@ -165,6 +165,8 @@ public class TileManager {
             }
         }
     }
+
+    // Edge of the world checks
     private int checkIfAtEdgeOfXAxis(int worldX, int screenX, int rightOffset) {
         if (gamePanel.getPlayer().getScreenX() > gamePanel.getPlayer().getWorldX()) {
             return worldX;
@@ -176,7 +178,6 @@ public class TileManager {
 
         return screenX;
     }
-
     private int checkIfAtEdgeOfYAxis(int worldY, int screenY, int bottomOffset) {
         if (gamePanel.getPlayer().getScreenY() > gamePanel.getPlayer().getWorldY()) {
             return worldY;
@@ -189,11 +190,10 @@ public class TileManager {
         return screenY;
     }
 
-    //CALLED BY COLLISION CHECKER
+    // CALLED BY COLLISION CHECKER
     public Tile[] getTiles() {
         return tiles;
     }
-
     public int[][][] getMapTileNumbers() {
         return mapTileNumbers;
     }

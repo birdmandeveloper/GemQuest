@@ -15,7 +15,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 //PLAYER OBJECT CLASS
 public class Player extends Entity {
-
     private final KeyHandler keyHandler;
     private final int screenX;
     private final int screenY;
@@ -98,21 +97,17 @@ public class Player extends Entity {
     public int getAttack() {
         return getStrength() * getCurrentWeapon().getAttackValue();
     }
-
     public int getDefense() {
         return getDexterity() * getCurrentShield().getDefenseValue();
     }
-
     private void setCollision() {
         setCollisionArea(new Rectangle(8, 16, 32, 32));
         setCollisionDefaultX(getCollisionArea().x);
         setCollisionDefaultY(getCollisionArea().y);
     }
-
     private void setPlayerAttackArea() {
         setAttackArea(getCurrentWeapon().getAttackArea());
     }
-
     public void getAnimationImages() {
         setUp1(setup("/images/player/clarkbackstandleftstep", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
         setUp2(setup("/images/player/clarkbackstandrightstep", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
@@ -124,7 +119,7 @@ public class Player extends Entity {
         setRight2(setup("/images/player/clarkrightstandleftstep", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
     }
 
-    //THESE CURRENTLY HAVE A STAND IN ANIMATION AND STAND IN FILES
+    // THESE CURRENTLY HAVE A STAND IN ANIMATION AND STAND IN FILES
     public void getAttackImages() {
         if (getCurrentWeapon() instanceof OBJ_Sword_Normal) {
             setAttackUp1(setup("/images/player/boy_attack_up_1", getGamePanel().getTileSize(), getGamePanel().getTileSize() * 2));
@@ -149,7 +144,7 @@ public class Player extends Entity {
         }
     }
 
-    //IN CHARGE OF MOVEMENT
+    // IN CHARGE OF MOVEMENT
     @Override
     public void update() {
         if (isAttacking()) {
@@ -382,19 +377,9 @@ public class Player extends Entity {
             if (!isInvincible() && !getGamePanel().getMonsters()[getGamePanel().getCurrentMap()][index].isDying() && !getGamePanel().getMonsters()[getGamePanel().getCurrentMap()][index].isInvincible()) {
                 getGamePanel().playSoundEffect(6);
 
-//                int damage = getGamePanel().getMonsters()[getGamePanel().getCurrentMap()][index].getAttackPower() - getDefensePower();
-//                if (damage < 0) {
-//                    damage = 0;
-//                }
-//
-//                setCurrentLife(getCurrentLife() - damage);
-//                setInvincible(true);
-
-                // Rather than dealing damage and granting i-frames, this now shifts the game state
                 this.battleMonsterID = index;
                 getGamePanel().getMonsters()[getGamePanel().getCurrentMap()][index].damageReaction();
                 getGamePanel().setGameState(getGamePanel().BATTLE_STATE);
-
             }
         }
     }

@@ -4,13 +4,14 @@ import tech.GemQuest.GamePanel;
 import tech.GemQuest.asset.Asset;
 
 public class EventHandler {
-//EVENT Variables
+    // EVENT VARIABLES
     private final GamePanel gamePanel;
     private final EventRectangle[][][] eventRect;
     private int previousEventX, previousEventY;
     private boolean canTouchEvent = true;
     private int tempMap, tempCol, tempRow;
 
+    // CONSTRUCTOR
     public EventHandler(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 
@@ -42,6 +43,7 @@ public class EventHandler {
         }
     }
 
+    // Binds Events to specific Tiles
     public void checkEvent() {
         int xDistance = Math.abs(gamePanel.getPlayer().getWorldX() - previousEventX);
         int yDistance = Math.abs(gamePanel.getPlayer().getWorldY() - previousEventY);
@@ -68,6 +70,7 @@ public class EventHandler {
         }
     }
 
+    // Checks if Event is triggered
     public boolean hit(int map, int col, int row, String requiredDirection) {
         boolean hit = false;
 
@@ -97,13 +100,13 @@ public class EventHandler {
         return hit;
     }
 
+    // Individual Event logic
     private void speak(Asset asset) {
         if (gamePanel.getKeyHandler().isEnterPressed()) {
             gamePanel.setGameState(gamePanel.getDialogueState());
             asset.speak();
         }
     }
-
     private void damagePit(int gameState) {
         gamePanel.setGameState(gameState);
         gamePanel.playSoundEffect(6);
@@ -111,7 +114,6 @@ public class EventHandler {
         gamePanel.getPlayer().setCurrentLife(gamePanel.getPlayer().getCurrentLife() - 1);
         canTouchEvent = false;
     }
-
     private void healingPool(int gameState) {
         if (gamePanel.getKeyHandler().isEnterPressed()) {
             gamePanel.setGameState(gameState);
@@ -122,7 +124,6 @@ public class EventHandler {
             gamePanel.getAssetManager().setMonsters(); // !!!
         }
     }
-
     private void teleport(int map, int col, int row) {
         gamePanel.setGameState(gamePanel.getTransitionState());
         tempMap = map;
@@ -133,46 +134,38 @@ public class EventHandler {
         gamePanel.playSoundEffect(12);
     }
 
+    // GETTERS AND SETTERS
     public int getPreviousEventX() {
         return previousEventX;
     }
-
     public EventHandler setPreviousEventX(int previousEventX) {
         this.previousEventX = previousEventX;
         return this;
     }
-
     public int getPreviousEventY() {
         return previousEventY;
     }
-
     public EventHandler setPreviousEventY(int previousEventY) {
         this.previousEventY = previousEventY;
         return this;
     }
-
     public int getTempMap() {
         return tempMap;
     }
-
     public EventHandler setTempMap(int tempMap) {
         this.tempMap = tempMap;
         return this;
     }
-
     public int getTempCol() {
         return tempCol;
     }
-
     public EventHandler setTempCol(int tempCol) {
         this.tempCol = tempCol;
         return this;
     }
-
     public int getTempRow() {
         return tempRow;
     }
-
     public EventHandler setTempRow(int tempRow) {
         this.tempRow = tempRow;
         return this;

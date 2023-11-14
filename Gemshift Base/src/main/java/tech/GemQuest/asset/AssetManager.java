@@ -15,23 +15,22 @@ import tech.GemQuest.asset.object.usable.pickuponly.OBJ_ManaCrystal;
 import tech.GemQuest.asset.tile.interactive.IT_DryTree;
 
 public class AssetManager {
-
+    // VARIABLES
     private final GamePanel gamePanel;
     private final int tileSize;
     private int map = 0;
 
-    // Spawn Records
+    // This one is used to track a Monster's ability to respawn
     public boolean[] monSpawnZero = new boolean[]{true, true, true, true, true, true};
-    //Check Chapter One for Some ideas
 
+    // CONSTRUCTOR
     public AssetManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         this.tileSize = gamePanel.getTileSize();
     }
 
-    //PUTS Everything where it should be essentially
+    // Self-explanatory setters create all Assets and drop them into the world
     public void setObjects() {
-
         // MAP 0
         map = 0;
         gamePanel.getObjects()[map][0] = new OBJ_Coin_Bronze(gamePanel);
@@ -96,7 +95,7 @@ public class AssetManager {
         // MAP 0
         map = 0;
 
-        // This has been altered slightly, it feeds the index position number into the Monster itself so we can use it later in battle
+        // Index position fed into Monster constructor so that it can be accessed as battles load
         if(monSpawnZero[0]) {
             gamePanel.getMonsters()[map][0] = new MON_GreenSlime(gamePanel, 0);
             gamePanel.getMonsters()[map][0].setWorldX(tileSize * 22);
@@ -137,7 +136,6 @@ public class AssetManager {
     }
 
     public void setInteractiveTiles() {
-
         // MAP 0
         map = 0;
         gamePanel.getInteractiveTiles()[map][0] = new IT_DryTree(gamePanel);

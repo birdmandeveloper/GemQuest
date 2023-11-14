@@ -5,8 +5,7 @@ import tech.GemQuest.asset.entity.Entity;
 import tech.GemQuest.asset.entity.ability.Projectile;
 
 import java.awt.*;
-//THIS IS THE ENEMY PROJECTILE. WE COULD POTENTIALLY USE THIS FOR A SEPARATE PLAYER PROJECTILE
-
+// THIS IS THE ENEMY PROJECTILE. WE COULD POTENTIALLY USE THIS FOR A SEPARATE PLAYER PROJECTILE
 public class OBJ_Rock extends Projectile {
 
     public OBJ_Rock(GamePanel gamePanel) {

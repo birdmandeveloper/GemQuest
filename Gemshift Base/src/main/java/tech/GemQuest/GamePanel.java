@@ -33,7 +33,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final int maxScreenColumns = 20;
     private final int maxScreenRows = 12;
 
-    // Window mode// This sets the sizee of the window in standard
+    // Window mode// This sets the size of the window in standard
     private final int screenWidth = tileSize * maxScreenColumns; // 960 px
     private final int screenHeight = tileSize * maxScreenRows; // 576 px
 
@@ -99,10 +99,10 @@ public class GamePanel extends JPanel implements Runnable {
     private Thread gameThread;
     private int currentMap = 0;
 
-//Interactive. Assets that are interactive with player.
-
+    // Interactive. Assets that are interactive with player.
     private final InteractiveTile[][] interactiveTiles = new InteractiveTile[maxMaps][50];
-    //Sets Attributes of the gamePanel
+
+    // Sets Attributes of the gamePanel
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
@@ -110,7 +110,8 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
     }
-    //Creates the Objects in the actual game
+
+    // Creates the Objects in the actual game
     public void setUpGame() {
         assetManager.setObjects();
         assetManager.setNPCs();
@@ -138,13 +139,14 @@ public class GamePanel extends JPanel implements Runnable {
         fullScreenWidth = Main.window.getWidth();
         fullScreenHeight = Main.window.getHeight();
     }
-    //Starts Game
 
+    // Begins the game
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
     }
-    //Game Over stuff
+
+    // GAME OVER
     public void retry() {
         player.setDefaultPosition();
         player.restoreLifeAndMana();
@@ -152,7 +154,6 @@ public class GamePanel extends JPanel implements Runnable {
         assetManager.setMonsters();
         gameState = PLAY_STATE;
     }
-    //Game over stuff
     public void restart() {
         player.setItems();
         player.setDefaultValues();
@@ -163,7 +164,8 @@ public class GamePanel extends JPanel implements Runnable {
         gameState = TITLE_STATE;
         stopMusic();
     }
-    //RunTime, Nanotime converted to FPS. (This is time)
+
+    // RunTime, Nanotime converted to FPS. (This is time)
     @Override
     public void run() {
         double drawInterval = 1_000_000_000 / FPS; // 60 FPS
@@ -184,7 +186,8 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
     }
-    //Updates enemies in real time. (This is movement)
+
+    // Updates enemies in real time. (This is movement)
     public void update() {
         if (gameState == PLAY_STATE) {
             if (!player.fromBattleState) {
@@ -198,14 +201,14 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         if (gameState == PAUSE_STATE) {
-            // later update
+            // These just catch inputs and do NOTHING
         }
 
         if (gameState == BATTLE_STATE) {
-            // We want this to do NOTHING for now, like pause
+            // Same down here
         }
     }
-    //Basically update but only for NPC
+    // Basically update but only for NPC
     private void updateNPCs() {
         for (int i = 0; i < npcs[1].length; i++) {
             if (npcs[currentMap][i] != null) {
@@ -213,7 +216,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
     }
-    //Update for monster
+    // Update for monster
     private void updateMonsters() {
         for (int i = 0; i < monsters[1].length; i++) {
 
@@ -236,11 +239,13 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
     }
-    //Monster Defeated
+
+    // Monster Defeated
     private void removeMonster(int index) {
         monsters[currentMap][index] = null;
     }
-    //Projectile Movement
+
+    // Projectile Movement
     private void updateProjectiles() {
         for (int i = 0; i < projectiles.size(); i++) {
             if (projectiles.get(i) != null) {
@@ -254,7 +259,8 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
     }
-    //Particle Movement
+
+    // Particle Movement
     private void updateParticles() {
         for (int i = 0; i < particles.size(); i++) {
             if (particles.get(i) != null) {
@@ -268,7 +274,8 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
     }
-    //Movement on interactive tile, like Dry Tree disappearing
+
+    // Movement on interactive tile, like Dry Tree disappearing
     private void updateInteractiveTiles() {
         for (int i = 0; i < interactiveTiles[1].length; i++) {
             if (interactiveTiles[currentMap][i] != null) {
@@ -316,7 +323,8 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
     }
-    // Adds specific things to Map
+
+    // Add Assets and manipulate them
     private void addAssets() {
         assets.add(player);
 
@@ -354,13 +362,18 @@ public class GamePanel extends JPanel implements Runnable {
     private void sortAssets() {
         assets.sort(Comparator.comparingInt(Asset::getWorldY));
     }
-
     private void drawAssets(Graphics2D graphics2D) {
         for (Asset asset : assets) {
             asset.draw(graphics2D);
         }
     }
-    //DEBUG
+    public void drawToScreen() {
+        Graphics graphics = getGraphics();
+        graphics.drawImage(tempScreen, 0, 0, fullScreenWidth, fullScreenHeight, null);
+        graphics.dispose();
+    }
+
+    // DEBUG
     private void drawDebugInfo(Graphics2D graphics2D, long drawStart) {
         long drawEnd = System.nanoTime();
         long passedTime = drawEnd - drawStart;
@@ -382,213 +395,164 @@ public class GamePanel extends JPanel implements Runnable {
         graphics2D.drawString("Draw Time: " + passedTime, x, y);
     }
 
-    public void drawToScreen() {
-        Graphics graphics = getGraphics();
-        graphics.drawImage(tempScreen, 0, 0, fullScreenWidth, fullScreenHeight, null);
-        graphics.dispose();
-    }
-    //Music Stuff
+    // MUSIC CONTROLLERS
     public void playMusic(int index) {
         music.setFile(index);
         music.play();
         music.loop();
     }
-
     public void stopMusic() {
         music.stop();
     }
-
     public void playSoundEffect(int index) {
         soundEffect.setFile(index);
         soundEffect.play();
     }
-//Screen Stuff
 
+    // SCREEN GETTERS
     public int getTileSize() {
         return tileSize;
     }
-
     public int getMaxScreenColumns() {
         return maxScreenColumns;
     }
-
     public int getMaxScreenRows() {
         return maxScreenRows;
     }
-
     public int getWorldWidth() {
         return worldWidth;
     }
-
     public int getWorldHeight() {
         return worldHeight;
     }
-
     public int getScreenWidth() {
         return screenWidth;
     }
-
     public int getScreenHeight() {
         return screenHeight;
     }
-
     public int getMaxWorldColumns() {
         return maxWorldColumns;
     }
-
     public int getMaxWorldRows() {
         return maxWorldRows;
     }
-
     public boolean isFullScreenOn() {
         return fullScreenOn;
     }
-
     public GamePanel setFullScreenOn(boolean fullScreenOn) {
         this.fullScreenOn = fullScreenOn;
         return this;
     }
-//Utility "Classes"
 
+    // UTILITY GETTERS
     public KeyHandler getKeyHandler() {
         return keyHandler;
     }
-
     public TileManager getTileManager() {
         return tileManager;
     }
-
     public AssetManager getAssetManager() {
         return assetManager;
     }
-
     public CollisionChecker getCollisionChecker() {
         return collisionChecker;
     }
-
     public AssetManager getObjectManager() {
         return assetManager;
     }
-
     public Thread getGameThread() {
         return gameThread;
     }
-
     public GamePanel setGameThread(Thread gameThread) {
         this.gameThread = gameThread;
         return this;
     }
-    // GETTERS AND SETTERS
+
+    // OTHER GETTERS AND SETTERS
     public Player getPlayer() {
         return player;
     }
-
     public Asset[][] getObjects() {
         return objects;
     }
-
     public Asset[][] getNpcs() {
         return npcs;
     }
-
     public Asset[][] getMonsters() {
         return monsters;
     }
-
     public UI getUi() {
         return ui;
     }
-
     public EventHandler getEventHandler() {
         return eventHandler;
     }
-
     public Config getConfig() {
         return config;
     }
-
     public int getGameState() {
         return gameState;
     }
-
     public GamePanel setGameState(int gameState) {
         this.gameState = gameState;
         return this;
     }
-
     public int getTitleState() {
         return TITLE_STATE;
     }
-
     public int getPlayState() {
         return PLAY_STATE;
     }
-
     public int getPauseState() {
         return PAUSE_STATE;
     }
-
     public int getDialogueState() {
         return DIALOGUE_STATE;
     }
-
     public int getCharacterState() {
         return CHARACTER_STATE;
     }
-
     public int getOptionState() {
         return OPTION_STATE;
     }
-
     public int getGameOverState() {
         return GAME_OVER_STATE;
     }
-
     public List<Asset> getProjectiles() {
         return projectiles;
     }
-
     public InteractiveTile[][] getInteractiveTiles() {
         return interactiveTiles;
     }
-
     public List<Asset> getParticles() {
         return particles;
     }
-
     public SoundManager getMusic() {
         return music;
     }
-
     public SoundManager getSoundEffect() {
         return soundEffect;
     }
-
     public int getMaxMaps() {
         return maxMaps;
     }
-
     public int getCurrentMap() {
         return currentMap;
     }
-
     public GamePanel setCurrentMap(int currentMap) {
         this.currentMap = currentMap;
         return this;
     }
-
     public int getTransitionState() {
         return TRANSITION_STATE;
     }
-
     public int getTradeState() {
         return TRADE_STATE;
     }
-
     public int getBattleState() {
         return BATTLE_STATE;
     }
-
     public BattleManager getBattleM() {
         return battleM;
     }

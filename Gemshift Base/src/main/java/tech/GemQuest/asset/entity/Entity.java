@@ -19,12 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
-//IMPLEMENTS ASSET. OTHER OBJECTS LIKE PLAYER WILL INHERIT FROM THIS CLASS
+// IMPLEMENTS ASSET. OTHER OBJECTS LIKE PLAYER WILL INHERIT FROM THIS CLASS
 public abstract class Entity implements Asset {
-    //VARIABLES
+    // VARIABLES
     private final GamePanel gamePanel;
     public boolean isTakingTurn;
-    // OBJECTS & ABILITIES VARIABLES
     private final int maxInventorySize = 20;
     private String name;
     private int worldX, worldY;
@@ -43,6 +42,7 @@ public abstract class Entity implements Asset {
     private int exp;
     private int nextLevelExp;
     private String idleMessage;
+
     // CHARACTER INFO VARIABLES
     private int index;
     private List<Asset> inventory = new ArrayList<>();
@@ -86,13 +86,14 @@ public abstract class Entity implements Asset {
     public boolean onPath = false;
     public boolean contactPlayer;
 
-    //CONSTRUCTOR
+    // CONSTRUCTOR
     public Entity(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         setDirection("down");
     }
 
     public void setupAI() {
+        // If the Entity is following a path
         if(onPath) {
             int goalCol = (gamePanel.getPlayer().getWorldX() + gamePanel.getPlayer().getCollisionDefaultX()) / gamePanel.getTileSize();
             int goalRow = (gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getCollisionDefaultY()) / gamePanel.getTileSize();
@@ -100,29 +101,18 @@ public abstract class Entity implements Asset {
             searchPath(goalCol, goalRow);
         }
 
+        // Otherwise, standard operating procedure
         else {
             actionLockCounter++;
 
             if (actionLockCounter == 120) {
-
                 Random random = new Random();
                 int i = random.nextInt(100) + 1;
 
-                if (i <= 25) {
-                    setDirection("up");
-                }
-
-                if (i > 25 && i <= 50) {
-                    setDirection("down");
-                }
-
-                if (i > 50 && i <= 75) {
-                    setDirection("left");
-                }
-
-                if (i > 75) {
-                    setDirection("right");
-                }
+                if (i <= 25) { setDirection("up"); }
+                if (i > 25 && i <= 50) { setDirection("down"); }
+                if (i > 50 && i <= 75) { setDirection("left"); }
+                if (i > 75) { setDirection("right"); }
 
                 setActionLockCounter(0);
             }
@@ -209,7 +199,7 @@ public abstract class Entity implements Asset {
 
         if (UtilityTool.isInsidePlayerView(worldX, worldY, gamePanel)) {
 
-            drawLifeBar(graphics2D, screenX, screenY);
+            // drawLifeBar(graphics2D, screenX, screenY);
             drawInvincible(graphics2D);
             drawDying(graphics2D);
 
@@ -220,7 +210,9 @@ public abstract class Entity implements Asset {
 
     }
 
-    private void drawLifeBar(Graphics2D graphics2D, int screenX, int screenY) {
+    // Currently not in use, will eventually be worked into over world combat though
+
+//    private void drawLifeBar(Graphics2D graphics2D, int screenX, int screenY) {
 //        if (this instanceof Monster && hpBarOn) {
 //            double oneCurrentLifeWidth = (double) gamePanel.getTileSize() / maxLife;
 //            double lifeBarValue = oneCurrentLifeWidth * currentLife;
@@ -242,10 +234,10 @@ public abstract class Entity implements Asset {
 //                setHpBarOn(false);
 //            }
 //        }
-    }
 
     private void drawInvincible(Graphics2D graphics2D) {
         if (isInvincible()) {
+            // Health bar stuff
 //            setHpBarOn(true);
 //            setHpBarCounter(0);
 //
@@ -437,41 +429,121 @@ public abstract class Entity implements Asset {
         gamePanel.getParticles().add(p3);
         gamePanel.getParticles().add(p4);
     }
-//GETTERS AND SETTERS
 
+    // SEARCH PATH AI
+    public void searchPath(int goalCol, int goalRow) {
+        int startCol = (worldX + collisionArea.x)/gamePanel.getTileSize();
+        int startRow = (worldY + collisionArea.y)/gamePanel.getTileSize();
+
+        gamePanel.pFinder.setNodes(startCol, startRow, goalCol, goalRow, this);
+
+        // Confirms goal is reachable, lets get it
+        if(gamePanel.pFinder.search()) {
+            // Next World X and World Y
+            int nextX = gamePanel.pFinder.pathList.get(0).col * gamePanel.getTileSize();
+            int nextY = gamePanel.pFinder.pathList.get(0).row * gamePanel.getTileSize();
+
+            // Entity hurt box
+            int entityLeftX = worldX + collisionArea.x;
+            int entityRightX = worldX + collisionArea.x + collisionArea.width;
+            int entityTopY = worldY + collisionArea.y;
+            int entityBottomY = worldY + collisionArea.y + collisionArea.height;
+
+            if(entityTopY > nextY && entityLeftX >= nextX && entityRightX < nextX + gamePanel.getTileSize()) {
+                direction = "up";
+            }
+            else if(entityTopY < nextY && entityLeftX >= nextX && entityRightX < nextX + gamePanel.getTileSize()) {
+                direction = "down";
+            }
+            else if(entityTopY <= nextY && entityBottomY < nextY + gamePanel.getTileSize()) {
+                // Left OR right
+                if(entityLeftX > nextX) {
+                    direction = "left";
+                }
+                if(entityLeftX < nextX) {
+                    direction = "right";
+                }
+            }
+            else if(entityTopY > nextY && entityLeftX > nextX) {
+                // up or left
+                direction = "up";
+                checkCollision();
+                if(collisionOn) {
+                    direction = "left";
+                }
+            }
+            else if(entityTopY > nextY && entityLeftX < nextX) {
+                // up or right
+                direction = "up";
+                checkCollision();
+                if(collisionOn) {
+                    direction = "right";
+                }
+            }
+            else if(entityTopY < nextY && entityLeftX > nextX) {
+                // down or left
+                direction = "down";
+                checkCollision();
+                if(collisionOn) {
+                    direction = "left";
+                }
+            }
+            else if(entityTopY < nextY && entityLeftX < nextX) {
+                // down or right
+                direction = "down";
+                checkCollision();
+                if(collisionOn) {
+                    direction = "right";
+                }
+            }
+
+            // Stops when the goal is reached
+//            int nextCol = gamePanel.pFinder.pathList.get(0).col;
+//            int nextRow = gamePanel.pFinder.pathList.get(0).row;
+//
+//            if(nextCol == goalCol && nextRow == goalRow) {
+//                onPath = false;
+//            }
+        }
+    }
+
+    // Shorthand collision checking method
+    private void checkCollision() {
+        collisionOn = false;
+        gamePanel.getCollisionChecker().checkTile(this);
+        gamePanel.getCollisionChecker().checkObject(this, false);
+        gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getNpcs());
+        gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getMonsters());
+        gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getInteractiveTiles());
+        contactPlayer = gamePanel.getCollisionChecker().checkPlayer(this);
+    }
+
+    // GETTERS AND SETTERS
     public GamePanel getGamePanel() {
         return gamePanel;
     }
-
     public String getName() {
         return name;
     }
-
     public Entity setName(String name) {
         this.name = name;
         return this;
     }
-
     public int getWorldX() {
         return worldX;
     }
-
     public void setWorldX(int worldX) {
         this.worldX = worldX;
     }
-
     public int getWorldY() {
         return worldY;
     }
-
     public void setWorldY(int worldY) {
         this.worldY = worldY;
     }
-
     public int getSpeed() {
         return speed;
     }
-
     public Entity setSpeed(int speed) {
         this.speed = speed;
         return this;
@@ -554,613 +626,410 @@ public abstract class Entity implements Asset {
         this.stun1 = stun1;
         return this;
     }
-
     public BufferedImage getAttackUp1() {
         return attackUp1;
     }
-
     public Entity setAttackUp1(BufferedImage attackUp1) {
         this.attackUp1 = attackUp1;
         return this;
     }
-
     public BufferedImage getAttackUp2() {
         return attackUp2;
     }
-
     public Entity setAttackUp2(BufferedImage attackUp2) {
         this.attackUp2 = attackUp2;
         return this;
     }
-
     public BufferedImage getAttackDown1() {
         return attackDown1;
     }
-
     public Entity setAttackDown1(BufferedImage attackDown1) {
         this.attackDown1 = attackDown1;
         return this;
     }
-
     public BufferedImage getAttackDown2() {
         return attackDown2;
     }
-
     public Entity setAttackDown2(BufferedImage attackDown2) {
         this.attackDown2 = attackDown2;
         return this;
     }
-
     public BufferedImage getAttackLeft1() {
         return attackLeft1;
     }
-
     public Entity setAttackLeft1(BufferedImage attackLeft1) {
         this.attackLeft1 = attackLeft1;
         return this;
     }
-
     public BufferedImage getAttackLeft2() {
         return attackLeft2;
     }
-
     public Entity setAttackLeft2(BufferedImage attackLeft2) {
         this.attackLeft2 = attackLeft2;
         return this;
     }
-
     public BufferedImage getAttackRight1() {
         return attackRight1;
     }
-
     public Entity setAttackRight1(BufferedImage attackRight1) {
         this.attackRight1 = attackRight1;
         return this;
     }
-
     public BufferedImage getAttackRight2() {
         return attackRight2;
     }
-
     public Entity setAttackRight2(BufferedImage attackRight2) {
         this.attackRight2 = attackRight2;
         return this;
     }
-
     public String getDirection() {
         return direction;
     }
-
     public Entity setDirection(String direction) {
         this.direction = direction;
         return this;
     }
-
     public int getSpriteCounter() {
         return spriteCounter;
     }
-
     public Entity setSpriteCounter(int spriteCounter) {
         this.spriteCounter = spriteCounter;
         return this;
     }
-
     public int getSpriteNumber() {
         return spriteNumber;
     }
-
     public Entity setSpriteNumber(int spriteNumber) {
         this.spriteNumber = spriteNumber;
         return this;
     }
-
     public Rectangle getCollisionArea() {
         return collisionArea;
     }
-
     public Entity setCollisionArea(Rectangle collisionArea) {
         this.collisionArea = collisionArea;
         return this;
     }
-
     public int getCollisionDefaultX() {
         return collisionDefaultX;
     }
-
     public Entity setCollisionDefaultX(int collisionDefaultX) {
         this.collisionDefaultX = collisionDefaultX;
         return this;
     }
-
     public int getCollisionDefaultY() {
         return collisionDefaultY;
     }
-
     public Entity setCollisionDefaultY(int collisionDefaultY) {
         this.collisionDefaultY = collisionDefaultY;
         return this;
     }
-
     public boolean isCollisionOn() {
         return collisionOn;
     }
-
     public Entity setCollisionOn(boolean collisionOn) {
         this.collisionOn = collisionOn;
         return this;
     }
-
     public int getActionLockCounter() {
         return actionLockCounter;
     }
-
     public Entity setActionLockCounter(int actionLockCounter) {
         this.actionLockCounter = actionLockCounter;
         return this;
     }
-
     public boolean isInvincible() {
         return invincible;
     }
-
     public void setInvincible(boolean invincible) {
         this.invincible = invincible;
     }
-
     public int getInvincibleCounter() {
         return invincibleCounter;
     }
-
     public Entity setInvincibleCounter(int invincibleCounter) {
         this.invincibleCounter = invincibleCounter;
         return this;
     }
-
     public int getIndex() {
         return index;
     }
-
     public void setIndex(int index) {
         this.index = index;
     }
-
     public int getMaxLife() {
         return maxLife;
     }
-
     public Entity setMaxLife(int maxLife) {
         this.maxLife = maxLife;
         return this;
     }
-
     public int getCurrentLife() {
         return currentLife;
     }
-
     public void setCurrentLife(int currentLife) {
         this.currentLife = currentLife;
     }
-
     @Override
     public String getIdleMessage() {
         return idleMessage;
     }
-
     public void setIdleMessage(String message) {
         this.idleMessage = message;
     }
-
     public boolean isAttacking() {
         return attacking;
     }
-
     public Entity setAttacking(boolean attacking) {
         this.attacking = attacking;
         return this;
     }
-
     @Override
     public Rectangle getAttackArea() {
         return attackArea;
     }
-
     @Override
     public void setAttackArea(Rectangle attackArea) {
         this.attackArea = attackArea;
     }
-
     public boolean isAlive() {
         return alive;
     }
-
     public void setAlive(boolean alive) {
         this.alive = alive;
     }
-
     public boolean isDying() {
         return dying;
     }
-
     public void setDying(boolean dying) {
         this.dying = dying;
     }
-
     public int getDyingCounter() {
         return dyingCounter;
     }
-
     public void setDyingCounter(int dyingCounter) {
         this.dyingCounter = dyingCounter;
     }
-
     public boolean isHpBarOn() {
         return hpBarOn;
     }
-
     public Entity setHpBarOn(boolean hpBarOn) {
         this.hpBarOn = hpBarOn;
         return this;
     }
-
     public int getHpBarCounter() {
         return hpBarCounter;
     }
-
     public Entity setHpBarCounter(int hpBarCounter) {
         this.hpBarCounter = hpBarCounter;
         return this;
     }
-
     public int getLevel() {
         return level;
     }
-
     public Entity setLevel(int level) {
         this.level = level;
         return this;
     }
-
     public int getStrength() {
         return strength;
     }
-
     public Entity setStrength(int strength) {
         this.strength = strength;
         return this;
     }
-
     public int getDexterity() {
         return dexterity;
     }
-
     public Entity setDexterity(int dexterity) {
         this.dexterity = dexterity;
         return this;
     }
-
     public int getAttackPower() {
         return attackPower;
     }
-
     public Entity setAttackPower(int attackPower) {
         this.attackPower = attackPower;
         return this;
     }
-
     public int getDefensePower() {
         return defensePower;
     }
-
     public Entity setDefensePower(int defensePower) {
         this.defensePower = defensePower;
         return this;
     }
-
     public int getExp() {
         return exp;
     }
-
     public Entity setExp(int exp) {
         this.exp = exp;
         return this;
     }
-
     public int getNextLevelExp() {
         return nextLevelExp;
     }
-
     public Entity setNextLevelExp(int nextLevelExp) {
         this.nextLevelExp = nextLevelExp;
         return this;
     }
-
     public int getCoins() {
         return coins;
     }
-
     public Entity setCoins(int coins) {
         this.coins = coins;
         return this;
     }
-
     public Weapon getCurrentWeapon() {
         return currentWeapon;
     }
-
     public Entity setCurrentWeapon(Weapon currentWeapon) {
         this.currentWeapon = currentWeapon;
         return this;
     }
-
     public Shield getCurrentShield() {
         return currentShield;
     }
-
     public Entity setCurrentShield(Shield currentShield) {
         this.currentShield = currentShield;
         return this;
     }
-
     public int getMaxMana() {
         return maxMana;
     }
-
     public Entity setMaxMana(int maxMana) {
         this.maxMana = maxMana;
         return this;
     }
-
     public int getCurrentMana() {
         return currentMana;
     }
-
     public Entity setCurrentMana(int currentMana) {
         this.currentMana = currentMana;
         return this;
     }
-
     public Projectile getProjectile() {
         return projectile;
     }
-
     public Entity setProjectile(Projectile projectile) {
         this.projectile = projectile;
         return this;
     }
-
     public int getUseCost() {
         return useCost;
     }
-
     public Entity setUseCost(int useCost) {
         this.useCost = useCost;
         return this;
     }
-
     public int getProjectileAvailableCounter() {
         return projectileAvailableCounter;
     }
-
     public Entity setProjectileAvailableCounter(int projectileAvailableCounter) {
         this.projectileAvailableCounter = projectileAvailableCounter;
         return this;
     }
-
     public int getMaxAmmo() {
         return maxAmmo;
     }
-
     public Entity setMaxAmmo(int maxAmmo) {
         this.maxAmmo = maxAmmo;
         return this;
     }
-
     public int getCurrentAmmo() {
         return currentAmmo;
     }
-
     public Entity setCurrentAmmo(int currentAmmo) {
         this.currentAmmo = currentAmmo;
         return this;
     }
-
     public List<Asset> getInventory() {
         return inventory;
     }
-
     public void setInventory(List<Asset> inventory) {
         this.inventory = inventory;
     }
-
     public int getMaxInventorySize() {
         return maxInventorySize;
     }
-
-    // NOT USED
-
-    @Override
-    public BufferedImage getImage1() {
-        return null;
-    }
-
-    @Override
-    public BufferedImage getIdleImage1() {
-        return null;
-    }
-
-    @Override
-    public BufferedImage getIdleImage2() {
-        return null;
-    }
-
-    @Override
-    public String getDescription() {
-        return null;
-    }
-
-    @Override
-    public boolean isCollision() {
-        return false;
-    }
-
-    @Override
-    public void use() {
-        // Not used
-    }
-
-    @Override
-    public void damageReaction() {
-    }
-
-    @Override
-    public void retreatReaction() {
-
-    }
-
-    @Override
-    public void checkDrop() {
-    }
-
-    @Override
-    public Color getParticleColor() {
-        return null;
-    }
-
-    @Override
-    public int getParticleSize() {
-        return 0;
-    }
-
-    @Override
-    public int getParticleSpeed() {
-        return 0;
-    }
-
-    @Override
-    public int getParticleMaxLife() {
-        return 0;
-    }
-
-    @Override
-    public int getPrice() {
-        return 0;
-    }
-
-    public void escapeReaction() { }
-
-    @Override
-    public boolean getIsTakingTurn() {
-        return isTakingTurn;
-    }
-
-    @Override
-    public void setIsTakingTurn(boolean set) {
-        this.isTakingTurn = set;
-    }
-
     public boolean getIsBattleItem() {
         return isBattleItem;
     }
     public void setIsBattleItem(boolean set) {
         this.isBattleItem = set;
     }
-
     public void setIsBattleMenuVisible(boolean set) {
         this.isBattleMenuVisible = set;
     }
     public boolean getIsBattleMenuVisible() {
         return this.isBattleMenuVisible;
     }
-
     public void setIsRespawnable(boolean set) {
         this.isRespawnable = set;
     }
 
-    public void searchPath(int goalCol, int goalRow) {
-        int startCol = (worldX + collisionArea.x)/gamePanel.getTileSize();
-        int startRow = (worldY + collisionArea.y)/gamePanel.getTileSize();
-
-        gamePanel.pFinder.setNodes(startCol, startRow, goalCol, goalRow, this);
-
-        // Confirms goal is reachable, lets get it
-        if(gamePanel.pFinder.search()) {
-            // Next World X and World Y
-            int nextX = gamePanel.pFinder.pathList.get(0).col * gamePanel.getTileSize();
-            int nextY = gamePanel.pFinder.pathList.get(0).row * gamePanel.getTileSize();
-
-            // Entity hurt box
-            int entityLeftX = worldX + collisionArea.x;
-            int entityRightX = worldX + collisionArea.x + collisionArea.width;
-            int entityTopY = worldY + collisionArea.y;
-            int entityBottomY = worldY + collisionArea.y + collisionArea.height;
-
-            if(entityTopY > nextY && entityLeftX >= nextX && entityRightX < nextX + gamePanel.getTileSize()) {
-                direction = "up";
-            }
-            else if(entityTopY < nextY && entityLeftX >= nextX && entityRightX < nextX + gamePanel.getTileSize()) {
-                direction = "down";
-            }
-            else if(entityTopY <= nextY && entityBottomY < nextY + gamePanel.getTileSize()) {
-                // Left OR right
-                if(entityLeftX > nextX) {
-                    direction = "left";
-                }
-                if(entityLeftX < nextX) {
-                    direction = "right";
-                }
-            }
-            else if(entityTopY > nextY && entityLeftX > nextX) {
-                // up or left
-                direction = "up";
-                checkCollision();
-                if(collisionOn) {
-                    direction = "left";
-                }
-            }
-            else if(entityTopY > nextY && entityLeftX < nextX) {
-                // up or right
-                direction = "up";
-                checkCollision();
-                if(collisionOn) {
-                    direction = "right";
-                }
-            }
-            else if(entityTopY < nextY && entityLeftX > nextX) {
-                // down or left
-                direction = "down";
-                checkCollision();
-                if(collisionOn) {
-                    direction = "left";
-                }
-            }
-            else if(entityTopY < nextY && entityLeftX < nextX) {
-                // down or right
-                direction = "down";
-                checkCollision();
-                if(collisionOn) {
-                    direction = "right";
-                }
-            }
-
-             // Stops when the goal is reached
-//            int nextCol = gamePanel.pFinder.pathList.get(0).col;
-//            int nextRow = gamePanel.pFinder.pathList.get(0).row;
-//
-//            if(nextCol == goalCol && nextRow == goalRow) {
-//                onPath = false;
-//            }
-        }
+    // NOT USED
+    @Override
+    public BufferedImage getImage1() {
+        return null;
     }
-
-    private void checkCollision() {
-        collisionOn = false;
-        gamePanel.getCollisionChecker().checkTile(this);
-        gamePanel.getCollisionChecker().checkObject(this, false);
-        gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getNpcs());
-        gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getMonsters());
-        gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getInteractiveTiles());
-        contactPlayer = gamePanel.getCollisionChecker().checkPlayer(this);
+    @Override
+    public BufferedImage getIdleImage1() {
+        return null;
     }
+    @Override
+    public BufferedImage getIdleImage2() {
+        return null;
+    }
+    @Override
+    public String getDescription() {
+        return null;
+    }
+    @Override
+    public boolean isCollision() {
+        return false;
+    }
+    @Override
+    public void use() {
+        // Not used
+    }
+    @Override
+    public void damageReaction() {
+    }
+    @Override
+    public void retreatReaction() {
 
+    }
+    @Override
+    public void checkDrop() {}
+    @Override
+    public Color getParticleColor() {
+        return null;
+    }
+    @Override
+    public int getParticleSize() {
+        return 0;
+    }
+    @Override
+    public int getParticleSpeed() {
+        return 0;
+    }
+    @Override
+    public int getParticleMaxLife() {
+        return 0;
+    }
+    @Override
+    public int getPrice() {
+        return 0;
+    }
+    public void escapeReaction() { }
+    @Override
+    public boolean getIsTakingTurn() {
+        return isTakingTurn;
+    }
+    @Override
+    public void setIsTakingTurn(boolean set) {
+        this.isTakingTurn = set;
+    }
 }
 

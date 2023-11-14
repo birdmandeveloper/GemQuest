@@ -19,8 +19,8 @@ import java.util.Objects;
 
 public class UI {
 
-//UI variables
-private final GamePanel gamePanel;
+    // UI variables
+    private final GamePanel gamePanel;
     private Graphics2D graphics2D;
     private final UtilityTool utilityTool = new UtilityTool();
     private final BufferedImage heart_full, heart_half, heart_blank, crystal_full, crystal_blank, coin;
@@ -61,8 +61,7 @@ private final GamePanel gamePanel;
     public int turnTimeAssist = 0;
     public int currentDamageDealt = 0;
 
-    //This Sets up the Ui in the Game
-
+    // This Sets up the Ui in the Game
     public UI(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 
@@ -99,14 +98,17 @@ private final GamePanel gamePanel;
 
         setupDefaultGraphics(graphics2D);
 
+        // Draw calls for each individual game state
         if (gamePanel.getGameState() == gamePanel.getTitleState()) {
             drawTitleScreen();
         }
         if (gamePanel.getGameState() == gamePanel.getPlayState()) {
-            // Transition out of Battle State
+            /*  This first block handles the transition OUT of Battle State. It draws the battle screen once, fades to black,
+                draws the over world, and fades to it. After this, it resets counters and associated booleans and returns
+                to the normal flow  */
             if(gamePanel.player.fromBattleState) {
-                // gamePanel.player.setInvincible(true);
                 if(playStateShuffle == 0) {
+                    // Initial fade, changes draw based on whether interactingMonster survived the encounter
                     if (transitionCounter <= 45) {
                         if(gamePanel.monsters[0][interactingMonster].isAlive()) {
                             drawBattleBase(interactingMonster, currentDialogue, 1);
@@ -137,9 +139,7 @@ private final GamePanel gamePanel;
                     }
                 }
                 if(playStateShuffle == 1) {
-
                     // No need to deliberately call to draw the Play State
-
                     if (transitionCounter <= 45) {
                         graphics2D.setColor(new Color(0, 0, 0, 255 - (transitionCounter * 5)));
                         graphics2D.fillRect(0, 0, gamePanel.getWidth(), gamePanel.getHeight());
@@ -149,22 +149,23 @@ private final GamePanel gamePanel;
                     else {
                         playStateShuffle++;
                         transitionCounter = 1;
-                        // gamePanel.player.setInvincibleCounter(0);
                     }
                 }
+
+                // End of transition, relevant resets run only once
                 if(playStateShuffle == 2) {
-                    playStateShuffle = 0;
+                    playStateShuffle = 0; // !!!
                     transitionCounter = 1;
                     genericCounter = 0;
                     gamePanel.player.checkLevelUp();
                     gamePanel.player.fromBattleState = false;
-                    // gamePanel.player.setInvincibleCounter(0);
                     gamePanel.player.battleMonsterID = 0; // Reset this just to be safe
                     battleOver = false;
                 }
             }
 
-            else { // Standard operating procedure
+            // Standard operating procedure
+            else {
                 drawPlayerLife();
                 drawPlayerMana();
                 drawMessages();
@@ -184,6 +185,7 @@ private final GamePanel gamePanel;
             }
         }
         if (gamePanel.getGameState() == gamePanel.getPauseState()) {
+            // Draws Pause menu as well as player health/mana
             drawPlayerLife();
             drawPlayerMana();
             drawPauseScreen();
@@ -215,18 +217,283 @@ private final GamePanel gamePanel;
         }
         if (gamePanel.getGameState() == gamePanel.getBattleState()) {
             gamePanel.player.fromBattleState = true;
-            transitionCounter = 1;
+            transitionCounter = 1; // This just keeps it from ever accidentally becoming zero
             drawBattleScreen();
         }
     }
 
-
+    // Default Graphics settings
     private void setupDefaultGraphics(Graphics2D graphics2D) {
         graphics2D.setFont(maruMonica);
         graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         graphics2D.setColor(Color.WHITE);
     }
 
+    // Player HUD, updates
+    private void drawPlayerLife() {
+        int x = gamePanel.getTileSize() / 2;
+        int y = gamePanel.getTileSize() / 2;
+
+        for (int i = 0; i < gamePanel.getPlayer().getMaxLife() / 2; i++) {
+            graphics2D.drawImage(heart_blank, x, y, null);
+            x += gamePanel.getTileSize();
+        }
+
+        x = gamePanel.getTileSize() / 2;
+        y = gamePanel.getTileSize() / 2;
+
+        for (int i = 0; i < gamePanel.getPlayer().getCurrentLife(); i++) {
+            graphics2D.drawImage(heart_half, x, y, null);
+            i++;
+
+            if (i < gamePanel.getPlayer().getCurrentLife()) {
+                graphics2D.drawImage(heart_full, x, y, null);
+            }
+
+            x += gamePanel.getTileSize();
+        }
+    }
+    private void drawPlayerMana() {
+        int x = (gamePanel.getTileSize() / 2) - 5;
+        int y = (int) (gamePanel.getTileSize() * 1.5);
+
+        for (int i = 0; i < gamePanel.getPlayer().getMaxMana(); i++) {
+            graphics2D.drawImage(crystal_blank, x, y, null);
+            x += 35;
+        }
+
+        x = (gamePanel.getTileSize() / 2) - 5;
+        y = (int) (gamePanel.getTileSize() * 1.5);
+
+        for (int i = 0; i < gamePanel.getPlayer().getCurrentMana(); i++) {
+            graphics2D.drawImage(crystal_full, x, y, null);
+            x += 35;
+        }
+    }
+    public void addMessage(String text) {
+        messages.add(text);
+        messageCounter.add(0);
+    }
+    private void drawMessages() {
+        int messageX = gamePanel.getTileSize();
+        int messageY = gamePanel.getTileSize() * 4;
+        graphics2D.setFont(graphics2D.getFont().deriveFont(Font.BOLD, 32F));
+
+        for (int i = 0; i < messages.size(); i++) {
+            if (messages.get(i) != null) {
+                graphics2D.setColor(Color.BLACK);
+                graphics2D.drawString(messages.get(i), messageX + 2, messageY + 2);
+                graphics2D.setColor(Color.WHITE);
+                graphics2D.drawString(messages.get(i), messageX, messageY);
+
+                int counter = messageCounter.get(i) + 1;
+                messageCounter.set(i, counter);
+                messageY += 50;
+
+                if (messageCounter.get(i) > 180) {
+                    messages.remove(i);
+                    messageCounter.remove(i);
+                }
+            }
+        }
+    }
+
+    // Player Inventory draws
+    private void drawCurrentEquipment(int textY, int tailX) {
+        graphics2D.drawImage(gamePanel.getPlayer().getCurrentWeapon().getImage1(), tailX - gamePanel.getTileSize(), textY - 14, null);
+        textY += gamePanel.getTileSize();
+
+        graphics2D.drawImage(gamePanel.getPlayer().getCurrentShield().getImage1(), tailX - gamePanel.getTileSize(), textY - 14, null);
+    }
+    private void drawInventoryScreen(Entity entity, boolean cursor) {
+
+        int frameX = 0;
+        int frameY = 0;
+        int frameWidth = 0;
+        int frameHeight = 0;
+        int slotCol = 0;
+        int slotRow = 0;
+
+        // ITEM FRAME BOX
+        if (entity == gamePanel.getPlayer()) {
+            frameX = gamePanel.getTileSize() * 12;
+            slotCol = playerSlotCol;
+            slotRow = playerSlotRow;
+        } else {
+            frameX = gamePanel.getTileSize() * 2;
+            slotCol = npcSlotCol;
+            slotRow = npcSlotRow;
+        }
+
+        frameY = gamePanel.getTileSize();
+        frameWidth = gamePanel.getTileSize() * 6;
+        frameHeight = gamePanel.getTileSize() * 5;
+
+        drawSubWindow(frameX, frameY, frameWidth, frameHeight);
+
+        // ITEM SLOTS
+        final int slotXStart = frameX + 20;
+        final int slotYStart = frameY + 20;
+        int slotX = slotXStart;
+        int slotY = slotYStart;
+        int slotSize = gamePanel.getTileSize() + 3;
+
+        List<Asset> inventory = entity.getInventory();
+
+        drawItemsInInventory(entity, slotXStart, slotX, slotY, slotSize, inventory);
+
+        if (cursor) {
+            drawSelectionBox(slotXStart, slotYStart, slotSize, slotCol, slotRow);
+
+            // DESCRIPTION FRAME
+            int descriptionFrameX = frameX;
+            int descriptionFrameY = frameY + frameHeight;
+            int descriptionFrameWidth = frameWidth;
+            int descriptionFrameHeight = gamePanel.getTileSize() * 3;
+
+            drawItemDescriptionText(inventory, descriptionFrameX, descriptionFrameY, descriptionFrameWidth, descriptionFrameHeight, slotCol, slotRow);
+        }
+    }
+    private void drawItemsInInventory(Entity entity, int slotXStart, int slotX, int slotY, int slotSize, List<Asset> inventory) {
+        for (int i = 0; i < inventory.size(); i++) {
+            Asset object = inventory.get(i);
+
+            // EQUIPPED BOX COLOR
+            if (object == entity.getCurrentWeapon()
+                    || object == entity.getCurrentShield()) {
+                graphics2D.setColor(new Color(240, 190, 90));
+                graphics2D.fillRoundRect(slotX, slotY, gamePanel.getTileSize(), gamePanel.getTileSize(), 10, 10);
+            }
+
+            graphics2D.drawImage(object.getImage1(), slotX, slotY, null);
+
+            slotX += slotSize;
+
+            if (i == 4 || i == 9 || i == 14) {
+                slotX = slotXStart;
+                slotY += slotSize;
+            }
+        }
+    }
+    private void drawSelectionBox(int slotXStart, int slotYStart, int slotSize, int slotCol, int slotRow) {
+        // CURSOR selection box
+        int cursorX = slotXStart + (slotSize * slotCol);
+        int cursorY = slotYStart + (slotSize * slotRow);
+        int cursorWidth = gamePanel.getTileSize();
+        int cursorHeight = gamePanel.getTileSize();
+
+        graphics2D.setColor(Color.WHITE);
+        graphics2D.setStroke(new BasicStroke(3));
+        graphics2D.drawRoundRect(cursorX, cursorY, cursorWidth, cursorHeight, 10, 10);
+    }
+    private void drawItemDescriptionText(List<Asset> inventory, int descriptionFrameX, int descriptionFrameY, int descriptionFrameWidth, int descriptionFrameHeight, int slotCol, int slotRow) {
+        // DRAW DESCRIPTION TEXT
+        int textX = descriptionFrameX + 20;
+        int textY = descriptionFrameY + gamePanel.getTileSize();
+
+        graphics2D.setFont(graphics2D.getFont().deriveFont(28F));
+
+        int itemIndex = getItemIndexFromSlot(slotCol, slotRow);
+
+        if (itemIndex < inventory.size()) {
+
+            drawSubWindow(descriptionFrameX, descriptionFrameY, descriptionFrameWidth, descriptionFrameHeight);
+
+            for (String line : inventory.get(itemIndex).getDescription().split("\n")) {
+                graphics2D.drawString(line, textX, textY);
+                textY += 32;
+            }
+        }
+    }
+    public int getItemIndexFromSlot(int slotCol, int slotRow) {
+        int itemIndex = slotCol + (slotRow * 5);
+        return itemIndex;
+    } // GET ITEM FROM INDEX
+
+    // These two are Character Screen stat displays
+    private void drawText(int textX, int textY, int lineHeight) {
+        graphics2D.drawString("Level", textX, textY);
+        textY += lineHeight;
+        graphics2D.drawString("Life", textX, textY);
+        textY += lineHeight;
+        graphics2D.drawString("Mana", textX, textY);
+        textY += lineHeight;
+        graphics2D.drawString("Strength", textX, textY);
+        textY += lineHeight;
+        graphics2D.drawString("Dexterity", textX, textY);
+        textY += lineHeight;
+        graphics2D.drawString("Attack", textX, textY);
+        textY += lineHeight;
+        graphics2D.drawString("Defense", textX, textY);
+        textY += lineHeight;
+        graphics2D.drawString("Exp", textX, textY);
+        textY += lineHeight;
+        graphics2D.drawString("Next Level", textX, textY);
+        textY += lineHeight;
+        graphics2D.drawString("Coins", textX, textY);
+        textY += lineHeight + 20;
+        graphics2D.drawString("Weapon", textX, textY);
+        textY += lineHeight + 15;
+        graphics2D.drawString("Shield", textX, textY);
+    }
+    private void drawValues(int textY, int lineHeight, int tailX) {
+        int textX;
+        String value;
+
+        value = String.valueOf(gamePanel.getPlayer().getLevel());
+        textX = UtilityTool.getXForAlightToRightOfText(value, tailX, gamePanel, graphics2D);
+        graphics2D.drawString(value, textX, textY);
+        textY += lineHeight;
+
+        value = gamePanel.getPlayer().getCurrentLife() + "/" + gamePanel.getPlayer().getMaxLife();
+        textX = UtilityTool.getXForAlightToRightOfText(value, tailX, gamePanel, graphics2D);
+        graphics2D.drawString(value, textX, textY);
+        textY += lineHeight;
+
+        value = gamePanel.getPlayer().getCurrentMana() + "/" + gamePanel.getPlayer().getMaxMana();
+        textX = UtilityTool.getXForAlightToRightOfText(value, tailX, gamePanel, graphics2D);
+        graphics2D.drawString(value, textX, textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gamePanel.getPlayer().getStrength());
+        textX = UtilityTool.getXForAlightToRightOfText(value, tailX, gamePanel, graphics2D);
+        graphics2D.drawString(value, textX, textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gamePanel.getPlayer().getDexterity());
+        textX = UtilityTool.getXForAlightToRightOfText(value, tailX, gamePanel, graphics2D);
+        graphics2D.drawString(value, textX, textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gamePanel.getPlayer().getAttackPower());
+        textX = UtilityTool.getXForAlightToRightOfText(value, tailX, gamePanel, graphics2D);
+        graphics2D.drawString(value, textX, textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gamePanel.getPlayer().getDefensePower());
+        textX = UtilityTool.getXForAlightToRightOfText(value, tailX, gamePanel, graphics2D);
+        graphics2D.drawString(value, textX, textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gamePanel.getPlayer().getExp());
+        textX = UtilityTool.getXForAlightToRightOfText(value, tailX, gamePanel, graphics2D);
+        graphics2D.drawString(value, textX, textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gamePanel.getPlayer().getNextLevelExp());
+        textX = UtilityTool.getXForAlightToRightOfText(value, tailX, gamePanel, graphics2D);
+        graphics2D.drawString(value, textX, textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gamePanel.getPlayer().getCoins());
+        textX = UtilityTool.getXForAlightToRightOfText(value, tailX, gamePanel, graphics2D);
+        graphics2D.drawString(value, textX, textY);
+        textY += lineHeight;
+
+        drawCurrentEquipment(textY, tailX);
+    }
+
+    // Self-explanatory screen draw methods
     private void drawTitleScreen() {
         graphics2D.setColor(Color.black);
         graphics2D.fillRect(0, 0, gamePanel.getScreenWidth(), gamePanel.getScreenHeight());
@@ -238,10 +505,7 @@ private final GamePanel gamePanel;
 
         gamePanel.getKeyHandler().setEnterPressed(false);
     }
-//Text Startup Stuff
-
     private void drawStartScreen() {
-
         // TITLE TEXT
         graphics2D.setFont(graphics2D.getFont().deriveFont(Font.BOLD, 96F));
 
@@ -299,7 +563,6 @@ private final GamePanel gamePanel;
             }
         }
     }
-
     private void drawClassScreen() {
         graphics2D.setColor(Color.WHITE);
         graphics2D.setFont(graphics2D.getFont().deriveFont(Font.BOLD, 42F));
@@ -363,78 +626,6 @@ private final GamePanel gamePanel;
             }
         }
     }
-
-    private void drawPlayerLife() {
-        int x = gamePanel.getTileSize() / 2;
-        int y = gamePanel.getTileSize() / 2;
-
-        for (int i = 0; i < gamePanel.getPlayer().getMaxLife() / 2; i++) {
-            graphics2D.drawImage(heart_blank, x, y, null);
-            x += gamePanel.getTileSize();
-        }
-
-        x = gamePanel.getTileSize() / 2;
-        y = gamePanel.getTileSize() / 2;
-
-        for (int i = 0; i < gamePanel.getPlayer().getCurrentLife(); i++) {
-            graphics2D.drawImage(heart_half, x, y, null);
-            i++;
-
-            if (i < gamePanel.getPlayer().getCurrentLife()) {
-                graphics2D.drawImage(heart_full, x, y, null);
-            }
-
-            x += gamePanel.getTileSize();
-        }
-    }
-
-    private void drawPlayerMana() {
-        int x = (gamePanel.getTileSize() / 2) - 5;
-        int y = (int) (gamePanel.getTileSize() * 1.5);
-
-        for (int i = 0; i < gamePanel.getPlayer().getMaxMana(); i++) {
-            graphics2D.drawImage(crystal_blank, x, y, null);
-            x += 35;
-        }
-
-        x = (gamePanel.getTileSize() / 2) - 5;
-        y = (int) (gamePanel.getTileSize() * 1.5);
-
-        for (int i = 0; i < gamePanel.getPlayer().getCurrentMana(); i++) {
-            graphics2D.drawImage(crystal_full, x, y, null);
-            x += 35;
-        }
-    }
-
-    public void addMessage(String text) {
-        messages.add(text);
-        messageCounter.add(0);
-    }
-
-    private void drawMessages() {
-        int messageX = gamePanel.getTileSize();
-        int messageY = gamePanel.getTileSize() * 4;
-        graphics2D.setFont(graphics2D.getFont().deriveFont(Font.BOLD, 32F));
-
-        for (int i = 0; i < messages.size(); i++) {
-            if (messages.get(i) != null) {
-                graphics2D.setColor(Color.BLACK);
-                graphics2D.drawString(messages.get(i), messageX + 2, messageY + 2);
-                graphics2D.setColor(Color.WHITE);
-                graphics2D.drawString(messages.get(i), messageX, messageY);
-
-                int counter = messageCounter.get(i) + 1;
-                messageCounter.set(i, counter);
-                messageY += 50;
-
-                if (messageCounter.get(i) > 180) {
-                    messages.remove(i);
-                    messageCounter.remove(i);
-                }
-            }
-        }
-    }
-
     private void drawPauseScreen() {
         graphics2D.setFont(graphics2D.getFont().deriveFont(Font.PLAIN, 80F));
 
@@ -444,7 +635,6 @@ private final GamePanel gamePanel;
 
         graphics2D.drawString(text, x, y);
     }
-
     private void drawDialogueScreen() {
         int x = gamePanel.getTileSize() * 3;
         int y = gamePanel.getTileSize() / 2;
@@ -459,7 +649,6 @@ private final GamePanel gamePanel;
 
         splitAndDrawDialogue(x, y);
     }
-
     private void drawCharacterScreen() {
         int frameX = gamePanel.getTileSize() * 2;
         int frameY = gamePanel.getTileSize();
@@ -481,206 +670,74 @@ private final GamePanel gamePanel;
 
         drawValues(textY, lineHeight, tailX);
     }
+    private void drawGameOverScreen() {
+        graphics2D.setColor(new Color(0, 0, 0, 150));
+        graphics2D.fillRect(0, 0, gamePanel.getScreenWidth(), gamePanel.getScreenHeight());
 
-    private void drawText(int textX, int textY, int lineHeight) {
-        graphics2D.drawString("Level", textX, textY);
-        textY += lineHeight;
-        graphics2D.drawString("Life", textX, textY);
-        textY += lineHeight;
-        graphics2D.drawString("Mana", textX, textY);
-        textY += lineHeight;
-        graphics2D.drawString("Strength", textX, textY);
-        textY += lineHeight;
-        graphics2D.drawString("Dexterity", textX, textY);
-        textY += lineHeight;
-        graphics2D.drawString("Attack", textX, textY);
-        textY += lineHeight;
-        graphics2D.drawString("Defense", textX, textY);
-        textY += lineHeight;
-        graphics2D.drawString("Exp", textX, textY);
-        textY += lineHeight;
-        graphics2D.drawString("Next Level", textX, textY);
-        textY += lineHeight;
-        graphics2D.drawString("Coins", textX, textY);
-        textY += lineHeight + 20;
-        graphics2D.drawString("Weapon", textX, textY);
-        textY += lineHeight + 15;
-        graphics2D.drawString("Shield", textX, textY);
-    }
-
-    private void drawValues(int textY, int lineHeight, int tailX) {
         int textX;
-        String value;
+        int textY;
+        String text;
+        graphics2D.setFont(graphics2D.getFont().deriveFont(Font.BOLD, 110f));
 
-        value = String.valueOf(gamePanel.getPlayer().getLevel());
-        textX = UtilityTool.getXForAlightToRightOfText(value, tailX, gamePanel, graphics2D);
-        graphics2D.drawString(value, textX, textY);
-        textY += lineHeight;
+        // TITLE TEXT
+        text = "Game Over";
 
-        value = gamePanel.getPlayer().getCurrentLife() + "/" + gamePanel.getPlayer().getMaxLife();
-        textX = UtilityTool.getXForAlightToRightOfText(value, tailX, gamePanel, graphics2D);
-        graphics2D.drawString(value, textX, textY);
-        textY += lineHeight;
+        // Shadow
+        graphics2D.setColor(Color.black);
+        textX = UtilityTool.getXForCenterOfText(text, gamePanel, graphics2D);
+        textY = gamePanel.getTileSize() * 4;
+        graphics2D.drawString(text, textX, textY);
 
-        value = gamePanel.getPlayer().getCurrentMana() + "/" + gamePanel.getPlayer().getMaxMana();
-        textX = UtilityTool.getXForAlightToRightOfText(value, tailX, gamePanel, graphics2D);
-        graphics2D.drawString(value, textX, textY);
-        textY += lineHeight;
-
-        value = String.valueOf(gamePanel.getPlayer().getStrength());
-        textX = UtilityTool.getXForAlightToRightOfText(value, tailX, gamePanel, graphics2D);
-        graphics2D.drawString(value, textX, textY);
-        textY += lineHeight;
-
-        value = String.valueOf(gamePanel.getPlayer().getDexterity());
-        textX = UtilityTool.getXForAlightToRightOfText(value, tailX, gamePanel, graphics2D);
-        graphics2D.drawString(value, textX, textY);
-        textY += lineHeight;
-
-        value = String.valueOf(gamePanel.getPlayer().getAttackPower());
-        textX = UtilityTool.getXForAlightToRightOfText(value, tailX, gamePanel, graphics2D);
-        graphics2D.drawString(value, textX, textY);
-        textY += lineHeight;
-
-        value = String.valueOf(gamePanel.getPlayer().getDefensePower());
-        textX = UtilityTool.getXForAlightToRightOfText(value, tailX, gamePanel, graphics2D);
-        graphics2D.drawString(value, textX, textY);
-        textY += lineHeight;
-
-        value = String.valueOf(gamePanel.getPlayer().getExp());
-        textX = UtilityTool.getXForAlightToRightOfText(value, tailX, gamePanel, graphics2D);
-        graphics2D.drawString(value, textX, textY);
-        textY += lineHeight;
-
-        value = String.valueOf(gamePanel.getPlayer().getNextLevelExp());
-        textX = UtilityTool.getXForAlightToRightOfText(value, tailX, gamePanel, graphics2D);
-        graphics2D.drawString(value, textX, textY);
-        textY += lineHeight;
-
-        value = String.valueOf(gamePanel.getPlayer().getCoins());
-        textX = UtilityTool.getXForAlightToRightOfText(value, tailX, gamePanel, graphics2D);
-        graphics2D.drawString(value, textX, textY);
-        textY += lineHeight;
-
-        drawCurrentEquipment(textY, tailX);
-    }
-
-    private void drawCurrentEquipment(int textY, int tailX) {
-        graphics2D.drawImage(gamePanel.getPlayer().getCurrentWeapon().getImage1(), tailX - gamePanel.getTileSize(), textY - 14, null);
-        textY += gamePanel.getTileSize();
-
-        graphics2D.drawImage(gamePanel.getPlayer().getCurrentShield().getImage1(), tailX - gamePanel.getTileSize(), textY - 14, null);
-    }
-
-    private void drawInventoryScreen(Entity entity, boolean cursor) {
-
-        int frameX = 0;
-        int frameY = 0;
-        int frameWidth = 0;
-        int frameHeight = 0;
-        int slotCol = 0;
-        int slotRow = 0;
-
-        // ITEM FRAME BOX
-        if (entity == gamePanel.getPlayer()) {
-            frameX = gamePanel.getTileSize() * 12;
-            slotCol = playerSlotCol;
-            slotRow = playerSlotRow;
-        } else {
-            frameX = gamePanel.getTileSize() * 2;
-            slotCol = npcSlotCol;
-            slotRow = npcSlotRow;
-        }
-
-        frameY = gamePanel.getTileSize();
-        frameWidth = gamePanel.getTileSize() * 6;
-        frameHeight = gamePanel.getTileSize() * 5;
-
-        drawSubWindow(frameX, frameY, frameWidth, frameHeight);
-
-        // ITEM SLOTS
-        final int slotXStart = frameX + 20;
-        final int slotYStart = frameY + 20;
-        int slotX = slotXStart;
-        int slotY = slotYStart;
-        int slotSize = gamePanel.getTileSize() + 3;
-
-        List<Asset> inventory = entity.getInventory();
-
-        drawItemsInInventory(entity, slotXStart, slotX, slotY, slotSize, inventory);
-
-        if (cursor) {
-            drawSelectionBox(slotXStart, slotYStart, slotSize, slotCol, slotRow);
-
-            // DESCRIPTION FRAME
-            int descriptionFrameX = frameX;
-            int descriptionFrameY = frameY + frameHeight;
-            int descriptionFrameWidth = frameWidth;
-            int descriptionFrameHeight = gamePanel.getTileSize() * 3;
-
-            drawItemDescriptionText(inventory, descriptionFrameX, descriptionFrameY, descriptionFrameWidth, descriptionFrameHeight, slotCol, slotRow);
-        }
-    }
-
-    private void drawItemsInInventory(Entity entity, int slotXStart, int slotX, int slotY, int slotSize, List<Asset> inventory) {
-        for (int i = 0; i < inventory.size(); i++) {
-            Asset object = inventory.get(i);
-
-            // EQUIPPED BOX COLOR
-            if (object == entity.getCurrentWeapon()
-                    || object == entity.getCurrentShield()) {
-                graphics2D.setColor(new Color(240, 190, 90));
-                graphics2D.fillRoundRect(slotX, slotY, gamePanel.getTileSize(), gamePanel.getTileSize(), 10, 10);
-            }
-
-            graphics2D.drawImage(object.getImage1(), slotX, slotY, null);
-
-            slotX += slotSize;
-
-            if (i == 4 || i == 9 || i == 14) {
-                slotX = slotXStart;
-                slotY += slotSize;
-            }
-        }
-    }
-
-    private void drawSelectionBox(int slotXStart, int slotYStart, int slotSize, int slotCol, int slotRow) {
-        // CURSOR selection box
-        int cursorX = slotXStart + (slotSize * slotCol);
-        int cursorY = slotYStart + (slotSize * slotRow);
-        int cursorWidth = gamePanel.getTileSize();
-        int cursorHeight = gamePanel.getTileSize();
-
+        // Text
         graphics2D.setColor(Color.WHITE);
-        graphics2D.setStroke(new BasicStroke(3));
-        graphics2D.drawRoundRect(cursorX, cursorY, cursorWidth, cursorHeight, 10, 10);
-    }
+        graphics2D.drawString(text, textX - 4, textY - 4);
 
-    private void drawItemDescriptionText(List<Asset> inventory, int descriptionFrameX, int descriptionFrameY, int descriptionFrameWidth, int descriptionFrameHeight, int slotCol, int slotRow) {
-        // DRAW DESCRIPTION TEXT
-        int textX = descriptionFrameX + 20;
-        int textY = descriptionFrameY + gamePanel.getTileSize();
-
-        graphics2D.setFont(graphics2D.getFont().deriveFont(28F));
-
-        int itemIndex = getItemIndexFromSlot(slotCol, slotRow);
-
-        if (itemIndex < inventory.size()) {
-
-            drawSubWindow(descriptionFrameX, descriptionFrameY, descriptionFrameWidth, descriptionFrameHeight);
-
-            for (String line : inventory.get(itemIndex).getDescription().split("\n")) {
-                graphics2D.drawString(line, textX, textY);
-                textY += 32;
+        // RETRY
+        graphics2D.setFont(graphics2D.getFont().deriveFont(50f));
+        text = "Retry";
+        textX = UtilityTool.getXForCenterOfText(text, gamePanel, graphics2D);
+        textY += gamePanel.getTileSize() * 4;
+        graphics2D.drawString(text, textX, textY);
+        if (commandNumber == 0) {
+            graphics2D.drawString(">", textX - 40, textY);
+            if (gamePanel.getKeyHandler().isEnterPressed()) {
+                commandNumber = 0;
+                gamePanel.retry();
             }
+        }
+
+        // BACK TO TITLE
+        text = "Quit";
+        textX = UtilityTool.getXForCenterOfText(text, gamePanel, graphics2D);
+        textY += 55;
+        graphics2D.drawString(text, textX, textY);
+        if (commandNumber == 1) {
+            graphics2D.drawString(">", textX - 40, textY);
+            if (gamePanel.getKeyHandler().isEnterPressed()) {
+                commandNumber = 0;
+                gamePanel.restart();
+            }
+        }
+
+        gamePanel.getKeyHandler().setEnterPressed(false);
+    }
+    private void drawTransitionScreen() {
+        counter++;
+        graphics2D.setColor(new Color(0, 0, 0, counter * 5));
+        graphics2D.fillRect(0, 0, gamePanel.getScreenWidth(), gamePanel.getScreenHeight());
+
+        if (counter == 50) {
+            counter = 0;
+            gamePanel.setGameState(gamePanel.getPlayState());
+            gamePanel.setCurrentMap(gamePanel.getEventHandler().getTempMap());
+            gamePanel.getPlayer().setWorldX(gamePanel.getTileSize() * gamePanel.getEventHandler().getTempCol());
+            gamePanel.getPlayer().setWorldY(gamePanel.getTileSize() * gamePanel.getEventHandler().getTempRow());
+            gamePanel.getEventHandler().setPreviousEventX(gamePanel.getPlayer().getWorldX());
+            gamePanel.getEventHandler().setPreviousEventY(gamePanel.getPlayer().getWorldY());
         }
     }
 
-    public int getItemIndexFromSlot(int slotCol, int slotRow) {
-        int itemIndex = slotCol + (slotRow * 5);
-        return itemIndex;
-    }
-
+    // Option screen and navigation
     private void drawOptionScreen() {
         graphics2D.setColor(Color.white);
         graphics2D.setFont(graphics2D.getFont().deriveFont(32F));
@@ -702,7 +759,6 @@ private final GamePanel gamePanel;
 
         gamePanel.getKeyHandler().setEnterPressed(false);
     }
-
     private void optionsTop(int frameX, int frameY) {
         int textX;
         int textY;
@@ -799,7 +855,6 @@ private final GamePanel gamePanel;
         // SAVE CONFIGURATION
         gamePanel.getConfig().saveConfig();
     }
-
     public void optionsFullScreenNotification(int frameX, int frameY) {
         int textX = frameX + gamePanel.getTileSize();
         int textY = frameY + gamePanel.getTileSize() * 3;
@@ -817,7 +872,6 @@ private final GamePanel gamePanel;
             commandNumber = 0;
         }
     }
-
     private void optionsControls(int frameX, int frameY) {
         int textX;
         int textY;
@@ -858,7 +912,6 @@ private final GamePanel gamePanel;
             commandNumber = 3;
         }
     }
-
     private void optionsEndGameConfirmation(int frameX, int frameY) {
         int textX = frameX + gamePanel.getTileSize();
         int textY = frameY + gamePanel.getTileSize() * 3;
@@ -897,74 +950,7 @@ private final GamePanel gamePanel;
         }
     }
 
-    private void drawGameOverScreen() {
-        graphics2D.setColor(new Color(0, 0, 0, 150));
-        graphics2D.fillRect(0, 0, gamePanel.getScreenWidth(), gamePanel.getScreenHeight());
-
-        int textX;
-        int textY;
-        String text;
-        graphics2D.setFont(graphics2D.getFont().deriveFont(Font.BOLD, 110f));
-
-        // TITLE TEXT
-        text = "Game Over";
-
-        // Shadow
-        graphics2D.setColor(Color.black);
-        textX = UtilityTool.getXForCenterOfText(text, gamePanel, graphics2D);
-        textY = gamePanel.getTileSize() * 4;
-        graphics2D.drawString(text, textX, textY);
-
-        // Text
-        graphics2D.setColor(Color.WHITE);
-        graphics2D.drawString(text, textX - 4, textY - 4);
-
-        // RETRY
-        graphics2D.setFont(graphics2D.getFont().deriveFont(50f));
-        text = "Retry";
-        textX = UtilityTool.getXForCenterOfText(text, gamePanel, graphics2D);
-        textY += gamePanel.getTileSize() * 4;
-        graphics2D.drawString(text, textX, textY);
-        if (commandNumber == 0) {
-            graphics2D.drawString(">", textX - 40, textY);
-            if (gamePanel.getKeyHandler().isEnterPressed()) {
-                commandNumber = 0;
-                gamePanel.retry();
-            }
-        }
-
-        // BACK TO TITLE
-        text = "Quit";
-        textX = UtilityTool.getXForCenterOfText(text, gamePanel, graphics2D);
-        textY += 55;
-        graphics2D.drawString(text, textX, textY);
-        if (commandNumber == 1) {
-            graphics2D.drawString(">", textX - 40, textY);
-            if (gamePanel.getKeyHandler().isEnterPressed()) {
-                commandNumber = 0;
-                gamePanel.restart();
-            }
-        }
-
-        gamePanel.getKeyHandler().setEnterPressed(false);
-    }
-
-    private void drawTransitionScreen() {
-        counter++;
-        graphics2D.setColor(new Color(0, 0, 0, counter * 5));
-        graphics2D.fillRect(0, 0, gamePanel.getScreenWidth(), gamePanel.getScreenHeight());
-
-        if (counter == 50) {
-            counter = 0;
-            gamePanel.setGameState(gamePanel.getPlayState());
-            gamePanel.setCurrentMap(gamePanel.getEventHandler().getTempMap());
-            gamePanel.getPlayer().setWorldX(gamePanel.getTileSize() * gamePanel.getEventHandler().getTempCol());
-            gamePanel.getPlayer().setWorldY(gamePanel.getTileSize() * gamePanel.getEventHandler().getTempRow());
-            gamePanel.getEventHandler().setPreviousEventX(gamePanel.getPlayer().getWorldX());
-            gamePanel.getEventHandler().setPreviousEventY(gamePanel.getPlayer().getWorldY());
-        }
-    }
-
+    // Trade Screen and navigation
     private void drawTradeScreen() {
         switch (subState) {
             case 0 -> tradeSelect();
@@ -973,7 +959,6 @@ private final GamePanel gamePanel;
         }
         gamePanel.getKeyHandler().setEnterPressed(false);
     }
-
     private void tradeSelect() {
         drawDialogueScreen();
 
@@ -1015,7 +1000,6 @@ private final GamePanel gamePanel;
         }
 
     }
-
     private void tradeBuy() {
 
         // DRAW PLAYER INVENTORY
@@ -1070,7 +1054,6 @@ private final GamePanel gamePanel;
             }
         }
     }
-
     private void tradeSell() {
 
         // DRAW PLAYER INVENTORY
@@ -1121,112 +1104,7 @@ private final GamePanel gamePanel;
         }
     }
 
-    public void drawSubWindow(int x, int y, int width, int height) {
-        Color color = new Color(0, 0, 0, 210);
-        graphics2D.setColor(color);
-        graphics2D.fillRoundRect(x, y, width, height, 35, 35);
-
-        color = new Color(255, 255, 255);
-        graphics2D.setColor(color);
-        graphics2D.setStroke(new BasicStroke(5));
-        graphics2D.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
-    }
-
-    private void splitAndDrawDialogue(int x, int y) {
-        for (String line : currentDialogue.split("\n")) {
-            graphics2D.drawString(line, x, y);
-            y += 40;
-        }
-    }
-
-
-    public UI setGameFinished(boolean gameFinished) {
-        this.gameFinished = gameFinished;
-        return this;
-    }
-
-    public String getCurrentDialogue() {
-        return currentDialogue;
-    }
-
-    public UI setCurrentDialogue(String currentDialogue) {
-        this.currentDialogue = currentDialogue;
-        return this;
-    }
-
-    public int getCommandNumber() {
-        return commandNumber;
-    }
-
-    public UI setCommandNumber(int commandNumber) {
-        this.commandNumber = commandNumber;
-        return this;
-    }
-
-    public int getTitleScreenState() {
-        return titleScreenState;
-    }
-
-    public UI setTitleScreenState(int titleScreenState) {
-        this.titleScreenState = titleScreenState;
-        return this;
-    }
-
-    public int getPlayerSlotCol() {
-        return playerSlotCol;
-    }
-
-    public UI setPlayerSlotCol(int playerSlotCol) {
-        this.playerSlotCol = playerSlotCol;
-        return this;
-    }
-
-    public int getPlayerSlotRow() {
-        return playerSlotRow;
-    }
-
-    public UI setPlayerSlotRow(int playerSlotRow) {
-        this.playerSlotRow = playerSlotRow;
-        return this;
-    }
-
-    public int getSubState() {
-        return subState;
-    }
-
-    public UI setSubState(int subState) {
-        this.subState = subState;
-        return this;
-    }
-
-    public Entity getNpc() {
-        return npc;
-    }
-
-    public UI setNpc(Entity npc) {
-        this.npc = npc;
-        return this;
-    }
-
-    public int getNpcSlotCol() {
-        return npcSlotCol;
-    }
-
-    public UI setNpcSlotCol(int npcSlotCol) {
-        this.npcSlotCol = npcSlotCol;
-        return this;
-    }
-
-    public int getNpcSlotRow() {
-        return npcSlotRow;
-    }
-
-    public UI setNpcSlotRow(int npcSlotRow) {
-        this.npcSlotRow = npcSlotRow;
-        return this;
-    }
-
-    // Battle State on a plate. Right now the Monster gets no turn and always dies in one hit
+    // BATTLE SCREEN
     public void drawBattleScreen() {
         interactingMonster = gamePanel.player.battleMonsterID;
         updateColorCounter(colorCounter);
@@ -1488,7 +1366,6 @@ private final GamePanel gamePanel;
             }
         }
     }
-
     public void drawBattleBase(int monsterIndex, String topFrameText, int playerCount) {
         drawBattleBackground();
         drawBattleEnemies(monsterIndex);
@@ -1554,8 +1431,6 @@ private final GamePanel gamePanel;
         graphics2D.setFont(battleMaru);
         graphics2D.drawString(displayText, 32, frameY + 48 + 44); // One tile, and then the additional offset
     }
-
-    // Can't forget to format the counters eventually
     public void drawBattleBottomFrame(int playerCount, int frameY) {
         if(playerCount == 1) {
             battleCharacterText = "";
@@ -1590,8 +1465,6 @@ private final GamePanel gamePanel;
         if(playerCount == 3) { }
         if(playerCount == 4) { }
     }
-
-    // This method is definitely a little clunky, I'll clean it up this week but for now it works fine
     public void drawBattleMenu() {
         // Main menu
         if(!gamePanel.player.battleItemMenu) {
@@ -1660,8 +1533,7 @@ private final GamePanel gamePanel;
         }
     }
 
-
-
+    // Handles the rainbow effect, currently only used within Battle State
     public void updateColorCounter(int currentColorCount) {
         if(currentColorCount == 0) {
             if (redCounter < 330) { // 165 * 2 (Maximum value floor times play rate inverted)
@@ -1696,13 +1568,99 @@ private final GamePanel gamePanel;
         }
     }
 
-    // White flash, mostly made to save space and help as a visual cue for event checks
+    // Battle visual effects, mostly just here to save a little typing
     public void screenFlash() {
         graphics2D.setColor(Color.white);
         graphics2D.fillRect(0,0, gamePanel.getWidth(), gamePanel.getHeight());
     }
-
     public void enemyFlash(int monsterId) {
         graphics2D.drawImage(gamePanel.monsters[0][monsterId].getStun1(), gamePanel.getTileSize() * 8 + 36, gamePanel.getTileSize() * 5 - 24, null);
+    }
+
+    // General window display methods
+    public void drawSubWindow(int x, int y, int width, int height) {
+        Color color = new Color(0, 0, 0, 210);
+        graphics2D.setColor(color);
+        graphics2D.fillRoundRect(x, y, width, height, 35, 35);
+
+        color = new Color(255, 255, 255);
+        graphics2D.setColor(color);
+        graphics2D.setStroke(new BasicStroke(5));
+        graphics2D.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
+    }
+    private void splitAndDrawDialogue(int x, int y) {
+        for (String line : currentDialogue.split("\n")) {
+            graphics2D.drawString(line, x, y);
+            y += 40;
+        }
+    }
+
+    // GETTERS AND SETTERS, not a full spread, only ones we currently use and ones we plan to implement soon.
+    public UI setGameFinished(boolean gameFinished) {
+        this.gameFinished = gameFinished;
+        return this;
+    }
+    public String getCurrentDialogue() {
+        return currentDialogue;
+    }
+    public UI setCurrentDialogue(String currentDialogue) {
+        this.currentDialogue = currentDialogue;
+        return this;
+    }
+    public int getCommandNumber() {
+        return commandNumber;
+    }
+    public UI setCommandNumber(int commandNumber) {
+        this.commandNumber = commandNumber;
+        return this;
+    }
+    public int getTitleScreenState() {
+        return titleScreenState;
+    }
+    public UI setTitleScreenState(int titleScreenState) {
+        this.titleScreenState = titleScreenState;
+        return this;
+    }
+    public int getPlayerSlotCol() {
+        return playerSlotCol;
+    }
+    public UI setPlayerSlotCol(int playerSlotCol) {
+        this.playerSlotCol = playerSlotCol;
+        return this;
+    }
+    public int getPlayerSlotRow() {
+        return playerSlotRow;
+    }
+    public UI setPlayerSlotRow(int playerSlotRow) {
+        this.playerSlotRow = playerSlotRow;
+        return this;
+    }
+    public int getSubState() {
+        return subState;
+    }
+    public UI setSubState(int subState) {
+        this.subState = subState;
+        return this;
+    }
+    public Entity getNpc() {
+        return npc;
+    }
+    public UI setNpc(Entity npc) {
+        this.npc = npc;
+        return this;
+    }
+    public int getNpcSlotCol() {
+        return npcSlotCol;
+    }
+    public UI setNpcSlotCol(int npcSlotCol) {
+        this.npcSlotCol = npcSlotCol;
+        return this;
+    }
+    public int getNpcSlotRow() {
+        return npcSlotRow;
+    }
+    public UI setNpcSlotRow(int npcSlotRow) {
+        this.npcSlotRow = npcSlotRow;
+        return this;
     }
 }

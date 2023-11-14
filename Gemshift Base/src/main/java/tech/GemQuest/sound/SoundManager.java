@@ -4,17 +4,16 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import java.net.URL;
-public class SoundManager
+public class SoundManager {
 
-        //sound Variables. Clip is in charge of sound as well as SoundURL for files.
-{
+    // Sound Variables. Clip is in charge of sound as well as SoundURL for files.
     private Clip clip;
     private final URL[] soundUrl = new URL[30];
     private FloatControl floatControl;
     private int volumeScale = 3;
     private float volume;
 
-    //CONSTRUCTOR
+    // CONSTRUCTOR
     public SoundManager() {
         soundUrl[0] = getClass().getResource("/sounds/GameAudio1.wav");
         soundUrl[1] = getClass().getResource("/sounds/coin.wav");
@@ -45,32 +44,16 @@ public class SoundManager
         soundUrl[26] = getClass().getResource("/sounds/Vampiric.wav");
     }
 
-
-    //GETTERS AND SETTERS
-    public void setFile(int index) {
-        try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundUrl[index]);
-            clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            floatControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            checkVolume();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
+    // Things a sound might reasonably be expected to do
     public void play() {
         clip.start();
     }
-
     public void loop() {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
-
     public void stop() {
         clip.stop();
     }
-
     public void checkVolume() {
         switch (volumeScale) {
             case 0 -> volume = -80f;
@@ -83,8 +66,22 @@ public class SoundManager
         floatControl.setValue(volume);
     }
 
+    // GETTERS AND SETTERS
+    public void setFile(int index) {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundUrl[index]);
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            floatControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            checkVolume();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public int getVolumeScale() {
         return volumeScale;
     } public SoundManager
 
-setVolumeScale(int volumeScale) { this.volumeScale = volumeScale; return this; } }
+    setVolumeScale(int volumeScale) { this.volumeScale = volumeScale; return this;
+    }
+}
