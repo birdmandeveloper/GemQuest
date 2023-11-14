@@ -19,7 +19,8 @@ import java.util.Objects;
 
 public class UI {
 
-    private final GamePanel gamePanel;
+//UI variables
+private final GamePanel gamePanel;
     private Graphics2D graphics2D;
     private final UtilityTool utilityTool = new UtilityTool();
     private final BufferedImage heart_full, heart_half, heart_blank, crystal_full, crystal_blank, coin;
@@ -59,6 +60,8 @@ public class UI {
     public int turnTimeCounter = 0;
     public int turnTimeAssist = 0;
     public int currentDamageDealt = 0;
+
+    //This Sets up the Ui in the Game
 
     public UI(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -235,6 +238,7 @@ public class UI {
 
         gamePanel.getKeyHandler().setEnterPressed(false);
     }
+//Text Startup Stuff
 
     private void drawStartScreen() {
 

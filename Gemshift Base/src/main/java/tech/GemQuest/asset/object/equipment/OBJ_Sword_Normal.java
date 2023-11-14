@@ -7,7 +7,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
-
+////OBJECTS WE CAN "USE"//
 public class OBJ_Sword_Normal extends Weapon {
 
     public OBJ_Sword_Normal(GamePanel gamePanel) {

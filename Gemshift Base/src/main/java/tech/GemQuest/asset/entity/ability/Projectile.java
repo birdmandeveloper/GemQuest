@@ -2,11 +2,12 @@ package tech.GemQuest.asset.entity.ability;
 
 import tech.GemQuest.GamePanel;
 import tech.GemQuest.asset.entity.Entity;
-
+//THIS IS IN CHARGE OF FIREBALL/ROCK LOGIC
 public abstract class Projectile extends Entity {
-
+    //VARIABLES
     private Entity user;
 
+    //CONSTRUCTOR
     public Projectile(GamePanel gamePanel) {
         super(gamePanel);
     }
@@ -20,6 +21,7 @@ public abstract class Projectile extends Entity {
         this.setCurrentLife(this.getMaxLife());
     }
 
+    //TRACES MOVEMENT
     @Override
     public void update() {
 
@@ -57,6 +59,7 @@ public abstract class Projectile extends Entity {
         checkAndChangeSpriteAnimationImage();
     }
 
+    //THIS AFFECTS MANA
     public abstract boolean haveEnoughResource(Entity user);
 
     public abstract void subtractResource(Entity user);

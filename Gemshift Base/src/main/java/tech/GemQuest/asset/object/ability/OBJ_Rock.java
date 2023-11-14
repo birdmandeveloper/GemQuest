@@ -5,6 +5,7 @@ import tech.GemQuest.asset.entity.Entity;
 import tech.GemQuest.asset.entity.ability.Projectile;
 
 import java.awt.*;
+//THIS IS THE ENEMY PROJECTILE. WE COULD POTENTIALLY USE THIS FOR A SEPARATE PLAYER PROJECTILE
 
 public class OBJ_Rock extends Projectile {
 
@@ -22,6 +23,7 @@ public class OBJ_Rock extends Projectile {
         getAnimationImages();
     }
 
+    //GETTERS
     public void getAnimationImages() {
         setUp1(setup("/images/ability/rock_down_1", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
         setUp2(setup("/images/ability/rock_down_1", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
@@ -60,7 +62,7 @@ public class OBJ_Rock extends Projectile {
 
     @Override
     public int getParticleMaxLife() {
-        return 20; // How long it will last
+        return 20;
     }
 
     @Override

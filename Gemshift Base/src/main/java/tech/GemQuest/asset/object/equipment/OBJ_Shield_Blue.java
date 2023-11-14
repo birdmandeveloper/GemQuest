@@ -7,7 +7,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
-
+///OBJECTS WE CAN "USE"//
 public class OBJ_Shield_Blue extends Shield {
 
     public OBJ_Shield_Blue(GamePanel gamePanel) {

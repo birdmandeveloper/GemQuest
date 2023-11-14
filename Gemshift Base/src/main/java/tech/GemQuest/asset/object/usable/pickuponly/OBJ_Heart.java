@@ -7,7 +7,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
-
+//OBJECTS WE CAN GRAB. ALL THE SAME BASICALLY.
 public class OBJ_Heart extends PickUpOnlyObject {
 
     private final GamePanel gamePanel;

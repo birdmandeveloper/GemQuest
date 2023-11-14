@@ -14,9 +14,6 @@ import tech.GemQuest.asset.object.usable.pickuponly.OBJ_Heart;
 import tech.GemQuest.asset.object.usable.pickuponly.OBJ_ManaCrystal;
 import tech.GemQuest.asset.tile.interactive.IT_DryTree;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class AssetManager {
 
     private final GamePanel gamePanel;
@@ -25,16 +22,14 @@ public class AssetManager {
 
     // Spawn Records
     public boolean[] monSpawnZero = new boolean[]{true, true, true, true, true, true};
-
-    // Respawn thoughts - a list HERE that syncs with the monster assignment, we flip this list boolean and check each
-    // slot we add based on if THIS list is true or false. In other words, we can store the "respawnability" of a monster
-    // even if we nullify the monster itself, and then just prevent it from being added again
+    //Check Chapter One for Some ideas
 
     public AssetManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         this.tileSize = gamePanel.getTileSize();
     }
 
+    //PUTS Everything where it should be essentially
     public void setObjects() {
 
         // MAP 0

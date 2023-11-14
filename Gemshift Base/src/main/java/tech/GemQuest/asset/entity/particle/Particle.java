@@ -5,15 +5,16 @@ import tech.GemQuest.asset.Asset;
 import tech.GemQuest.asset.entity.Entity;
 
 import java.awt.*;
-
+// THIS IS IN CHARGE OF DEBRIS ANIMATIONS IN GAME
 public class Particle extends Entity {
-
+    //VARIABLES
     private final Asset generator;
     private final Color color;
     private final int size;
     private final int xd;
     private int yd;
 
+    //CONSTRUCTOR
     public Particle(GamePanel gamePanel, Asset generator, Color color, int size, int speed, int maxLife, int xd, int yd) {
         super(gamePanel);
 
@@ -59,6 +60,6 @@ public class Particle extends Entity {
 
     @Override
     public void resetDefaultSpeed() {
-        // :P
+
     }
 }

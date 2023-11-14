@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
-
+//OBJECTS WE CAN "USE"//
 public class OBJ_Potion_Red extends Object {
 
     private final GamePanel gamePanel;

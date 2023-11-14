@@ -9,8 +9,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Random;
-
+//LOGIC FOR MONSTERS FOR SLIME TO INHERIT
 public class Monster extends Entity {
+    //VARIABLES
     public int monsterIndex;
 
     public Monster(GamePanel gamePanel, int monsterIndex) {
@@ -18,6 +19,7 @@ public class Monster extends Entity {
         this.monsterIndex = monsterIndex;
     }
 
+    //THESE ARE THE MONSTER MOVEMENT "LOGIC"
     @Override
     public void setupAI() {
         super.setupAI();
@@ -26,7 +28,7 @@ public class Monster extends Entity {
 
     @Override
     public void resetDefaultSpeed() {
-        System.out.println("This method never gets called (I think)");
+        System.out.println("SpeedReset");
     }
 
     private void setupProjectileAI() {

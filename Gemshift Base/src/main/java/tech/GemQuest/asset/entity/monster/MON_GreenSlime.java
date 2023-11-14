@@ -9,7 +9,7 @@ import tech.GemQuest.asset.object.usable.pickuponly.OBJ_ManaCrystal;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
-
+//EXAMPLE OF MONSTER CLASS
 public class MON_GreenSlime extends Monster {
     public int defaultSpeed = 1;
 
@@ -18,7 +18,7 @@ public class MON_GreenSlime extends Monster {
 
         setName("Green Slime");
         setDirection("down");
-        setIdleMessage("It seems to vibing pretty hard tbh.");
+        setIdleMessage("Standing on business");
         setSpeed(defaultSpeed);
         setMaxLife(3);
         setCurrentLife(getMaxLife());
@@ -40,6 +40,7 @@ public class MON_GreenSlime extends Monster {
         onPath = true;
     }
 
+    //THESE ARE STOCK BUT EGGSLIME IS CUSTOM
     public void getAnimationImages() {
         setUp1(setup("/images/monster/greenslime_down_1", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
         setUp2(setup("/images/monster/greenslime_down_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));

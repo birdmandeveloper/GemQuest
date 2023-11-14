@@ -1,7 +1,7 @@
 package tech.GemQuest.asset.entity.npc;
 
 import tech.GemQuest.GamePanel;
-
+//OLD MAN
 public class NPC_OldMan extends NPC {
 
     public NPC_OldMan(GamePanel gamePanel) {
@@ -14,6 +14,7 @@ public class NPC_OldMan extends NPC {
         setDialogue();
     }
 
+    // STOCK NPC ASSETS FOR NOW
     public void getAnimationImages() {
         setUp1(setup("/images/npc/oldman_up_1", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
         setUp2(setup("/images/npc/oldman_up_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));

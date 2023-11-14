@@ -54,7 +54,7 @@ public class Object implements Asset {
         // Not used
     }
 
-
+//GETTERS AND SETTERS
     public int getIndex() {
         return index;
     }

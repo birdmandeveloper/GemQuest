@@ -4,7 +4,7 @@ import tech.GemQuest.GamePanel;
 import tech.GemQuest.asset.Asset;
 
 public class EventHandler {
-
+//EVENT Variables
     private final GamePanel gamePanel;
     private final EventRectangle[][][] eventRect;
     private int previousEventX, previousEventY;

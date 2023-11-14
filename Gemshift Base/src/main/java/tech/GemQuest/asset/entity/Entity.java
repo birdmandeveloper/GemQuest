@@ -19,14 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
-
+//IMPLEMENTS ASSET. OTHER OBJECTS LIKE PLAYER WILL INHERIT FROM THIS CLASS
 public abstract class Entity implements Asset {
-
+    //VARIABLES
     private final GamePanel gamePanel;
     public boolean isTakingTurn;
-
-    // CHARACTER INFO
-    private int index;
+    // OBJECTS & ABILITIES VARIABLES
+    private final int maxInventorySize = 20;
     private String name;
     private int worldX, worldY;
     private int speed;
@@ -44,9 +43,8 @@ public abstract class Entity implements Asset {
     private int exp;
     private int nextLevelExp;
     private String idleMessage;
-
-    // OBJECTS & ABILITIES
-    private final int maxInventorySize = 20;
+    // CHARACTER INFO VARIABLES
+    private int index;
     private List<Asset> inventory = new ArrayList<>();
     private int coins;
     private Weapon currentWeapon;
@@ -88,6 +86,7 @@ public abstract class Entity implements Asset {
     public boolean onPath = false;
     public boolean contactPlayer;
 
+    //CONSTRUCTOR
     public Entity(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         setDirection("down");
@@ -438,7 +437,7 @@ public abstract class Entity implements Asset {
         gamePanel.getParticles().add(p3);
         gamePanel.getParticles().add(p4);
     }
-
+//GETTERS AND SETTERS
 
     public GamePanel getGamePanel() {
         return gamePanel;

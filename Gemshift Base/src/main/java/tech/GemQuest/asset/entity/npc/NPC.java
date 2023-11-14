@@ -2,9 +2,9 @@ package tech.GemQuest.asset.entity.npc;
 
 import tech.GemQuest.GamePanel;
 import tech.GemQuest.asset.entity.Entity;
-
+//DEFINES NPC FOR THE OTHER NPC CLASSES TO INHERIT FROM
 public class NPC extends Entity {
-
+    //VARIABLES
     private String[] dialogues = new String[20];
     private int dialogueIndex;
 
@@ -34,6 +34,7 @@ public class NPC extends Entity {
         }
     }
 
+    //GETTER AND SETTER
     public String[] getDialogues() {
         return dialogues;
     }

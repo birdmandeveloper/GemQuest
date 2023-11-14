@@ -7,7 +7,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
-
+//OBJECTS WE CAN "USE".
 public class OBJ_Axe extends Weapon {
 
     public OBJ_Axe(GamePanel gamePanel) {

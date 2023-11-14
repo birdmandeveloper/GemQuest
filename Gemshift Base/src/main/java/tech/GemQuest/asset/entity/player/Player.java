@@ -13,7 +13,7 @@ import tech.GemQuest.util.UtilityTool;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
+//PLAYER OBJECT CLASS
 public class Player extends Entity {
 
     private final KeyHandler keyHandler;
@@ -124,6 +124,7 @@ public class Player extends Entity {
         setRight2(setup("/images/player/clarkrightstandleftstep", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
     }
 
+    //THESE CURRENTLY HAVE A STAND IN ANIMATION AND STAND IN FILES
     public void getAttackImages() {
         if (getCurrentWeapon() instanceof OBJ_Sword_Normal) {
             setAttackUp1(setup("/images/player/boy_attack_up_1", getGamePanel().getTileSize(), getGamePanel().getTileSize() * 2));
@@ -148,6 +149,7 @@ public class Player extends Entity {
         }
     }
 
+    //IN CHARGE OF MOVEMENT
     @Override
     public void update() {
         if (isAttacking()) {

@@ -4,9 +4,10 @@ import tech.GemQuest.GamePanel;
 import tech.GemQuest.asset.entity.Entity;
 
 import java.util.ArrayList;
+//A*ALGORITHM FOR MOVEMENT
 
 public class PathFinder {
-
+    //VARIABLES
     GamePanel gp;
     Node[][] node;
     ArrayList<Node> openList = new ArrayList<>();
@@ -15,9 +16,10 @@ public class PathFinder {
     boolean goalReached = false;
     int step = 0;
 
+    //CONSTRUCTOR
     public PathFinder(GamePanel gp) {
         this.gp = gp;
-        instantiateNodes(); // PAY ATTENTION STEVICK
+        instantiateNodes();
     }
 
     public void instantiateNodes() {

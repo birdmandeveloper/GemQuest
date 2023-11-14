@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
-
+//OBJECTS WE CAN "USE"// NO IMPLEMENTATION IN DEMO, JUST FOR SHOP.
 public class OBJ_Key extends Object {
 
     public OBJ_Key(GamePanel gamePanel) {

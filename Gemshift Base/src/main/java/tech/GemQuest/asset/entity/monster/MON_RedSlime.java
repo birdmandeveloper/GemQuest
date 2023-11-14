@@ -10,13 +10,14 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+//EXAMPLE OF MONSTER CLASS
 public class MON_RedSlime extends Monster {
     public MON_RedSlime(GamePanel gamePanel, int monsterIndex) {
         super(gamePanel, monsterIndex);
 
         setName("Red Slime");
         setDirection("down");
-        setIdleMessage("It's staring you down, menacingly.");
+        setIdleMessage("It stares you down, menacingly");
         setSpeed(1);
         setMaxLife(3);
         setCurrentLife(getMaxLife());
@@ -35,6 +36,7 @@ public class MON_RedSlime extends Monster {
         getAnimationImages();
     }
 
+    //THESE ARE STOCK BUT EGGSLIME IS CUSTOM
     public void getAnimationImages() {
         setUp1(setup("/images/monster/redslime_down_1", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
         setUp2(setup("/images/monster/redslime_down_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
@@ -97,6 +99,7 @@ public class MON_RedSlime extends Monster {
     public void resetDefaultSpeed() {
         setSpeed(1);
     }
+
     @Override
     public BufferedImage getIdleImage1() {
         return setup("/images/monster/redslime_down_1", getGamePanel().getTileSize() * 3, getGamePanel().getTileSize() * 3);

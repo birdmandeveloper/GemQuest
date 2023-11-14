@@ -2,6 +2,9 @@ package tech.GemQuest.event;
 
 import java.awt.*;
 
+//Object Specifically Linked to an event
+
+
 public class EventRectangle extends Rectangle {
 
     private int eventRectDefaultX, eventRectDefaultY;

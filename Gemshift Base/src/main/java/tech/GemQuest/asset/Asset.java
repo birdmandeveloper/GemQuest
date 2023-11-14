@@ -4,8 +4,9 @@ import tech.GemQuest.asset.object.Object;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
+//ASSET IS INTERFACE THAT OUR OBJECT CLASSES CAN ACCESS
 public interface Asset {
+
     void update();
 
     void draw(Graphics2D graphics2D);

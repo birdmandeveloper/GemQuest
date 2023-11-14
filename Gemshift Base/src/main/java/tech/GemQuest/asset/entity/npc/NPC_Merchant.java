@@ -7,7 +7,7 @@ import tech.GemQuest.asset.object.equipment.OBJ_Shield_Wood;
 import tech.GemQuest.asset.object.equipment.OBJ_Sword_Normal;
 import tech.GemQuest.asset.object.usable.inventory.OBJ_Key;
 import tech.GemQuest.asset.object.usable.inventory.OBJ_Potion_Red;
-
+//STOCK SHOP OWNER CLASS TO BE MODIFIED
 public class NPC_Merchant extends NPC {
 
     public NPC_Merchant(GamePanel gamePanel) {
