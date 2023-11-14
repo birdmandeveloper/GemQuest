@@ -25,7 +25,7 @@ import java.util.List;
 
 public class GamePanel extends JPanel implements Runnable {
 
-    // SCREEN SETTINGS
+    // SCREEN SETTINGS // This sets the size of each tile, and the size of the screen by tile
     private final int originalTileSize = 16; // 16x16 tile
     private final int scale = 3;
 
@@ -33,16 +33,17 @@ public class GamePanel extends JPanel implements Runnable {
     private final int maxScreenColumns = 20;
     private final int maxScreenRows = 12;
 
-    // Window mode
+    // Window mode// This sets the sizee of the window in standard
     private final int screenWidth = tileSize * maxScreenColumns; // 960 px
     private final int screenHeight = tileSize * maxScreenRows; // 576 px
 
-    // Full screen mode
+    // Full screen mode. This sets the mode to Full screen in options
     private int fullScreenWidth = screenWidth; //+ (screenWidth) ;
     private int fullScreenHeight = screenHeight; //+ (screenHeight) ;
+    //These draw the images that we import into resources
     private BufferedImage tempScreen;
     private Graphics2D graphics2D;
-
+    // This establishes FPS
     private final int FPS = 60;
 
     // WORLD SETTINGS
@@ -52,7 +53,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final int worldHeight = tileSize * maxWorldRows;
     private final int maxMaps = 10;
 
-    // SYSTEM
+    // SYSTEM. Supporting game functionality to GamePanel.
     private final KeyHandler keyHandler = new KeyHandler(this);
     private final CollisionChecker collisionChecker = new CollisionChecker(this);
     private final TileManager tileManager = new TileManager(this);
@@ -65,12 +66,16 @@ public class GamePanel extends JPanel implements Runnable {
     private final BattleManager battleM = new BattleManager(this);
     public PathFinder pFinder = new PathFinder(this);
 
-    // Game State (no shit)
+    private int dynamicSpeedCounter = 0;
+
+    private boolean fullScreenOn;
+
+    // Game State. Different variable represents different game response
     public int gameState;
     public final int TITLE_STATE = 0;
     public final int PLAY_STATE = 1;
     public final int PAUSE_STATE = 2;
-    public  final int DIALOGUE_STATE = 3;
+    public final int DIALOGUE_STATE = 3;
     public final int CHARACTER_STATE = 4;
     public final int OPTION_STATE = 5;
     public final int GAME_OVER_STATE = 6;
@@ -78,25 +83,26 @@ public class GamePanel extends JPanel implements Runnable {
     public final int TRADE_STATE = 8;
     public final int BATTLE_STATE = 9;
 
-    // ENTITIES & OBJECTS
+    // ENTITIES & OBJECTS. Player and non player entities in here.
     private final List<Asset> assets = new ArrayList<>();
-    private boolean fullScreenOn;
+    private final List<Asset> projectiles = new ArrayList<>();
+    private final List<Asset> particles = new ArrayList<>();
 
-    // GAME THREAD
-    private Thread gameThread;
-    private int currentMap = 0;
-    private final Asset[][] objects = new Object[maxMaps][20];
-
-    // NEEDS to be public, eventually we have to access these stats elsewhere
     public final Player player = new Player(this, keyHandler);
     private final Asset[][] npcs = new Entity[maxMaps][10];
     public final Asset[][] monsters = new Entity[maxMaps][20];
-    private final InteractiveTile[][] interactiveTiles = new InteractiveTile[maxMaps][50];
-    private final List<Asset> projectiles = new ArrayList<>();
-    private final List<Asset> particles = new ArrayList<>();
-    private int dynamicSpeedCounter = 0;
-    public int interactingEnemy = 0;
 
+    private final Asset[][] objects = new Object[maxMaps][20];
+
+
+    // GAME THREAD. This starts a thread
+    private Thread gameThread;
+    private int currentMap = 0;
+
+//Interactive. Assets that are interactive with player.
+
+    private final InteractiveTile[][] interactiveTiles = new InteractiveTile[maxMaps][50];
+    //Sets Attributes of the gamePanel
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
@@ -104,7 +110,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
     }
-
+    //Creates the Objects in the actual game
     public void setUpGame() {
         assetManager.setObjects();
         assetManager.setNPCs();
@@ -119,25 +125,26 @@ public class GamePanel extends JPanel implements Runnable {
             setFullScreen();
         }
     }
-
+    // GET FULLSCREEN WIDTH & HEIGHT, GET LOCAL SCREEN DEVICE. Sets Fullscreen.
     public void setFullScreen() {
 
-        // GET LOCAL SCREEN DEVICE
+
         GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice graphicsDevice = graphicsEnvironment.getDefaultScreenDevice();
 
         graphicsDevice.setFullScreenWindow(Main.window);
 
-        // GET FULLSCREEN WIDTH & HEIGHT
+
         fullScreenWidth = Main.window.getWidth();
         fullScreenHeight = Main.window.getHeight();
     }
+    //Starts Game
 
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
     }
-
+    //Game Over stuff
     public void retry() {
         player.setDefaultPosition();
         player.restoreLifeAndMana();
@@ -145,7 +152,7 @@ public class GamePanel extends JPanel implements Runnable {
         assetManager.setMonsters();
         gameState = PLAY_STATE;
     }
-
+    //Game over stuff
     public void restart() {
         player.setItems();
         player.setDefaultValues();
@@ -156,7 +163,7 @@ public class GamePanel extends JPanel implements Runnable {
         gameState = TITLE_STATE;
         stopMusic();
     }
-
+    //RunTime, Nanotime converted to FPS. (This is time)
     @Override
     public void run() {
         double drawInterval = 1_000_000_000 / FPS; // 60 FPS
@@ -177,7 +184,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
     }
-
+    //Updates enemies in real time. (This is movement)
     public void update() {
         if (gameState == PLAY_STATE) {
             if (!player.fromBattleState) {
@@ -198,7 +205,7 @@ public class GamePanel extends JPanel implements Runnable {
             // We want this to do NOTHING for now, like pause
         }
     }
-
+    //Basically update but only for NPC
     private void updateNPCs() {
         for (int i = 0; i < npcs[1].length; i++) {
             if (npcs[currentMap][i] != null) {
@@ -206,7 +213,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
     }
-
+    //Update for monster
     private void updateMonsters() {
         for (int i = 0; i < monsters[1].length; i++) {
 
@@ -215,7 +222,7 @@ public class GamePanel extends JPanel implements Runnable {
                     monsters[currentMap][i].update();
                     dynamicSpeedCounter++;
 
-                    // This is for resetting dynamic speed in the future. Monster code too tightly coupled atm
+
                     if(dynamicSpeedCounter > 60) {
                         monsters[currentMap][i].resetDefaultSpeed();
                         dynamicSpeedCounter = 0;
@@ -229,11 +236,11 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
     }
-
+    //Monster Defeated
     private void removeMonster(int index) {
         monsters[currentMap][index] = null;
     }
-
+    //Projectile Movement
     private void updateProjectiles() {
         for (int i = 0; i < projectiles.size(); i++) {
             if (projectiles.get(i) != null) {
@@ -247,7 +254,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
     }
-
+    //Particle Movement
     private void updateParticles() {
         for (int i = 0; i < particles.size(); i++) {
             if (particles.get(i) != null) {
@@ -261,7 +268,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
     }
-
+    //Movement on interactive tile, like Dry Tree disappearing
     private void updateInteractiveTiles() {
         for (int i = 0; i < interactiveTiles[1].length; i++) {
             if (interactiveTiles[currentMap][i] != null) {
@@ -309,7 +316,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
     }
-
+    // Adds specific things to Map
     private void addAssets() {
         assets.add(player);
 
@@ -353,7 +360,7 @@ public class GamePanel extends JPanel implements Runnable {
             asset.draw(graphics2D);
         }
     }
-
+    //DEBUG
     private void drawDebugInfo(Graphics2D graphics2D, long drawStart) {
         long drawEnd = System.nanoTime();
         long passedTime = drawEnd - drawStart;
@@ -380,7 +387,7 @@ public class GamePanel extends JPanel implements Runnable {
         graphics.drawImage(tempScreen, 0, 0, fullScreenWidth, fullScreenHeight, null);
         graphics.dispose();
     }
-
+    //Music Stuff
     public void playMusic(int index) {
         music.setFile(index);
         music.play();
@@ -395,7 +402,7 @@ public class GamePanel extends JPanel implements Runnable {
         soundEffect.setFile(index);
         soundEffect.play();
     }
-
+//Screen Stuff
 
     public int getTileSize() {
         return tileSize;
@@ -441,6 +448,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.fullScreenOn = fullScreenOn;
         return this;
     }
+//Utility "Classes"
 
     public KeyHandler getKeyHandler() {
         return keyHandler;
@@ -470,7 +478,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.gameThread = gameThread;
         return this;
     }
-
+    // GETTERS AND SETTERS
     public Player getPlayer() {
         return player;
     }
