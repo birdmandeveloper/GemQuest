@@ -74,6 +74,7 @@ public class Player extends Entity {
         getInventory().add(new OBJ_Potion_Red(getGamePanel()));
         getInventory().add(new OBJ_Key(getGamePanel()));
         getInventory().add(new OBJ_Key(getGamePanel()));
+        getInventory().add(new OBJ_Axe(getGamePanel()));
     }
 
     public void setDefaultPosition() {
@@ -135,8 +136,9 @@ public class Player extends Entity {
         if (getCurrentWeapon() instanceof OBJ_Axe) {
             setAttackUp1(setup("/images/player/boy_axe_up_1", getGamePanel().getTileSize(), getGamePanel().getTileSize() * 2));
             setAttackUp2(setup("/images/player/boy_axe_up_2", getGamePanel().getTileSize(), getGamePanel().getTileSize() * 2));
-            setAttackDown1(setup("/images/player/boy_axe_down_1", getGamePanel().getTileSize(), getGamePanel().getTileSize() * 2));
-            setAttackDown2(setup("/images/player/boy_axe_down_2", getGamePanel().getTileSize(), getGamePanel().getTileSize() * 2));
+            setAttackDown0(setup("/images/player/clark_front_axe_0", getGamePanel().getTileSize(), getGamePanel().getTileSize() * 2)); // !!!
+            setAttackDown1(setup("/images/player/clark_front_axe_1", getGamePanel().getTileSize(), getGamePanel().getTileSize() * 2));
+            setAttackDown2(setup("/images/player/clark_front_axe_2", getGamePanel().getTileSize(), getGamePanel().getTileSize() * 2));
             setAttackLeft1(setup("/images/player/boy_axe_left_1", getGamePanel().getTileSize() * 2, getGamePanel().getTileSize()));
             setAttackLeft2(setup("/images/player/boy_axe_left_2", getGamePanel().getTileSize() * 2, getGamePanel().getTileSize()));
             setAttackRight1(setup("/images/player/boy_axe_right_1", getGamePanel().getTileSize() * 2, getGamePanel().getTileSize()));
@@ -185,12 +187,16 @@ public class Player extends Entity {
     private void attacking() {
         setSpriteCounter(getSpriteCounter() + 1);
 
-        if (getSpriteCounter() <= 5) {
+        if (getSpriteCounter() <= 10) {
             setSpriteNumber(1);
         }
 
-        if (getSpriteCounter() > 5 && getSpriteCounter() <= 25) {
+        if (getSpriteCounter() > 10 && getSpriteCounter() <= 15) {
             setSpriteNumber(2);
+        }
+
+        if (getSpriteCounter() > 15 && getSpriteCounter() <= 30) {
+            setSpriteNumber(3);
 
             // Save current worldX, worldY and CollisionArea
             int currentWorldX = getWorldX();
@@ -199,12 +205,33 @@ public class Player extends Entity {
             int collisionAreaHeight = getCollisionArea().height;
 
             // Adjust player's worldX/Y to the attackArea
-            switch (getDirection()) {
-                case "up" -> setWorldY(currentWorldY - getAttackArea().height);
-                case "down" -> setWorldY(currentWorldY + getAttackArea().height);
-                case "left" -> setWorldX(currentWorldX - getAttackArea().width);
-                case "right" -> setWorldX(currentWorldX + getAttackArea().width);
+
+            if(direction.equals("down") && getSpriteNumber() == 1) {
+                setWorldY(currentWorldY - getAttackArea().height);
             }
+            if(direction.equals("down") && getSpriteNumber() == 2 ||
+                    direction.equals("down") && getSpriteNumber() == 3) {
+                setWorldY(currentWorldY + getAttackArea().height);
+            }
+
+            if(direction.equals("up")) {
+                setWorldY(currentWorldY - getAttackArea().height);
+            }
+
+            if(direction.equals("left")) {
+                setWorldX(currentWorldX - getAttackArea().width);
+            }
+
+            if(direction.equals("right")) {
+                setWorldX(currentWorldX + getAttackArea().width);
+            }
+
+//            switch (getDirection()) {
+//                case "up" -> setWorldY(currentWorldY - getAttackArea().height);
+//                case "down" -> setWorldY(currentWorldY + getAttackArea().height);
+//                case "left" -> setWorldX(currentWorldX - getAttackArea().width);
+//                case "right" -> setWorldX(currentWorldX + getAttackArea().width);
+//            }
 
             // Make collisionArea into attackArea
             getCollisionArea().width = getAttackArea().width;
@@ -225,7 +252,7 @@ public class Player extends Entity {
             getCollisionArea().height = collisionAreaHeight;
         }
 
-        if (getSpriteCounter() > 25) {
+        if (getSpriteCounter() > 30) {
             setSpriteNumber(1);
             setSpriteCounter(0);
             setAttacking(false);

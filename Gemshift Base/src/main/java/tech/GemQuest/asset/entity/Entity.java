@@ -54,8 +54,8 @@ public abstract class Entity implements Asset {
     private boolean isBattleItem;
 
     // ANIMATION
-    public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2, stun1;
-    private BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, attackLeft1, attackLeft2, attackRight1, attackRight2;
+    public BufferedImage up0, up1, up2, down0, down1, down2, left0, left1, left2, right0, right1, right2, stun1;
+    private BufferedImage attackUp0, attackUp1, attackUp2, attackDown0, attackDown1, attackDown2, attackLeft0, attackLeft1, attackLeft2, attackRight0, attackRight1, attackRight2;
     public String direction;
     private int spriteCounter = 0;
     private int spriteNumber = 1;
@@ -333,8 +333,10 @@ public abstract class Entity implements Asset {
                         image = getDown2();
                 } else if (isAttacking()) {
                     if (getSpriteNumber() == 1)
-                        image = getAttackDown1();
+                        image = getAttackDown0();
                     if (getSpriteNumber() == 2)
+                        image = getAttackDown1();
+                    if (getSpriteNumber() == 3)
                         image = getAttackDown2();
                 }
 
@@ -966,6 +968,30 @@ public abstract class Entity implements Asset {
     }
     public void setIsRespawnable(boolean set) {
         this.isRespawnable = set;
+    }
+    public BufferedImage getAttackUp0() {
+        return attackUp0;
+    }
+    public void setAttackUp0(BufferedImage attackUp0) {
+        this.attackUp0 = attackUp0;
+    }
+    public BufferedImage getAttackDown0() {
+        return attackDown0;
+    }
+    public void setAttackDown0(BufferedImage attackDown0) {
+        this.attackDown0 = attackDown0;
+    }
+    public BufferedImage getAttackLeft0() {
+        return attackLeft0;
+    }
+    public void setAttackLeft0(BufferedImage attackLeft0) {
+        this.attackLeft0 = attackLeft0;
+    }
+    public BufferedImage getAttackRight0() {
+        return attackRight0;
+    }
+    public void setAttackRight0(BufferedImage attackRight0) {
+        this.attackRight0 = attackRight0;
     }
 
     // NOT USED

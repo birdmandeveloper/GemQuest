@@ -8,26 +8,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c6fe4610-6adf-4948-9d2d-bea255a7d182" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_back_0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_back_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_back_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_front_0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_front_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_front_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_left_0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_left_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_left_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_right_0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_right_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_right_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clarkfron3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clarkfront1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clarkfront2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_front_axe_0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_front_axe_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_front_axe_2.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.txt" beforeDir="false" afterPath="$PROJECT_DIR$/config.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/Entity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/player/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/tile/TileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/tile/TileManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
