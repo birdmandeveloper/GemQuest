@@ -9,7 +9,7 @@ import tech.GemQuest.asset.object.usable.pickuponly.OBJ_ManaCrystal;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
-// EXAMPLE OF MONSTER CLASS
+
 public class MON_EggSlime extends Monster {
     public MON_EggSlime(GamePanel gamePanel, int monsterIndex) {
         super(gamePanel, monsterIndex);
@@ -51,6 +51,8 @@ public class MON_EggSlime extends Monster {
 
     @Override
     public void damageReaction() {
+        this.setAggro(false);
+
         setActionLockCounter(0);
         setSpeed(3); // Increased speed to retreat
         setDirection(getGamePanel().getPlayer().getDirection());
@@ -59,6 +61,8 @@ public class MON_EggSlime extends Monster {
 
     @Override
     public void retreatReaction() {
+        this.setAggro(false);
+
         setActionLockCounter(3);
         String updatedDirection = "";
 

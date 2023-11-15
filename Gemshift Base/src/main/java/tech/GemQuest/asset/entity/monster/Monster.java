@@ -9,9 +9,11 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Random;
-//LOGIC FOR MONSTERS FOR SLIME TO INHERIT
+
+// LOGIC FOR MONSTERS FOR SLIME TO INHERIT
 public class Monster extends Entity {
-    //VARIABLES
+
+    // Allows us to pass a Monster's array position through the Monster itself
     public int monsterIndex;
 
     public Monster(GamePanel gamePanel, int monsterIndex) {
@@ -19,7 +21,7 @@ public class Monster extends Entity {
         this.monsterIndex = monsterIndex;
     }
 
-    //THESE ARE THE MONSTER MOVEMENT "LOGIC"
+    // THESE ARE THE MONSTER MOVEMENT "LOGIC"
     @Override
     public void setupAI() {
         super.setupAI();
@@ -36,7 +38,7 @@ public class Monster extends Entity {
 
         if (i > 99
                 && !getProjectile().isAlive()
-                && getProjectileAvailableCounter() == 30
+                && getProjectileAvailableCounter() == 60
                 && getProjectile().haveEnoughResource(this)) {
 
             getProjectile().set(getWorldX(), getWorldY(), getDirection(), true, this);

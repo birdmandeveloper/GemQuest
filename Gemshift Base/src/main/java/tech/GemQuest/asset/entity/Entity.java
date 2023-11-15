@@ -83,7 +83,7 @@ public abstract class Entity implements Asset {
     public int defaultSpeed = 1;
     public boolean isBattleMenuVisible;
     public boolean isRespawnable;
-    public boolean onPath = false;
+    public boolean isAggro = false;
     public boolean contactPlayer;
 
     // CONSTRUCTOR
@@ -93,33 +93,54 @@ public abstract class Entity implements Asset {
     }
 
     public void setupAI() {
-        // If the Entity is following a path
-        if(onPath) {
+        actionLockCounter++;
+
+        // If the Entity is following the player
+        if(this.getAggro()) {
             int goalCol = (gamePanel.getPlayer().getWorldX() + gamePanel.getPlayer().getCollisionDefaultX()) / gamePanel.getTileSize();
             int goalRow = (gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getCollisionDefaultY()) / gamePanel.getTileSize();
 
             searchPath(goalCol, goalRow);
         }
 
-        // Otherwise, standard operating procedure
-        else {
-            actionLockCounter++;
+        // Aggro check/assignment, just shy of a half second delay.
+        if(actionLockCounter == 25) {
+//            String rangeString = "";
 
-            if (actionLockCounter == 120) {
-                Random random = new Random();
-                int i = random.nextInt(100) + 1;
+            // Speed reset
+            this.setSpeed(this.defaultSpeed);
 
-                if (i <= 25) { setDirection("up"); }
-                if (i > 25 && i <= 50) { setDirection("down"); }
-                if (i > 50 && i <= 75) { setDirection("left"); }
-                if (i > 75) { setDirection("right"); }
+            if (this instanceof Monster && gamePanel.getPlayer().getWorldX() > this.getWorldX() - (gamePanel.getTileSize() * 4) &&
+                    gamePanel.getPlayer().getWorldX() < this.getWorldX() + (gamePanel.getTileSize() * 5) &&
+                    gamePanel.getPlayer().getWorldY() > this.getWorldY() - (gamePanel.getTileSize() * 4) &&
+                    gamePanel.getPlayer().getWorldY() < this.getWorldY() + (gamePanel.getTileSize() * 5)) {
 
-                setActionLockCounter(0);
+                this.setAggro(true);
+//                rangeString = "TRUE";
+            } else {
+                this.setAggro(false);
             }
+
+            // DEBUG
+//            if(this.getAggro()) {
+//                System.out.println(this + " --- AGGRO --- Range: " + rangeString);
+//            }
+//            if(!this.getAggro()) {
+//                System.out.println(this + " --- NO AGGRO --- Range: " + rangeString);
+//            }
         }
 
-        if(actionLockCounter == 20) {
-            this.setSpeed(this.defaultSpeed);
+        // Assigns new direction randomly after two seconds
+        if (actionLockCounter == 120) {
+            Random random = new Random();
+            int i = random.nextInt(100) + 1;
+
+            if (i <= 25) { setDirection("up"); }
+            if (i > 25 && i <= 50) { setDirection("down"); }
+            if (i > 50 && i <= 75) { setDirection("left"); }
+            if (i > 75) { setDirection("right"); }
+
+            setActionLockCounter(0);
         }
     }
 
@@ -992,6 +1013,12 @@ public abstract class Entity implements Asset {
     }
     public void setAttackRight0(BufferedImage attackRight0) {
         this.attackRight0 = attackRight0;
+    }
+    public boolean getAggro() {
+        return isAggro;
+    }
+    public void setAggro(boolean aggro) {
+        isAggro = aggro;
     }
 
     // NOT USED

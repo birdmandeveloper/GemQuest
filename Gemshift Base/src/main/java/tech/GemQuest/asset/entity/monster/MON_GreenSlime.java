@@ -9,7 +9,8 @@ import tech.GemQuest.asset.object.usable.pickuponly.OBJ_ManaCrystal;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
-//EXAMPLE OF MONSTER CLASS
+
+// Quintessential Monster example. Base template for Slime Class enemies
 public class MON_GreenSlime extends Monster {
     public int defaultSpeed = 1;
 
@@ -18,7 +19,7 @@ public class MON_GreenSlime extends Monster {
 
         setName("Green Slime");
         setDirection("down");
-        setIdleMessage("Standing on business");
+        setIdleMessage("Standing on business.");
         setSpeed(defaultSpeed);
         setMaxLife(3);
         setCurrentLife(getMaxLife());
@@ -35,12 +36,9 @@ public class MON_GreenSlime extends Monster {
         setCollisionDefaultY(getCollisionArea().y);
 
         getAnimationImages();
-
-        // Aggro
-        onPath = true;
     }
 
-    //THESE ARE STOCK BUT EGGSLIME IS CUSTOM
+    // Image assignment
     public void getAnimationImages() {
         setUp1(setup("/images/monster/greenslime_down_1", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
         setUp2(setup("/images/monster/greenslime_down_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
@@ -51,12 +49,14 @@ public class MON_GreenSlime extends Monster {
         setRight1(setup("/images/monster/greenslime_down_1", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
         setRight2(setup("/images/monster/greenslime_down_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
 
-        // Putting here for now
+        // All-white slime silhouette, used for damage animation
         setStun1(setup("/images/monster/slimeflash", getGamePanel().getTileSize() * 3, getGamePanel().getTileSize() * 3));
     }
 
     @Override
     public void damageReaction() {
+        this.setAggro(false);
+
         setActionLockCounter(0);
         setSpeed(3); // Increased speed to retreat
         setDirection(getGamePanel().getPlayer().getDirection());
@@ -65,6 +65,8 @@ public class MON_GreenSlime extends Monster {
 
     @Override
     public void retreatReaction() {
+        this.setAggro(false);
+
         setActionLockCounter(3);
         String updatedDirection = "";
 
@@ -99,17 +101,16 @@ public class MON_GreenSlime extends Monster {
             dropObject(new OBJ_ManaCrystal(getGamePanel()));
         }
     }
-
     @Override
     public void resetDefaultSpeed() {
         setSpeed(1);
     }
 
+    // These Idle Image getters are used for Battle Animation
     @Override
     public BufferedImage getIdleImage1() {
         return setup("/images/monster/greenslime_down_1", getGamePanel().getTileSize() * 3, getGamePanel().getTileSize() * 3);
     }
-
     @Override
     public BufferedImage getIdleImage2() {
         return setup("/images/monster/greenslime_down_2", getGamePanel().getTileSize() * 3, getGamePanel().getTileSize() * 3);

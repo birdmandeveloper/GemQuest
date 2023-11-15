@@ -538,11 +538,11 @@ public class Player extends Entity {
             if(getInvincibleCounter() > i * 3 && getInvincibleCounter() <= i * 4) { UtilityTool.changeAlpha(graphics2D, 0.3f); }
             if(getInvincibleCounter() > i * 4 && getInvincibleCounter() <= i * 5) { UtilityTool.changeAlpha(graphics2D, 1f); }
             if(getInvincibleCounter() > i * 5 && getInvincibleCounter() <= i * 6) { UtilityTool.changeAlpha(graphics2D, 0.3f); }
-
         }
 
+        // Adjusts player x and y to allow for more sprite variance (taller and/or wider attack sprites)
         if (isAttacking()) {
-            if(getDirection().equals("up")) {
+            if (getDirection().equals("up")) {
                 graphics2D.drawImage(getDirectionalAnimationImage(), x, y - getGamePanel().getTileSize(), null);
 
             } else if (getDirection().equals("down") && getSpriteNumber() == 1) {
@@ -551,11 +551,15 @@ public class Player extends Entity {
             } else if (getDirection().equals("left")) {
                 graphics2D.drawImage(getDirectionalAnimationImage(), x - getGamePanel().getTileSize(), y, null);
 
+                // Default x and y
             } else {
                 graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
             }
+        } else {
+            graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
+        }
 
-
+            // Old directional adjustment mechanic. Replaced by above if statements, but I haven't deleted it yet.
 //            switch (getDirection()) {
 //                case "up" ->
 //                    graphics2D.drawImage(getDirectionalAnimationImage(), x, y - getGamePanel().getTileSize(), null);
@@ -566,9 +570,9 @@ public class Player extends Entity {
 //                        graphics2D.drawImage(getDirectionalAnimationImage(), x - getGamePanel().getTileSize(), y, null);
 //                default -> graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
 //            }
-        } else {
-            graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
-        }
+//        } else {
+//            graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
+//        }
 
         graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1F));
     }

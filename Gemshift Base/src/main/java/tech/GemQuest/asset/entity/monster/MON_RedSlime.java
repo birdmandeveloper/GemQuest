@@ -10,7 +10,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-//EXAMPLE OF MONSTER CLASS
 public class MON_RedSlime extends Monster {
     public MON_RedSlime(GamePanel gamePanel, int monsterIndex) {
         super(gamePanel, monsterIndex);
@@ -36,7 +35,6 @@ public class MON_RedSlime extends Monster {
         getAnimationImages();
     }
 
-    //THESE ARE STOCK BUT EGGSLIME IS CUSTOM
     public void getAnimationImages() {
         setUp1(setup("/images/monster/redslime_down_1", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
         setUp2(setup("/images/monster/redslime_down_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
@@ -52,6 +50,8 @@ public class MON_RedSlime extends Monster {
 
     @Override
     public void damageReaction() {
+        this.setAggro(false);
+
         setActionLockCounter(0);
         setSpeed(3); // Increased speed to retreat
         setDirection(getGamePanel().getPlayer().getDirection());
@@ -60,6 +60,8 @@ public class MON_RedSlime extends Monster {
 
     @Override
     public void retreatReaction() {
+        this.setAggro(false);
+
         setActionLockCounter(3);
         String updatedDirection = "";
 
