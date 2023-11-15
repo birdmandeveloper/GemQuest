@@ -542,13 +542,30 @@ public class Player extends Entity {
         }
 
         if (isAttacking()) {
-            switch (getDirection()) {
-                case "up" ->
-                        graphics2D.drawImage(getDirectionalAnimationImage(), x, y - getGamePanel().getTileSize(), null);
-                case "left" ->
-                        graphics2D.drawImage(getDirectionalAnimationImage(), x - getGamePanel().getTileSize(), y, null);
-                default -> graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
+            if(getDirection().equals("up")) {
+                graphics2D.drawImage(getDirectionalAnimationImage(), x, y - getGamePanel().getTileSize(), null);
+
+            } else if (getDirection().equals("down") && getSpriteNumber() == 1) {
+                graphics2D.drawImage(getDirectionalAnimationImage(), x, y - getGamePanel().getTileSize(), null);
+
+            } else if (getDirection().equals("left")) {
+                graphics2D.drawImage(getDirectionalAnimationImage(), x - getGamePanel().getTileSize(), y, null);
+
+            } else {
+                graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
             }
+
+
+//            switch (getDirection()) {
+//                case "up" ->
+//                    graphics2D.drawImage(getDirectionalAnimationImage(), x, y - getGamePanel().getTileSize(), null);
+//
+//                case "down" ->
+//                    graphics2D.drawImage(getDirectionalAnimationImage(), x, y - getGamePanel().getTileSize(), null);
+//                case "left" ->
+//                        graphics2D.drawImage(getDirectionalAnimationImage(), x - getGamePanel().getTileSize(), y, null);
+//                default -> graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
+//            }
         } else {
             graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
         }
