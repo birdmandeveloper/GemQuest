@@ -163,7 +163,9 @@ public class TileManager {
                 worldColumn = 0;
                 worldRow++;
             }
-            // Turns on colored paths
+
+            // Turns on colored AI path
+
 //        if(drawPath == true) {
 //            graphics2D.setColor(new Color(0,0,255, 70));
 //

@@ -8,21 +8,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c6fe4610-6adf-4948-9d2d-bea255a7d182" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_back_0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_back_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_back_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_front_0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_front_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_front_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_left_0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_left_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_left_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_right_0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_right_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_right_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clarkfron3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clarkfront1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clarkfront2.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.txt" beforeDir="false" afterPath="$PROJECT_DIR$/config.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/GamePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/Asset.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/Asset.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/AssetManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/AssetManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/monster/MON_EggSlime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/monster/MON_EggSlime.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/player/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/object/ability/OBJ_Fireball.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/object/ability/OBJ_Fireball.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/object/ability/OBJ_Rock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/object/ability/OBJ_Rock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/tile/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/tile/Tile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/tile/TileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/tile/TileManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/event/EventHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/event/EventHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/event/EventRectangle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/event/EventRectangle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/sound/SoundManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/sound/SoundManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/ui/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/ui/UI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,12 +72,13 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Student/workspace/GemQuest/Gemshift Base&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Student/workspace/GemQuest/Gemshift Base/src/main/resources/images/player&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Student\workspace\GemQuest\Gemshift Base\src\main\resources\images\player" />
       <recent name="C:\Users\Student\workspace\GemQuest\Gemshift Base\src\main\resources\images\monster" />
     </key>
   </component>

@@ -40,9 +40,11 @@ public class GamePanel extends JPanel implements Runnable {
     // Full screen mode. This sets the mode to Full screen in options
     private int fullScreenWidth = screenWidth; //+ (screenWidth) ;
     private int fullScreenHeight = screenHeight; //+ (screenHeight) ;
+
     //These draw the images that we import into resources
     private BufferedImage tempScreen;
     private Graphics2D graphics2D;
+
     // This establishes FPS
     private final int FPS = 60;
 

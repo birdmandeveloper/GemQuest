@@ -109,14 +109,14 @@ public class Player extends Entity {
         setAttackArea(getCurrentWeapon().getAttackArea());
     }
     public void getAnimationImages() {
-        setUp1(setup("/images/player/clarkbackstandleftstep", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
-        setUp2(setup("/images/player/clarkbackstandrightstep", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
-        setDown1(setup("/images/player/clarkfrontstandleftstep", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
-        setDown2(setup("/images/player/clarkfrontstandrightstep", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
-        setLeft1(setup("/images/player/clarkleftstandleftstep", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
-        setLeft2(setup("/images/player/clarkleftstandrightstep", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
-        setRight1(setup("/images/player/clarkrightstandrightstep", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
-        setRight2(setup("/images/player/clarkrightstandleftstep", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
+        setUp1(setup("/images/player/clark_back_1", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
+        setUp2(setup("/images/player/clark_back_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
+        setDown1(setup("/images/player/clark_front_0", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
+        setDown2(setup("/images/player/clark_front_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
+        setLeft1(setup("/images/player/clark_left_1", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
+        setLeft2(setup("/images/player/clark_left_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
+        setRight1(setup("/images/player/clark_right_1", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
+        setRight2(setup("/images/player/clark_right_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
     }
 
     // THESE CURRENTLY HAVE A STAND IN ANIMATION AND STAND IN FILES
