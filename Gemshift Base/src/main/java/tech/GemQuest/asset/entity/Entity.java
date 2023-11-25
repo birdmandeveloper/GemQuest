@@ -110,6 +110,7 @@ public abstract class Entity implements Asset {
             // Speed reset
             this.setSpeed(this.defaultSpeed);
 
+            // 9 x 9 grid around Monster, implementing a circular range shouldn't be crazy (Math.abs(x + y)) or something like that
             if (this instanceof Monster && gamePanel.getPlayer().getWorldX() > this.getWorldX() - (gamePanel.getTileSize() * 4) &&
                     gamePanel.getPlayer().getWorldX() < this.getWorldX() + (gamePanel.getTileSize() * 5) &&
                     gamePanel.getPlayer().getWorldY() > this.getWorldY() - (gamePanel.getTileSize() * 4) &&
@@ -341,8 +342,10 @@ public abstract class Entity implements Asset {
                         image = getUp2();
                 } else if (isAttacking()) {
                     if (getSpriteNumber() == 1)
-                        image = getAttackUp1();
+                        image = getAttackUp0();
                     if (getSpriteNumber() == 2)
+                        image = getAttackUp1();
+                    if (getSpriteNumber() == 3)
                         image = getAttackUp2();
                 }
             }
@@ -370,8 +373,10 @@ public abstract class Entity implements Asset {
                         image = getLeft2();
                 } else if (isAttacking()) {
                     if (getSpriteNumber() == 1)
-                        image = getAttackLeft1();
+                        image = getAttackLeft0();
                     if (getSpriteNumber() == 2)
+                        image = getAttackLeft1();
+                    if (getSpriteNumber() == 3)
                         image = getAttackLeft2();
                 }
 
@@ -384,8 +389,10 @@ public abstract class Entity implements Asset {
                         image = getRight2();
                 } else if (isAttacking()) {
                     if (getSpriteNumber() == 1)
-                        image = getAttackRight1();
+                        image = getAttackRight0();
                     if (getSpriteNumber() == 2)
+                        image = getAttackRight1();
+                    if (getSpriteNumber() == 3)
                         image = getAttackRight2();
                 }
 

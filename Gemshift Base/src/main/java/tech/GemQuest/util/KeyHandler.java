@@ -173,8 +173,10 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_ENTER) {
             enterPressed = true;
         }
+        // Just used for attacking at the moment
         if (code == KeyEvent.VK_SPACE) {
             spacePressed = true;
+            gamePanel.getPlayer().setSpriteCounter(0); // Resets animation counter
         }
         if (code == KeyEvent.VK_F) {
             projectileKeyPressed = true;
