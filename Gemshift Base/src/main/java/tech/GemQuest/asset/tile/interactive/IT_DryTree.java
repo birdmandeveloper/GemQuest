@@ -14,7 +14,7 @@ public class IT_DryTree extends InteractiveTile {
         super(gamePanel);
         this.gamePanel = gamePanel;
 
-        setDown1(setup("/images/tiles/interactive/drytree", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
+        setDown1(setup("/images/tiles/interactive/GemTree2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
 
         setDestructible(true);
         setCollisionDefaultX(-2);

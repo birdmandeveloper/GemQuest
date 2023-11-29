@@ -8,19 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c6fe4610-6adf-4948-9d2d-bea255a7d182" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_back_axe_0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_back_axe_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_back_axe_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_left_axe_0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_left_axe_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_left_axe_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_right_axe_0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_right_axe_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/player/clark_right_axe_2.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/player/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/util/KeyHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/util/KeyHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/tile/TileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/tile/TileManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/tile/interactive/IT_DryTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/tile/interactive/IT_DryTree.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
