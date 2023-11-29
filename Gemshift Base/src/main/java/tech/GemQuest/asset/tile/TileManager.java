@@ -48,7 +48,7 @@ public class TileManager {
         // TILES LOAD IN
         setup(10, "GemGrassUP", false);
         setup(11, "GemGrassUP2", false);
-        setup(12, "GemWater", true);
+        setup(12, "GemMountain3", true);
         setup(13, "GemWater", true);
         setup(14, "GemWater", true);
         setup(15, "GemWater", true);

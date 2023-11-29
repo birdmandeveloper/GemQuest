@@ -123,14 +123,14 @@ public class Player extends Entity {
     // THESE CURRENTLY HAVE A STAND IN ANIMATION AND STAND IN FILES
     public void getAttackImages() {
         if (getCurrentWeapon() instanceof OBJ_Sword_Normal) {
-            setAttackUp1(setup("/images/player/boy_attack_up_1", getGamePanel().getTileSize(), getGamePanel().getTileSize() * 2));
-            setAttackUp2(setup("/images/player/boy_attack_up_2", getGamePanel().getTileSize(), getGamePanel().getTileSize() * 2));
-            setAttackDown1(setup("/images/player/boy_attack_down_1", getGamePanel().getTileSize(), getGamePanel().getTileSize() * 2));
-            setAttackDown2(setup("/images/player/boy_attack_down_2", getGamePanel().getTileSize(), getGamePanel().getTileSize() * 2));
-            setAttackLeft1(setup("/images/player/boy_attack_left_1", getGamePanel().getTileSize() * 2, getGamePanel().getTileSize()));
-            setAttackLeft2(setup("/images/player/boy_attack_left_2", getGamePanel().getTileSize() * 2, getGamePanel().getTileSize()));
-            setAttackRight1(setup("/images/player/boy_attack_right_1", getGamePanel().getTileSize() * 2, getGamePanel().getTileSize()));
-            setAttackRight2(setup("/images/player/boy_attack_right_2", getGamePanel().getTileSize() * 2, getGamePanel().getTileSize()));
+            setAttackUp1(setup("/images/player/clark_back_axe_1", getGamePanel().getTileSize(), getGamePanel().getTileSize() * 2));
+            setAttackUp2(setup("/images/player/clark_back_axe_2", getGamePanel().getTileSize(), getGamePanel().getTileSize() * 2));
+            setAttackDown1(setup("/images/player/clark_front_axe_1", getGamePanel().getTileSize(), getGamePanel().getTileSize() * 2));
+            setAttackDown2(setup("/images/player/clark_front_axe_2", getGamePanel().getTileSize(), getGamePanel().getTileSize() * 2));
+            setAttackLeft1(setup("/images/player/clark_left_axe_0", getGamePanel().getTileSize() * 2, getGamePanel().getTileSize()));
+            setAttackLeft2(setup("/images/player/clark_left_axe_1", getGamePanel().getTileSize() * 2, getGamePanel().getTileSize()));
+            setAttackRight1(setup("/images/player/clark_right_axe_0", getGamePanel().getTileSize() * 2, getGamePanel().getTileSize()));
+            setAttackRight2(setup("/images/player/clark_right_axe_1", getGamePanel().getTileSize() * 2, getGamePanel().getTileSize()));
         }
 
         if (getCurrentWeapon() instanceof OBJ_Axe) {
