@@ -123,14 +123,22 @@ public class Player extends Entity {
     // THESE CURRENTLY HAVE A STAND IN ANIMATION AND STAND IN FILES
     public void getAttackImages() {
         if (getCurrentWeapon() instanceof OBJ_Sword_Normal) {
+            // Still Axe animation for the time being
+            setAttackUp0(setup("/images/player/clark_back_axe_0", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
             setAttackUp1(setup("/images/player/clark_back_axe_1", getGamePanel().getTileSize(), getGamePanel().getTileSize() * 2));
             setAttackUp2(setup("/images/player/clark_back_axe_2", getGamePanel().getTileSize(), getGamePanel().getTileSize() * 2));
-            setAttackDown1(setup("/images/player/clark_front_axe_1", getGamePanel().getTileSize(), getGamePanel().getTileSize() * 2));
-            setAttackDown2(setup("/images/player/clark_front_axe_2", getGamePanel().getTileSize(), getGamePanel().getTileSize() * 2));
-            setAttackLeft1(setup("/images/player/clark_left_axe_0", getGamePanel().getTileSize() * 2, getGamePanel().getTileSize()));
-            setAttackLeft2(setup("/images/player/clark_left_axe_1", getGamePanel().getTileSize() * 2, getGamePanel().getTileSize()));
-            setAttackRight1(setup("/images/player/clark_right_axe_0", getGamePanel().getTileSize() * 2, getGamePanel().getTileSize()));
-            setAttackRight2(setup("/images/player/clark_right_axe_1", getGamePanel().getTileSize() * 2, getGamePanel().getTileSize()));
+
+            setAttackDown0(setup("/images/player/clark_front_sword_0", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
+            setAttackDown1(setup("/images/player/clark_front_sword_1", getGamePanel().getTileSize(), getGamePanel().getTileSize() * 2));
+            setAttackDown2(setup("/images/player/clark_front_sword_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
+
+            setAttackLeft0(setup("/images/player/clark_left_sword_0", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
+            setAttackLeft1(setup("/images/player/clark_left_sword_1", getGamePanel().getTileSize() * 2, getGamePanel().getTileSize()));
+            setAttackLeft2(setup("/images/player/clark_left_sword_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
+
+            setAttackRight0(setup("/images/player/clark_right_sword_0", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
+            setAttackRight1(setup("/images/player/clark_right_sword_1", getGamePanel().getTileSize() * 2, getGamePanel().getTileSize()));
+            setAttackRight2(setup("/images/player/clark_right_sword_2", getGamePanel().getTileSize(), getGamePanel().getTileSize()));
         }
 
         if (getCurrentWeapon() instanceof OBJ_Axe) {
@@ -562,34 +570,100 @@ public class Player extends Entity {
 
         // Adjusts player x and y to allow for more sprite variance (taller and/or wider attack sprites)
         if (isAttacking()) {
-            if ((getDirection().equals("up") && getSpriteNumber() == 1)) {
-                graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
+            if (getDirection().equals("up")) {
+                if (getGamePanel().getPlayer().getCurrentWeapon() instanceof OBJ_Sword_Normal) {
+                    if (getSpriteNumber() == 1) {
+                        graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
+                    }
+                    if (getSpriteNumber() == 2) {
+                        graphics2D.drawImage(getDirectionalAnimationImage(), x, y - getGamePanel().getTileSize(), null);
+                    }
+                    if (getSpriteNumber() == 3) {
+                        graphics2D.drawImage(getDirectionalAnimationImage(), x, y - getGamePanel().getTileSize(), null);
+                    }
+                } else { // ONLY AXE RIGHT NOW
+                    if (getSpriteNumber() == 1) {
+                        graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
+                    }
+                    if (getSpriteNumber() == 2) {
+                        graphics2D.drawImage(getDirectionalAnimationImage(), x, y - getGamePanel().getTileSize(), null);
+                    }
+                    if (getSpriteNumber() == 3) {
+                        graphics2D.drawImage(getDirectionalAnimationImage(), x, y - getGamePanel().getTileSize(), null);
+                    }
+                }
 
-            } else if (getDirection().equals("up") && getSpriteNumber() == 2 ||
-                    (getDirection().equals("up") && getSpriteNumber() == 3)) {
-                graphics2D.drawImage(getDirectionalAnimationImage(), x, y - getGamePanel().getTileSize(), null);
+            } else if (getDirection().equals("down")) {
+                if (getGamePanel().getPlayer().getCurrentWeapon() instanceof OBJ_Sword_Normal) {
+                    if (getSpriteNumber() == 1) {
+                        graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
+                    }
+                    if (getSpriteNumber() == 2) {
+                        graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
+                    }
+                    if (getSpriteNumber() == 3) {
+                        graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
+                    }
+                } else { // ONLY AXE RIGHT NOW
+                    if (getSpriteNumber() == 1) {
+                        graphics2D.drawImage(getDirectionalAnimationImage(), x, y - getGamePanel().getTileSize(), null);
+                    }
+                    if (getSpriteNumber() == 2) {
+                        graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
+                    }
+                    if (getSpriteNumber() == 3) {
+                        graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
+                    }
+                }
 
-            } else if ((getDirection().equals("down") && getSpriteNumber() == 1)) {
-                graphics2D.drawImage(getDirectionalAnimationImage(), x, y - getGamePanel().getTileSize(), null);
-            } else if ((getDirection().equals("down") && getSpriteNumber() == 3) ||
-                    (getDirection().equals("down") && getSpriteNumber() == 2)) {
-                graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
+            } else if (getDirection().equals("left")) {
+                // Default to Sword
+                if (getGamePanel().getPlayer().getCurrentWeapon() instanceof OBJ_Sword_Normal) {
+                    if (getSpriteNumber() == 1) {
+                        graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
+                    }
+                    if (getSpriteNumber() == 2) {
+                        graphics2D.drawImage(getDirectionalAnimationImage(), x - getGamePanel().getTileSize(), y, null);
+                    }
+                    if (getSpriteNumber() == 3) {
+                        graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
+                    }
+                } else { // ONLY AXE RIGHT NOW
+                    if (getSpriteNumber() == 1) {
+                        graphics2D.drawImage(getDirectionalAnimationImage(), x, y - getGamePanel().getTileSize(), null);
+                    }
+                    if (getSpriteNumber() == 2) {
+                        graphics2D.drawImage(getDirectionalAnimationImage(), x - getGamePanel().getTileSize(), y - getGamePanel().getTileSize(), null);
+                    }
+                    if (getSpriteNumber() == 3) {
+                        graphics2D.drawImage(getDirectionalAnimationImage(), x - getGamePanel().getTileSize(), y, null);
+                    }
+                }
 
-            } else if (getDirection().equals("left") && getSpriteNumber() == 1) {
-                graphics2D.drawImage(getDirectionalAnimationImage(), x, y - getGamePanel().getTileSize(), null);
-            } else if (getDirection().equals("left") && getSpriteNumber() == 2) {
-                graphics2D.drawImage(getDirectionalAnimationImage(), x - getGamePanel().getTileSize(), y - getGamePanel().getTileSize(), null);
-            } else if (getDirection().equals("left") && getSpriteNumber() == 3) {
-                graphics2D.drawImage(getDirectionalAnimationImage(), x - getGamePanel().getTileSize(), y, null);
+            } else if (getDirection().equals("right")) {
+                // Default to Sword
+                if (getGamePanel().getPlayer().getCurrentWeapon() instanceof OBJ_Sword_Normal) {
+                    if (getSpriteNumber() == 1) {
+                        graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
+                    }
+                    if (getSpriteNumber() == 2) {
+                        graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
+                    }
+                    if (getSpriteNumber() == 3) {
+                        graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
+                    }
+                } else { // ONLY AXE RIGHT NOW
+                    if (getSpriteNumber() == 1) {
+                        graphics2D.drawImage(getDirectionalAnimationImage(), x, y - getGamePanel().getTileSize(), null);
+                    }
+                    if (getSpriteNumber() == 2) {
+                        graphics2D.drawImage(getDirectionalAnimationImage(), x, y - getGamePanel().getTileSize(), null);
+                    }
+                    if (getSpriteNumber() == 3) {
+                        graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
+                    }
+                }
 
-            } else if (getDirection().equals("right") && getSpriteNumber() == 1) {
-                graphics2D.drawImage(getDirectionalAnimationImage(), x, y - getGamePanel().getTileSize(), null);
-            } else if (getDirection().equals("right") && getSpriteNumber() == 2) {
-                graphics2D.drawImage(getDirectionalAnimationImage(), x, y - getGamePanel().getTileSize(), null);
-            } else if (getDirection().equals("right") && getSpriteNumber() == 3) {
-                graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
-
-                // Default x and y
             } else {
                 graphics2D.drawImage(getDirectionalAnimationImage(), x, y, null);
             }
