@@ -1,7 +1,9 @@
 package tech.GemQuest.asset.tile;
 
+
 import tech.GemQuest.GamePanel;
 import tech.GemQuest.util.UtilityTool;
+
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -11,6 +13,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Objects;
 
+
 public class TileManager {
     // VARIABLES
     private final GamePanel gamePanel;
@@ -18,17 +21,21 @@ public class TileManager {
     private final int[][][] mapTileNumbers;
     boolean drawPath = true; // Used to display the AI's path
 
+
     // CONSTRUCTOR
     public TileManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 
+
         this.tiles = new Tile[50];
         this.mapTileNumbers = new int[gamePanel.getMaxMaps()][gamePanel.getMaxWorldColumns()][gamePanel.getMaxWorldRows()];
+
 
         getTileImage();
         loadMap("/maps/worldV3.txt", 0);
         loadMap("/maps/interior01.txt", 1);
     }
+
 
     // STOCK TILES. STOCK MAP. DESIGN STAGE EDIT IMPLEMENTATIONS
     public void getTileImage() {
@@ -45,12 +52,13 @@ public class TileManager {
         setup(9, "GemGrassUP", false);
         // PLACEHOLDER
 
+
         // TILES LOAD IN
         setup(10, "GemGrassUP", false);
         setup(11, "GemGrassUP2", false);
         setup(12, "GemMountain3", true);
-        setup(13, "GemWater", true);
-        setup(14, "GemWater", true);
+        setup(13, "GemMountain4", true);
+        setup(14, "GlowWormCave", true);
         setup(15, "GemWater", true);
         setup(16, "GemWater2", true);
         setup(17, "GemWater2", true);
@@ -58,9 +66,9 @@ public class TileManager {
         setup(19, "GemWater2", true);
         setup(20, "GemWater2", true);
         setup(21, "GemWater2", true);
-        setup(22, "GemWater2", true);
-        setup(23, "GemWater2", true);
-        setup(24, "GemWater2", true);
+        setup(22, "GemWater3", true);
+        setup(23, "GemWater3", true);
+        setup(24, "GemWater4", true);
         setup(25, "GemWater", true);
         setup(26, "GemDirt", false);
         setup(27, "GemDirt", false);
@@ -83,6 +91,7 @@ public class TileManager {
         setup(44, "GemHouse4", true);
     }
 
+
     // LOADS THE IMAGES
     public void setup(int index, String imageName, boolean collision) {
         try {
@@ -95,21 +104,26 @@ public class TileManager {
         }
     }
 
+
     // LOADS THE MAP LAYOUT
     public void loadMap(String mapPath, int map) {
         try {
             InputStream inputStream = getClass().getResourceAsStream(mapPath);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
+
             int column = 0;
             int row = 0;
+
 
             while (column < gamePanel.getMaxWorldColumns() && row < gamePanel.getMaxWorldRows()) {
                 String line = bufferedReader.readLine();
 
+
                 while (column < gamePanel.getMaxWorldColumns()) {
                     String[] numbers = line.split(" ");
                     int number = Integer.parseInt(numbers[column]);
+
 
                     mapTileNumbers[map][column][row] = number;
                     column++;
@@ -120,35 +134,45 @@ public class TileManager {
                 }
             }
 
+
             bufferedReader.close();
+
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+
     public void draw(Graphics2D graphics2D) {
         int worldColumn = 0;
         int worldRow = 0;
 
+
         while (worldColumn < gamePanel.getMaxWorldColumns() && worldRow < gamePanel.getMaxWorldRows()) {
 
+
             int tileNumber = mapTileNumbers[gamePanel.getCurrentMap()][worldColumn][worldRow];
+
 
             int worldX = worldColumn * gamePanel.getTileSize();
             int worldY = worldRow * gamePanel.getTileSize();
             int screenX = worldX - gamePanel.getPlayer().getWorldX() + gamePanel.getPlayer().getScreenX();
             int screenY = worldY - gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getScreenY();
 
+
             // Stop moving the camera at world edge
             int rightOffset = gamePanel.getScreenWidth() - gamePanel.getPlayer().getScreenX();
             screenX = checkIfAtEdgeOfXAxis(worldX, screenX, rightOffset);
 
+
             int bottomOffset = gamePanel.getScreenHeight() - gamePanel.getPlayer().getScreenY();
             screenY = checkIfAtEdgeOfYAxis(worldY, screenY, bottomOffset);
 
+
             if (UtilityTool.isInsidePlayerView(worldX, worldY, gamePanel)) {
                 graphics2D.drawImage(tiles[tileNumber].getImage(), screenX, screenY, null);
+
 
             } else if (gamePanel.getPlayer().getScreenX() > gamePanel.getPlayer().getWorldX()
                     || gamePanel.getPlayer().getScreenY() > gamePanel.getPlayer().getWorldY()
@@ -157,14 +181,18 @@ public class TileManager {
                 graphics2D.drawImage(tiles[tileNumber].getImage(), screenX, screenY, null);
             }
 
+
             worldColumn++;
+
 
             if (worldColumn == gamePanel.getMaxWorldColumns()) {
                 worldColumn = 0;
                 worldRow++;
             }
 
+
             // Turns on colored AI path
+
 
 //        if(drawPath == true) {
 //            graphics2D.setColor(new Color(0,0,255, 70));
@@ -179,15 +207,18 @@ public class TileManager {
         }
     }
 
+
     // Edge of the world checks
     private int checkIfAtEdgeOfXAxis(int worldX, int screenX, int rightOffset) {
         if (gamePanel.getPlayer().getScreenX() > gamePanel.getPlayer().getWorldX()) {
             return worldX;
         }
 
+
         if (rightOffset > gamePanel.getWorldWidth() - gamePanel.getPlayer().getWorldX()) {
             return gamePanel.getScreenWidth() - (gamePanel.getWorldWidth() - worldX);
         }
+
 
         return screenX;
     }
@@ -196,12 +227,15 @@ public class TileManager {
             return worldY;
         }
 
+
         if (bottomOffset > gamePanel.getWorldHeight() - gamePanel.getPlayer().getWorldY()) {
             return gamePanel.getScreenHeight() - (gamePanel.getWorldHeight() - worldY);
         }
 
+
         return screenY;
     }
+
 
     // CALLED BY COLLISION CHECKER
     public Tile[] getTiles() {
@@ -211,3 +245,4 @@ public class TileManager {
         return mapTileNumbers;
     }
 }
+
