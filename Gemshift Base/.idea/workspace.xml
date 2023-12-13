@@ -9,7 +9,8 @@
   <component name="ChangeListManager">
     <list default="true" id="c6fe4610-6adf-4948-9d2d-bea255a7d182" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/npc/MPC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/npc/MPC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/AssetManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/AssetManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,15 +79,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/Student/RPG/GemQuest/Gemshift Base/src/main/resources/images",
-    "run.code.analysis.last.selected.profile": "pProject Default"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Student/RPG/GemQuest/Gemshift Base/src/main/resources/images&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Student\RPG\GemQuest\Gemshift Base\src\main\resources\images" />
@@ -148,6 +149,10 @@
           <line>116</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.ArrayIndexOutOfBoundsException" package="java.lang" />
+          <option name="timeStamp" value="3" />
+        </breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
