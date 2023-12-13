@@ -191,7 +191,7 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_R) {
             switch (gamePanel.getCurrentMap()) {
                 case 0 -> gamePanel.getTileManager().loadMap("/maps/worldV3.txt", 0);
-                case 1 -> gamePanel.getTileManager().loadMap("/maps/interior01.txt", 1);
+                case 1 -> gamePanel.getTileManager().loadMap("/maps/eh.txt", 1);
             }
         }
     }

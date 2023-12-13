@@ -7,7 +7,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c6fe4610-6adf-4948-9d2d-bea255a7d182" name="Changes" comment="" />
+    <list default="true" id="c6fe4610-6adf-4948-9d2d-bea255a7d182" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/npc/MPC.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/tiles/GemHouse5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/maps/WorldV4.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/maps/eh.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/maps/interior.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/npc/NPC_Merchant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/entity/npc/NPC_Merchant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/tile/TileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/tile/TileManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/util/KeyHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/util/KeyHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/tiles/GemHouse4.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/images/tiles/GemHouse4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/maps/interior01.txt" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,6 +36,34 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="IlluminatedCloudWorkspaceSettings">
+    <option name="projectWorkspaceSettings">
+      <ProjectWorkspaceSettings>
+        <option name="anonymousApexSettings">
+          <AnonymousApexSettings>
+            <option name="savedDocuments">
+              <list>
+                <AnonymousApexSavedDocument>
+                  <option name="name" value="Anonymous Apex 1" />
+                </AnonymousApexSavedDocument>
+              </list>
+            </option>
+          </AnonymousApexSettings>
+        </option>
+        <option name="soqlQuerySettings">
+          <SoqlQuerySettings>
+            <option name="savedDocuments">
+              <list>
+                <SoqlQuerySavedDocument>
+                  <option name="name" value="SOQL Query 1" />
+                </SoqlQuerySavedDocument>
+              </list>
+            </option>
+          </SoqlQuerySettings>
+        </option>
+      </ProjectWorkspaceSettings>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -47,18 +89,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Student/workspace/GemQuest/Gemshift Base/src/main/resources/images/player&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/Student/RPG/GemQuest/Gemshift Base/src/main/resources/images",
+    "run.code.analysis.last.selected.profile": "pProject Default"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Student\RPG\GemQuest\Gemshift Base\src\main\resources\images" />
       <recent name="C:\Users\Student\workspace\GemQuest\Gemshift Base\src\main\resources\images\player" />
       <recent name="C:\Users\Student\workspace\GemQuest\Gemshift Base\src\main\resources\images\monster" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Student\RPG\GemQuest\Gemshift Base\src\main\resources\images\tiles" />
     </key>
   </component>
   <component name="RunManager">
@@ -81,6 +128,10 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SliceToolwindowSettings">
+    <option name="autoScroll" value="true" />
+    <option name="preview" value="true" />
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -91,5 +142,24 @@
       <updated>1699748445120</updated>
     </task>
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/tech/GemQuest/ui/UI.java</url>
+          <line>395</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/tech/GemQuest/asset/tile/TileManager.java</url>
+          <line>116</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

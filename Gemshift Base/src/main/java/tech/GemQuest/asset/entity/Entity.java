@@ -92,6 +92,10 @@ public abstract class Entity implements Asset {
         setDirection("down");
     }
 
+    public Entity (String name, int type, char[] data, GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
+    }
+
     public void setupAI() {
         actionLockCounter++;
 

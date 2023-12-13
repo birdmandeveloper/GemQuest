@@ -27,13 +27,13 @@ public class TileManager {
         this.gamePanel = gamePanel;
 
 
-        this.tiles = new Tile[50];
+        this.tiles = new Tile[100];
         this.mapTileNumbers = new int[gamePanel.getMaxMaps()][gamePanel.getMaxWorldColumns()][gamePanel.getMaxWorldRows()];
 
 
         getTileImage();
-        loadMap("/maps/worldV3.txt", 0);
-        loadMap("/maps/interior01.txt", 1);
+        loadMap("/maps/worldV4.txt", 0);
+        loadMap("/maps/eh.txt", 1);
     }
 
 
@@ -88,7 +88,7 @@ public class TileManager {
         setup(41, "GemTree", true);
         setup(42, "GemHouse3", false);
         setup(43, "GemFence", false);
-        setup(44, "GemHouse4", true);
+        setup(44, "GemHouse4", false);
     }
 
 
@@ -109,6 +109,7 @@ public class TileManager {
     public void loadMap(String mapPath, int map) {
         try {
             InputStream inputStream = getClass().getResourceAsStream(mapPath);
+            assert inputStream != null;
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
 
