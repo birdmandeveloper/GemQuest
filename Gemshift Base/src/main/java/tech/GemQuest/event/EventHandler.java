@@ -110,7 +110,7 @@ public class EventHandler {
     private void damagePit(int gameState) {
         gamePanel.setGameState(gameState);
         gamePanel.playSoundEffect(6);
-        gamePanel.getUi().setCurrentDialogue("You fell into a pit!");
+        gamePanel.getUi().setCurrentDialogue("You couldn't resist the poisonous berries!");
         gamePanel.getPlayer().setCurrentLife(gamePanel.getPlayer().getCurrentLife() - 1);
         canTouchEvent = false;
     }
