@@ -42,6 +42,7 @@ public class SoundManager {
         soundUrl[24] = getClass().getResource("/sounds/Sinthesis.wav");
         soundUrl[25] = getClass().getResource("/sounds/Solnio.wav");
         soundUrl[26] = getClass().getResource("/sounds/Vampiric.wav");
+
     }
 
     // Things a sound might reasonably be expected to do

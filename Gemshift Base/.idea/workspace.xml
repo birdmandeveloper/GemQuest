@@ -8,7 +8,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c6fe4610-6adf-4948-9d2d-bea255a7d182" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/resources/maps/WorldV4.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/maps/WorldV4.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/sounds/Game_Audio_2.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.txt" beforeDir="false" afterPath="$PROJECT_DIR$/config.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/sound/SoundManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/sound/SoundManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tech/GemQuest/util/KeyHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tech/GemQuest/util/KeyHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/player/boy_down_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/player/boy_down_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/player/boy_left_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/player/boy_left_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/player/boy_right_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/player/boy_right_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/player/boy_up_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/player/boy_up_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/player/nursebackstandleftstep.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/player/nursebackstandrightstep.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/player/nursefrontstandleftstep.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/player/nursefrontstandrightstep.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/player/nurseleftstandleftstep.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/player/nurseleftstandrightstep.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/player/nurserightstandleftstep.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/player/nurserightstandrightstep.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sounds/GameAudio1.wav" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/sounds/GameAudio1.wav" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,6 +114,7 @@
       <recent name="C:\Users\Student\workspace\GemQuest\Gemshift Base\src\main\resources\images\monster" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Student\RPG\GemQuest\Gemshift Base\src\main\resources\sounds" />
       <recent name="C:\Users\Student\RPG\GemQuest\Gemshift Base\src\main\resources\images\tiles" />
     </key>
   </component>

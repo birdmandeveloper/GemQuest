@@ -101,31 +101,6 @@ public class KeyHandler implements KeyListener {
             enterPressed = true;
         }
     }
-
-    // To be implemented later
-
-//    private void characterScreenEnterPressed() {
-//        if (gamePanel.getUi().getCommandNumber() == 0) {
-//            System.out.println("Fighter selected!");
-//
-//        }
-//
-//        if (gamePanel.getUi().getCommandNumber() == 1) {
-//            System.out.println("Rogue selected!");
-//            gamePanel.setGameState(gamePanel.getPlayState());
-//            gamePanel.playMusic(0);
-//        }
-//
-//        if (gamePanel.getUi().getCommandNumber() == 2) {
-//            System.out.println("Sorcerer selected!");
-//            gamePanel.setGameState(gamePanel.getPlayState());
-//            gamePanel.playMusic(0);
-//        }
-//
-//        if (gamePanel.getUi().getCommandNumber() == 3) {
-//            gamePanel.getUi().setTitleScreenState(0);
-//        }
-//    }
     private void checkPlayStateKeyPressed(int code) {
         checkMovementKeys(code);
         checkGameStateKeys(code);
